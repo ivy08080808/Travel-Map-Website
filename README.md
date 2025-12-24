@@ -40,8 +40,8 @@ chinghua-ivy-lu-website/
 ├── app/                    # Next.js App Router
 │   ├── layout.tsx         # 根布局
 │   ├── page.tsx           # 首頁
-│   ├── cestopisy/         # 遊記頁面
-│   └── mapa/              # 地圖頁面
+│   ├── Travelogues/       # 遊記頁面
+│   └── map/               # 地圖頁面
 ├── components/            # React 組件
 │   ├── Navigation.tsx     # 導航選單
 │   ├── Hero.tsx           # Hero 區塊

@@ -1,29 +1,21 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Comment } from '@/components/CommentItem';
+import { travelogues } from '@/lib/data';
 
-type ViewMode = 'comments' | 'images';
-
-interface CloudinaryImage {
-  url: string;
-  public_id: string;
-  width: number;
-  height: number;
-  format: string;
-  created_at: string;
-}
+type ViewMode = 'comments' | 'travelogues';
 
 export default function AdminPage() {
+  const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [viewMode, setViewMode] = useState<ViewMode>('comments');
   const [comments, setComments] = useState<Comment[]>([]);
-  const [images, setImages] = useState<CloudinaryImage[]>([]);
   const [error, setError] = useState('');
-  const [uploading, setUploading] = useState(false);
-  const [uploadFile, setUploadFile] = useState<File | null>(null);
 
   // 檢查是否已登錄
   useEffect(() => {
@@ -38,7 +30,6 @@ export default function AdminPage() {
         const data = await response.json();
         setComments(data);
         setIsAuthenticated(true);
-        await fetchImages();
       } else {
         setIsAuthenticated(false);
       }
@@ -102,75 +93,6 @@ export default function AdminPage() {
     }
   };
 
-  const fetchImages = async () => {
-    try {
-      const response = await fetch('/api/admin/images');
-      if (response.ok) {
-        const data = await response.json();
-        setImages(data);
-      }
-    } catch (error) {
-      console.error('Error fetching images:', error);
-    }
-  };
-
-  const handleUpload = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!uploadFile) return;
-
-    setUploading(true);
-    setError('');
-
-    try {
-      const formData = new FormData();
-      formData.append('file', uploadFile);
-      formData.append('folder', 'travelogues');
-
-      const response = await fetch('/api/admin/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (response.ok) {
-        await fetchImages();
-        setUploadFile(null);
-        // Reset file input
-        const fileInput = document.getElementById('file-input') as HTMLInputElement;
-        if (fileInput) fileInput.value = '';
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Upload failed');
-      }
-    } catch (error) {
-      setError('Upload failed, please try again');
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const handleDeleteImage = async (publicId: string) => {
-    if (!confirm('確定要刪除這張圖片嗎？')) {
-      return;
-    }
-
-    try {
-      const response = await fetch('/api/admin/upload', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ public_id: publicId }),
-      });
-
-      if (response.ok) {
-        await fetchImages();
-      } else {
-        alert('刪除失敗');
-      }
-    } catch (error) {
-      alert('刪除失敗');
-    }
-  };
 
 
   const handleDelete = async (id: string) => {
@@ -275,14 +197,14 @@ export default function AdminPage() {
               管理留言
             </button>
             <button
-              onClick={() => setViewMode('images')}
+              onClick={() => setViewMode('travelogues')}
               className={`px-4 py-2 rounded-md ${
-                viewMode === 'images'
+                viewMode === 'travelogues'
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}
             >
-              管理照片
+              管理 Travelogues
             </button>
           </div>
 
@@ -293,10 +215,10 @@ export default function AdminPage() {
             </div>
           )}
 
-          {viewMode === 'images' && (
-            <div className="bg-green-50 p-4 rounded">
-              <div className="text-sm text-green-600 font-medium">總圖片數</div>
-              <div className="text-2xl font-bold text-green-900">{images.length}</div>
+          {viewMode === 'travelogues' && (
+            <div className="bg-purple-50 p-4 rounded">
+              <div className="text-sm text-purple-600 font-medium">總 Travelogues 數</div>
+              <div className="text-2xl font-bold text-purple-900">{travelogues.length}</div>
             </div>
           )}
         </div>
@@ -345,88 +267,32 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* Images View */}
-        {viewMode === 'images' && (
-          <div className="space-y-6">
-            {/* Upload Form */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">上傳圖片</h2>
-              <form onSubmit={handleUpload} className="space-y-4">
-                {error && (
-                  <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-                    {error}
-                  </div>
-                )}
-                <div>
-                  <label htmlFor="file-input" className="block text-sm font-medium text-gray-700 mb-1">
-                    選擇圖片
-                  </label>
-                  <input
-                    id="file-input"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={uploading || !uploadFile}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        {/* Travelogues View */}
+        {viewMode === 'travelogues' && (
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">所有 Travelogues</h2>
+            <p className="text-gray-600 mb-6">
+              點擊下方的 Travelogue 來管理其封面圖片
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {travelogues.map((travelogue) => (
+                <Link
+                  key={travelogue.id}
+                  href={`/admin/Travelogues/${travelogue.id}`}
+                  className="border border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:shadow-md transition-all cursor-pointer"
                 >
-                  {uploading ? '上傳中...' : '上傳圖片'}
-                </button>
-              </form>
-            </div>
-
-            {/* Images Grid */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">所有圖片</h2>
-              {images.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">還沒有圖片</div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {images.map((image) => (
-                    <div
-                      key={image.public_id}
-                      className="border border-gray-200 rounded-lg overflow-hidden"
-                    >
-                      <img
-                        src={image.url}
-                        alt={image.public_id}
-                        className="w-full h-48 object-cover"
-                      />
-                      <div className="p-3">
-                        <p className="text-xs text-gray-500 mb-2 truncate">
-                          {image.public_id}
-                        </p>
-                        <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
-                          <span>{image.width} × {image.height}</span>
-                          <span>{image.format.toUpperCase()}</span>
-                        </div>
-                        <div className="flex gap-2">
-                          <button
-                            onClick={() => {
-                              navigator.clipboard.writeText(image.url);
-                              alert('圖片 URL 已複製到剪貼板');
-                            }}
-                            className="flex-1 px-2 py-1 bg-gray-200 text-gray-700 text-xs rounded hover:bg-gray-300"
-                          >
-                            複製 URL
-                          </button>
-                          <button
-                            onClick={() => handleDeleteImage(image.public_id)}
-                            className="flex-1 px-2 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700"
-                          >
-                            刪除
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+                  <h3 className="font-semibold text-gray-900 mb-1">
+                    {travelogue.title}
+                  </h3>
+                  <p className="text-sm text-gray-500 mb-2">{travelogue.date}</p>
+                  <p className="text-xs text-gray-600 line-clamp-2">
+                    {travelogue.description}
+                  </p>
+                  <div className="mt-3 text-xs text-blue-600">
+                    點擊管理封面 →
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         )}

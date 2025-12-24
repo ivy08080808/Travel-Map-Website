@@ -7,9 +7,8 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { name: 'Travelogues', href: '/cestopisy' },
-    { name: 'Map', href: '/mapa' },
-    { name: 'Presentations', href: '/prezentacie' },
+    { name: 'Travelogues', href: '/Travelogues' },
+    { name: 'Map', href: '/map' },
     { name: 'Daily Life', href: '/daily-life' },
   ];
 

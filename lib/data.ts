@@ -40,71 +40,64 @@ export interface Trip {
 
 export const travelogues: Travelogue[] = [
   // 2025 February - Korea (Seoul)
-  { id: "taipei-2025-02", title: "Taipei, Taiwan", description: "Flying out from Taipei to Seoul.", coverImage: "/images/taipei.jpg", date: "2025-02", route: "/cestopisy/taipei" },
-  { id: "seoul-2025-02", title: "Seoul, South Korea", description: "Exploring Seoul's food, culture, and cityscapes.", coverImage: "/images/seoul.jpg", date: "2025-02", route: "/cestopisy/seoul" },
+  { id: "seoul-2025-02", title: "Seoul, South Korea", description: "Exploring Seoul's food, culture, and cityscapes.", coverImage: "/images/seoul.jpg", date: "2025-02", route: "/Travelogues/seoul" },
 
   // 2025 January - Kyushu (Fukuoka, Dazaifu, Yufuin)
-  { id: "taipei-2025-01", title: "Taipei, Taiwan", description: "Starting the Kyushu trip from Taipei.", coverImage: "/images/taipei.jpg", date: "2025-01", route: "/cestopisy/taipei" },
-  { id: "fukuoka-2025-01", title: "Fukuoka, Japan", description: "Exploring Fukuoka's food and harbor vibes.", coverImage: "/images/fukuoka.jpg", date: "2025-01", route: "/cestopisy/fukuoka" },
-  { id: "dazaifu-2025-01", title: "Dazaifu, Japan", description: "Shrines and heritage streets in Dazaifu.", coverImage: "/images/dazaifu.jpg", date: "2025-01", route: "/cestopisy/dazaifu" },
-  { id: "yufuin-2025-01", title: "Yufuin, Japan", description: "Onsen town and countryside views in Yufuin.", coverImage: "/images/yufuin.jpg", date: "2025-01", route: "/cestopisy/yufuin" },
+  { id: "fukuoka-2025-01", title: "Fukuoka, Japan", description: "Exploring Fukuoka's food and harbor vibes.", coverImage: "/images/fukuoka.jpg", date: "2025-01", route: "/Travelogues/fukuoka" },
+  { id: "dazaifu-2025-01", title: "Dazaifu, Japan", description: "Shrines and heritage streets in Dazaifu.", coverImage: "/images/dazaifu.jpg", date: "2025-01", route: "/Travelogues/dazaifu" },
+  { id: "yufuin-2025-01", title: "Yufuin, Japan", description: "Onsen town and countryside views in Yufuin.", coverImage: "/images/yufuin.jpg", date: "2025-01", route: "/Travelogues/yufuin" },
 
   // 2024 December - China
-  { id: "taipei-2024-12", title: "Taipei, Taiwan", description: "Departing from Taipei for the China loop.", coverImage: "/images/taipei.jpg", date: "2024-12", route: "/cestopisy/taipei" },
-  { id: "beijing-2024-12", title: "Beijing, China", description: "Exploring Beijing's history and culture.", coverImage: "/images/beijing.jpg", date: "2024-12", route: "/cestopisy/beijing" },
-  { id: "nanjing-2024-12", title: "Nanjing, China", description: "Visiting the historic capital of Nanjing.", coverImage: "/images/nanjing.jpg", date: "2024-12", route: "/cestopisy/nanjing" },
-  { id: "hangzhou-2024-12", title: "Hangzhou, China", description: "Discovering West Lake and Hangzhou's charm.", coverImage: "/images/hangzhou.jpg", date: "2024-12", route: "/cestopisy/hangzhou" },
-  { id: "suzhou-2024-12", title: "Suzhou, China", description: "Exploring Suzhou's gardens and canals.", coverImage: "/images/suzhou.jpg", date: "2024-12", route: "/cestopisy/suzhou" },
-  { id: "shanghai-2024-12", title: "Shanghai, China", description: "Modern skyline and Bund views in Shanghai.", coverImage: "/images/shanghai.jpg", date: "2024-12", route: "/cestopisy/shanghai" },
+  { id: "beijing-2024-12", title: "Beijing, China", description: "Exploring Beijing's history and culture.", coverImage: "/images/beijing.jpg", date: "2024-12", route: "/Travelogues/beijing" },
+  { id: "nanjing-2024-12", title: "Nanjing, China", description: "Visiting the historic capital of Nanjing.", coverImage: "/images/nanjing.jpg", date: "2024-12", route: "/Travelogues/nanjing" },
+  { id: "hangzhou-2024-12", title: "Hangzhou, China", description: "Discovering West Lake and Hangzhou's charm.", coverImage: "/images/hangzhou.jpg", date: "2024-12", route: "/Travelogues/hangzhou" },
+  { id: "suzhou-2024-12", title: "Suzhou, China", description: "Exploring Suzhou's gardens and canals.", coverImage: "/images/suzhou.jpg", date: "2024-12", route: "/Travelogues/suzhou" },
+  { id: "shanghai-2024-12", title: "Shanghai, China", description: "Modern skyline and Bund views in Shanghai.", coverImage: "/images/shanghai.jpg", date: "2024-12", route: "/Travelogues/shanghai" },
 
   // 2024 July - Japan (Osaka & Kyoto)
-  { id: "taipei-2024-07", title: "Taipei, Taiwan", description: "Starting the summer Japan hop from Taipei.", coverImage: "/images/taipei.jpg", date: "2024-07", route: "/cestopisy/taipei" },
-  { id: "osaka-2024-07", title: "Osaka, Japan", description: "Osaka eats and city vibes in midsummer.", coverImage: "/images/osaka.jpg", date: "2024-07", route: "/cestopisy/osaka" },
-  { id: "kyoto-2024-07", title: "Kyoto, Japan", description: "Temples and lanes of Kyoto in July.", coverImage: "/images/kyoto.jpg", date: "2024-07", route: "/cestopisy/kyoto" },
+  { id: "osaka-2024-07", title: "Osaka, Japan", description: "Osaka eats and city vibes in midsummer.", coverImage: "/images/osaka.jpg", date: "2024-07", route: "/Travelogues/osaka" },
+  { id: "kyoto-2024-07", title: "Kyoto, Japan", description: "Temples and lanes of Kyoto in July.", coverImage: "/images/kyoto.jpg", date: "2024-07", route: "/Travelogues/kyoto" },
 
   // 2024 June - Europe
-  { id: "taipei-2024-06", title: "Taipei, Taiwan", description: "Flying out from Taipei to Europe.", coverImage: "/images/taipei.jpg", date: "2024-06", route: "/cestopisy/taipei" },
-  { id: "copenhagen-2024-06", title: "Copenhagen, Denmark", description: "Bikes, canals, and hygge in Copenhagen.", coverImage: "/images/copenhagen.jpg", date: "2024-06", route: "/cestopisy/copenhagen" },
-  { id: "utrecht-2024-06", title: "Utrecht, Netherlands", description: "Charming canals and cafes in Utrecht.", coverImage: "/images/utrecht.jpg", date: "2024-06", route: "/cestopisy/utrecht" },
-  { id: "amsterdam-2024-06", title: "Amsterdam, Netherlands", description: "Canals and museums in Amsterdam.", coverImage: "/images/amsterdam.jpg", date: "2024-06", route: "/cestopisy/amsterdam" },
-  { id: "antwerp-2024-06", title: "Antwerp, Belgium", description: "Diamonds and art in Antwerp.", coverImage: "/images/antwerp.jpg", date: "2024-06", route: "/cestopisy/antwerp" },
-  { id: "brussels-2024-06", title: "Brussels, Belgium", description: "Chocolate, waffles, and the Grand Place.", coverImage: "/images/brussels.jpg", date: "2024-06", route: "/cestopisy/brussels" },
-  { id: "colmar-2024-06", title: "Colmar, France", description: "Fairytale canals and half-timbered houses.", coverImage: "/images/colmar.jpg", date: "2024-06", route: "/cestopisy/colmar" },
-  { id: "nice-2024-06", title: "Nice, France", description: "Azure coastlines and promenades in Nice.", coverImage: "/images/nice.jpg", date: "2024-06", route: "/cestopisy/nice" },
-  { id: "menton-2024-06", title: "Menton, France", description: "Lemon-scented shores of Menton.", coverImage: "/images/menton.jpg", date: "2024-06", route: "/cestopisy/menton" },
-  { id: "monaco-2024-06", title: "Monaco", description: "Glamour and harbor views in Monaco.", coverImage: "/images/monaco.jpg", date: "2024-06", route: "/cestopisy/monaco" },
-  { id: "marseille-2024-06", title: "Marseille, France", description: "Old port and seaside vibes in Marseille.", coverImage: "/images/marseille.jpg", date: "2024-06", route: "/cestopisy/marseille" },
-  { id: "provence-2024-06", title: "Provence, France", description: "Lavender fields and villages in Provence.", coverImage: "/images/provence.jpg", date: "2024-06", route: "/cestopisy/provence" },
-  { id: "lyon-2024-06", title: "Lyon, France", description: "Bouchons and old town alleys in Lyon.", coverImage: "/images/lyon.jpg", date: "2024-06", route: "/cestopisy/lyon" },
-  { id: "geneva-2024-06", title: "Geneva, Switzerland", description: "Lakeside walks and international Geneva.", coverImage: "/images/geneva.jpg", date: "2024-06", route: "/cestopisy/geneva" },
-  { id: "zermatt-2024-06", title: "Zermatt, Switzerland", description: "Matterhorn views from Zermatt.", coverImage: "/images/zermatt.jpg", date: "2024-06", route: "/cestopisy/zermatt" },
-  { id: "grindelwald-2024-06", title: "Grindelwald, Switzerland", description: "Alpine scenery in Grindelwald.", coverImage: "/images/grindelwald.jpg", date: "2024-06", route: "/cestopisy/grindelwald" },
-  { id: "zurich-2024-06", title: "Zurich, Switzerland", description: "Lake Zurich and old town strolls.", coverImage: "/images/zurich.jpg", date: "2024-06", route: "/cestopisy/zurich" },
-  { id: "prague-2024-06", title: "Prague, Czech Republic", description: "Crossing Charles Bridge in summer.", coverImage: "/images/prague.jpg", date: "2024-06", route: "/cestopisy/prague" },
+  { id: "copenhagen-2024-06", title: "Copenhagen, Denmark", description: "Bikes, canals, and hygge in Copenhagen.", coverImage: "/images/copenhagen.jpg", date: "2024-06", route: "/Travelogues/copenhagen" },
+  { id: "utrecht-2024-06", title: "Utrecht, Netherlands", description: "Charming canals and cafes in Utrecht.", coverImage: "/images/utrecht.jpg", date: "2024-06", route: "/Travelogues/utrecht" },
+  { id: "amsterdam-2024-06", title: "Amsterdam, Netherlands", description: "Canals and museums in Amsterdam.", coverImage: "/images/amsterdam.jpg", date: "2024-06", route: "/Travelogues/amsterdam" },
+  { id: "antwerp-2024-06", title: "Antwerp, Belgium", description: "Diamonds and art in Antwerp.", coverImage: "/images/antwerp.jpg", date: "2024-06", route: "/Travelogues/antwerp" },
+  { id: "brussels-2024-06", title: "Brussels, Belgium", description: "Chocolate, waffles, and the Grand Place.", coverImage: "/images/brussels.jpg", date: "2024-06", route: "/Travelogues/brussels" },
+  { id: "colmar-2024-06", title: "Colmar, France", description: "Fairytale canals and half-timbered houses.", coverImage: "/images/colmar.jpg", date: "2024-06", route: "/Travelogues/colmar" },
+  { id: "nice-2024-06", title: "Nice, France", description: "Azure coastlines and promenades in Nice.", coverImage: "/images/nice.jpg", date: "2024-06", route: "/Travelogues/nice" },
+  { id: "menton-2024-06", title: "Menton, France", description: "Lemon-scented shores of Menton.", coverImage: "/images/menton.jpg", date: "2024-06", route: "/Travelogues/menton" },
+  { id: "monaco-2024-06", title: "Monaco", description: "Glamour and harbor views in Monaco.", coverImage: "/images/monaco.jpg", date: "2024-06", route: "/Travelogues/monaco" },
+  { id: "marseille-2024-06", title: "Marseille, France", description: "Old port and seaside vibes in Marseille.", coverImage: "/images/marseille.jpg", date: "2024-06", route: "/Travelogues/marseille" },
+  { id: "provence-2024-06", title: "Provence, France", description: "Lavender fields and villages in Provence.", coverImage: "/images/provence.jpg", date: "2024-06", route: "/Travelogues/provence" },
+  { id: "lyon-2024-06", title: "Lyon, France", description: "Bouchons and old town alleys in Lyon.", coverImage: "/images/lyon.jpg", date: "2024-06", route: "/Travelogues/lyon" },
+  { id: "geneva-2024-06", title: "Geneva, Switzerland", description: "Lakeside walks and international Geneva.", coverImage: "/images/geneva.jpg", date: "2024-06", route: "/Travelogues/geneva" },
+  { id: "zermatt-2024-06", title: "Zermatt, Switzerland", description: "Matterhorn views from Zermatt.", coverImage: "/images/zermatt.jpg", date: "2024-06", route: "/Travelogues/zermatt" },
+  { id: "grindelwald-2024-06", title: "Grindelwald, Switzerland", description: "Alpine scenery in Grindelwald.", coverImage: "/images/grindelwald.jpg", date: "2024-06", route: "/Travelogues/grindelwald" },
+  { id: "zurich-2024-06", title: "Zurich, Switzerland", description: "Lake Zurich and old town strolls.", coverImage: "/images/zurich.jpg", date: "2024-06", route: "/Travelogues/zurich" },
+  { id: "prague-2024-06", title: "Prague, Czech Republic", description: "Crossing Charles Bridge in summer.", coverImage: "/images/prague.jpg", date: "2024-06", route: "/Travelogues/prague" },
 
   // 2024 January - SE Asia
-  { id: "taipei-2024-01", title: "Taipei, Taiwan", description: "Starting and ending the SE Asia hop from Taipei.", coverImage: "/images/taipei.jpg", date: "2024-01", route: "/cestopisy/taipei" },
-  { id: "singapore-2024-01", title: "Singapore", description: "Skylines and hawker fare in Singapore.", coverImage: "/images/singapore.jpg", date: "2024-01", route: "/cestopisy/singapore" },
-  { id: "malaysia-2024-01", title: "Malaysia", description: "Discovering culture and cuisine in Malaysia.", coverImage: "/images/malaysia.jpg", date: "2024-01", route: "/cestopisy/malaysia" },
-  { id: "phuket-2024-01", title: "Phuket, Thailand", description: "Beaches and sunsets in Phuket.", coverImage: "/images/phuket.jpg", date: "2024-01", route: "/cestopisy/phuket" },
+  { id: "singapore-2024-01", title: "Singapore", description: "Skylines and hawker fare in Singapore.", coverImage: "/images/singapore.jpg", date: "2024-01", route: "/Travelogues/singapore" },
+  { id: "malaysia-2024-01", title: "Malaysia", description: "Discovering culture and cuisine in Malaysia.", coverImage: "/images/malaysia.jpg", date: "2024-01", route: "/Travelogues/malaysia" },
+  { id: "phuket-2024-01", title: "Phuket, Thailand", description: "Beaches and sunsets in Phuket.", coverImage: "/images/phuket.jpg", date: "2024-01", route: "/Travelogues/phuket" },
 
   // 2023 January - Japan
-  { id: "tokyo-2023", title: "Tokyo, Japan", description: "Exploring Tokyo's blend of old and new.", coverImage: "/images/tokyo.jpg", date: "2023-01", route: "/cestopisy/tokyo" },
-  { id: "osaka-2023", title: "Osaka, Japan", description: "Street food and neon nights in Osaka.", coverImage: "/images/osaka.jpg", date: "2023-01", route: "/cestopisy/osaka" },
-  { id: "kyoto-2023", title: "Kyoto, Japan", description: "Temples and tea houses in Kyoto.", coverImage: "/images/kyoto.jpg", date: "2023-01", route: "/cestopisy/kyoto" },
-  { id: "takayama-2023", title: "Takayama, Japan", description: "Old town charm in Takayama.", coverImage: "/images/takayama.jpg", date: "2023-01", route: "/cestopisy/takayama" },
-  { id: "shirakawa-go-2023", title: "Shirakawa-go, Japan", description: "Thatched roofs under winter skies.", coverImage: "/images/shirakawa-go.jpg", date: "2023-01", route: "/cestopisy/shirakawa-go" },
-  { id: "kanazawa-2023", title: "Kanazawa, Japan", description: "Gardens and heritage in Kanazawa.", coverImage: "/images/kanazawa.jpg", date: "2023-01", route: "/cestopisy/kanazawa" },
-  { id: "fukui-2023", title: "Fukui, Japan", description: "Coastal scenes and history in Fukui.", coverImage: "/images/fukui.jpg", date: "2023-01", route: "/cestopisy/fukui" },
+  { id: "tokyo-2023", title: "Tokyo, Japan", description: "Exploring Tokyo's blend of old and new.", coverImage: "/images/tokyo.jpg", date: "2023-01", route: "/Travelogues/tokyo" },
+  { id: "osaka-2023", title: "Osaka, Japan", description: "Street food and neon nights in Osaka.", coverImage: "/images/osaka.jpg", date: "2023-01", route: "/Travelogues/osaka" },
+  { id: "kyoto-2023", title: "Kyoto, Japan", description: "Temples and tea houses in Kyoto.", coverImage: "/images/kyoto.jpg", date: "2023-01", route: "/Travelogues/kyoto" },
+  { id: "takayama-2023", title: "Takayama, Japan", description: "Old town charm in Takayama.", coverImage: "/images/takayama.jpg", date: "2023-01", route: "/Travelogues/takayama" },
+  { id: "shirakawa-go-2023", title: "Shirakawa-go, Japan", description: "Thatched roofs under winter skies.", coverImage: "/images/shirakawa-go.jpg", date: "2023-01", route: "/Travelogues/shirakawa-go" },
+  { id: "kanazawa-2023", title: "Kanazawa, Japan", description: "Gardens and heritage in Kanazawa.", coverImage: "/images/kanazawa.jpg", date: "2023-01", route: "/Travelogues/kanazawa" },
+  { id: "fukui-2023", title: "Fukui, Japan", description: "Coastal scenes and history in Fukui.", coverImage: "/images/fukui.jpg", date: "2023-01", route: "/Travelogues/fukui" },
 
   // 2022 July - Europe & Singapore
-  { id: "taipei-2022-07", title: "Taipei, Taiwan", description: "Setting off from Taipei to Europe.", coverImage: "/images/taipei.jpg", date: "2022-07", route: "/cestopisy/taipei" },
-  { id: "athens-2022-07", title: "Athens, Greece", description: "Ancient sites and sunny Athens.", coverImage: "/images/athens.jpg", date: "2022-07", route: "/cestopisy/athens" },
-  { id: "vienna-2022-07", title: "Vienna, Austria", description: "Imperial streets and coffee houses.", coverImage: "/images/vienna.jpg", date: "2022-07", route: "/cestopisy/vienna" },
-  { id: "prague-2022-07", title: "Prague, Czech Republic", description: "Castles and bridges in Prague.", coverImage: "/images/prague.jpg", date: "2022-07", route: "/cestopisy/prague" },
-  { id: "poznan-2022-07", title: "Poznań, Poland", description: "Old town squares of Poznań.", coverImage: "/images/poznan.jpg", date: "2022-07", route: "/cestopisy/poznan" },
-  { id: "berlin-2022-07", title: "Berlin, Germany", description: "History and modernity in Berlin.", coverImage: "/images/berlin.jpg", date: "2022-07", route: "/cestopisy/berlin" },
-  { id: "singapore-2022-07", title: "Singapore", description: "Connecting through Singapore.", coverImage: "/images/singapore.jpg", date: "2022-07", route: "/cestopisy/singapore" },
+  { id: "athens-2022-07", title: "Athens, Greece", description: "Ancient sites and sunny Athens.", coverImage: "/images/athens.jpg", date: "2022-07", route: "/Travelogues/athens" },
+  { id: "vienna-2022-07", title: "Vienna, Austria", description: "Imperial streets and coffee houses.", coverImage: "/images/vienna.jpg", date: "2022-07", route: "/Travelogues/vienna" },
+  { id: "prague-2022-07", title: "Prague, Czech Republic", description: "Castles and bridges in Prague.", coverImage: "/images/prague.jpg", date: "2022-07", route: "/Travelogues/prague" },
+  { id: "poznan-2022-07", title: "Poznań, Poland", description: "Old town squares of Poznań.", coverImage: "/images/poznan.jpg", date: "2022-07", route: "/Travelogues/poznan" },
+  { id: "berlin-2022-07", title: "Berlin, Germany", description: "History and modernity in Berlin.", coverImage: "/images/berlin.jpg", date: "2022-07", route: "/Travelogues/berlin" },
+  { id: "singapore-2022-07", title: "Singapore", description: "Connecting through Singapore.", coverImage: "/images/singapore.jpg", date: "2022-07", route: "/Travelogues/singapore" },
 ];
 
 export const mapMarkers: MapMarker[] = [
@@ -154,9 +147,9 @@ export const trips: Trip[] = [
     color: "#90A2D5",
     description: "From Taipei to Seoul and back to Taipei",
     locations: [
-      { id: 1, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "February 2025", transportMode: "airplane", link: "/cestopisy/taipei" },
-      { id: 2, name: "Seoul, South Korea", lat: 37.5665, lng: 126.9780, date: "February 2025", transportMode: "airplane", link: "/cestopisy/seoul" },
-      { id: 3, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "February 2025", transportMode: "airplane", link: "/cestopisy/taipei" },
+      { id: 1, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "February 2025", transportMode: "airplane" },
+      { id: 2, name: "Seoul, South Korea", lat: 37.5665, lng: 126.9780, date: "February 2025", transportMode: "airplane", link: "/Travelogues/seoul" },
+      { id: 3, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "February 2025", transportMode: "airplane" },
     ]
   },
   {
@@ -166,11 +159,11 @@ export const trips: Trip[] = [
     color: "#7DD7F5", // 淡藍綠，可調整
     description: "From Taipei to Fukuoka, Dazaifu, Yufuin, and back to Taipei",
     locations: [
-      { id: 1, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "January 2025", transportMode: "airplane", link: "/cestopisy/taipei" },
-      { id: 2, name: "Fukuoka, Japan", lat: 33.5904, lng: 130.4017, date: "January 2025", transportMode: "airplane", link: "/cestopisy/fukuoka" },
-      { id: 3, name: "Dazaifu, Japan", lat: 33.5200, lng: 130.5200, date: "January 2025", transportMode: "train", link: "/cestopisy/dazaifu" },
-      { id: 4, name: "Yufuin, Japan", lat: 33.2635, lng: 131.3537, date: "January 2025", transportMode: "train", link: "/cestopisy/yufuin" },
-      { id: 5, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "January 2025", transportMode: "airplane", link: "/cestopisy/taipei" },
+      { id: 1, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "January 2025", transportMode: "airplane" },
+      { id: 2, name: "Fukuoka, Japan", lat: 33.5904, lng: 130.4017, date: "January 2025", transportMode: "airplane", link: "/Travelogues/fukuoka" },
+      { id: 3, name: "Dazaifu, Japan", lat: 33.5200, lng: 130.5200, date: "January 2025", transportMode: "train", link: "/Travelogues/dazaifu" },
+      { id: 4, name: "Yufuin, Japan", lat: 33.2635, lng: 131.3537, date: "January 2025", transportMode: "train", link: "/Travelogues/yufuin" },
+      { id: 5, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "January 2025", transportMode: "airplane" },
     ]
   },
   {
@@ -180,13 +173,13 @@ export const trips: Trip[] = [
     color: "#FF9797", // 紅色
     description: "From Taipei to Beijing, Nanjing, Hangzhou, Suzhou, Shanghai, and back to Taipei",
     locations: [
-      { id: 1, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "December 2024", transportMode: "airplane", link: "/cestopisy/taipei" },
-      { id: 2, name: "Beijing, China", lat: 39.9042, lng: 116.4074, date: "December 2024", transportMode: "airplane", link: "/cestopisy/beijing" },
-      { id: 3, name: "Nanjing, China", lat: 32.0603, lng: 118.7969, date: "December 2024", transportMode: "train", link: "/cestopisy/nanjing" },
-      { id: 4, name: "Hangzhou, China", lat: 30.2741, lng: 120.1551, date: "December 2024", transportMode: "train", link: "/cestopisy/hangzhou" },
-      { id: 5, name: "Suzhou, China", lat: 31.2983, lng: 120.5832, date: "December 2024", transportMode: "train", link: "/cestopisy/suzhou" },
-      { id: 6, name: "Shanghai, China", lat: 31.2304, lng: 121.4737, date: "December 2024", transportMode: "train", link: "/cestopisy/shanghai" },
-      { id: 7, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "December 2024", transportMode: "airplane", link: "/cestopisy/taipei" },
+      { id: 1, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "December 2024", transportMode: "airplane" },
+      { id: 2, name: "Beijing, China", lat: 39.9042, lng: 116.4074, date: "December 2024", transportMode: "airplane", link: "/Travelogues/beijing" },
+      { id: 3, name: "Nanjing, China", lat: 32.0603, lng: 118.7969, date: "December 2024", transportMode: "train", link: "/Travelogues/nanjing" },
+      { id: 4, name: "Hangzhou, China", lat: 30.2741, lng: 120.1551, date: "December 2024", transportMode: "train", link: "/Travelogues/hangzhou" },
+      { id: 5, name: "Suzhou, China", lat: 31.2983, lng: 120.5832, date: "December 2024", transportMode: "train", link: "/Travelogues/suzhou" },
+      { id: 6, name: "Shanghai, China", lat: 31.2304, lng: 121.4737, date: "December 2024", transportMode: "train", link: "/Travelogues/shanghai" },
+      { id: 7, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "December 2024", transportMode: "airplane" },
     ]
   },
   {
@@ -196,10 +189,10 @@ export const trips: Trip[] = [
     color: "#C2C287",
     description: "From Taipei to Osaka, then Kyoto, and back to Taipei",
     locations: [
-      { id: 1, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "July 2024", transportMode: "airplane", link: "/cestopisy/taipei" },
-      { id: 2, name: "Osaka, Japan", lat: 34.6937, lng: 135.5023, date: "July 2024", transportMode: "airplane", link: "/cestopisy/osaka" },
-      { id: 3, name: "Kyoto, Japan", lat: 35.0116, lng: 135.7681, date: "July 2024", transportMode: "train", link: "/cestopisy/kyoto" },
-      { id: 4, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "July 2024", transportMode: "airplane", link: "/cestopisy/taipei" },
+      { id: 1, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "July 2024", transportMode: "airplane" },
+      { id: 2, name: "Osaka, Japan", lat: 34.6937, lng: 135.5023, date: "July 2024", transportMode: "airplane", link: "/Travelogues/osaka" },
+      { id: 3, name: "Kyoto, Japan", lat: 35.0116, lng: 135.7681, date: "July 2024", transportMode: "train", link: "/Travelogues/kyoto" },
+      { id: 4, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "July 2024", transportMode: "airplane" },
     ]
   },
   {
@@ -209,25 +202,25 @@ export const trips: Trip[] = [
     color: "#ADADAD", // 青綠色
     description: "From Copenhagen, through Netherlands, Belgium, France, Switzerland, to Prague",
     locations: [
-      { id: 1, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "June 2024", transportMode: "airplane", link: "/cestopisy/taipei" },
-      { id: 2, name: "Copenhagen, Denmark", lat: 55.6761, lng: 12.5683, date: "June 2024", transportMode: "airplane", link: "/cestopisy/copenhagen" },
-      { id: 3, name: "Utrecht, Netherlands", lat: 52.0907, lng: 5.1214, date: "June 2024", transportMode: "bus", link: "/cestopisy/utrecht" },
-      { id: 4, name: "Amsterdam, Netherlands", lat: 52.3676, lng: 4.9041, date: "June 2024", transportMode: "train", link: "/cestopisy/amsterdam" },
-      { id: 5, name: "Antwerp, Belgium", lat: 51.2194, lng: 4.4025, date: "June 2024", transportMode: "bus", link: "/cestopisy/antwerp" },
-      { id: 6, name: "Brussels, Belgium", lat: 50.8503, lng: 4.3517, date: "June 2024", transportMode: "car", link: "/cestopisy/brussels" },
-      { id: 7, name: "Colmar, France", lat: 48.0794, lng: 7.3586, date: "June 2024", transportMode: "bus", link: "/cestopisy/colmar" },
-      { id: 8, name: "Nice, France", lat: 43.7102, lng: 7.2620, date: "June 2024", transportMode: "bus", link: "/cestopisy/nice" },
-      { id: 9, name: "Menton, France", lat: 43.7745, lng: 7.5049, date: "June 2024", transportMode: "train", link: "/cestopisy/menton" },
-      { id: 10, name: "Monaco", lat: 43.7384, lng: 7.4246, date: "June 2024", transportMode: "train", link: "/cestopisy/monaco" },
-      { id: 11, name: "Marseille, France", lat: 43.2965, lng: 5.3698, date: "June 2024", transportMode: "bus", link: "/cestopisy/marseille" },
-      { id: 12, name: "Provence, France", lat: 43.9500, lng: 5.0500, date: "June 2024", transportMode: "car", link: "/cestopisy/provence" },
-      { id: 13, name: "Lyon, France", lat: 45.7640, lng: 4.8357, date: "June 2024", transportMode: "bus", link: "/cestopisy/lyon" },
-      { id: 14, name: "Geneva, Switzerland", lat: 46.2044, lng: 6.1432, date: "June 2024", transportMode: "train", link: "/cestopisy/geneva" },
-      { id: 15, name: "Zermatt, Switzerland", lat: 46.0207, lng: 7.7491, date: "June 2024", transportMode: "bus", link: "/cestopisy/zermatt" },
-      { id: 16, name: "Grindelwald, Switzerland", lat: 46.6242, lng: 8.0340, date: "June 2024", transportMode: "bus", link: "/cestopisy/grindelwald" },
-      { id: 17, name: "Zurich, Switzerland", lat: 47.3769, lng: 8.5417, date: "June 2024", transportMode: "bus", link: "/cestopisy/zurich" },
-      { id: 18, name: "Prague, Czech Republic", lat: 50.0755, lng: 14.4378, date: "June 2024", transportMode: "bus", link: "/cestopisy/prague" },
-      { id: 19, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "June 2024", transportMode: "airplane", link: "/cestopisy/taipei" },
+      { id: 1, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "June 2024", transportMode: "airplane" },
+      { id: 2, name: "Copenhagen, Denmark", lat: 55.6761, lng: 12.5683, date: "June 2024", transportMode: "airplane", link: "/Travelogues/copenhagen" },
+      { id: 3, name: "Utrecht, Netherlands", lat: 52.0907, lng: 5.1214, date: "June 2024", transportMode: "bus", link: "/Travelogues/utrecht" },
+      { id: 4, name: "Amsterdam, Netherlands", lat: 52.3676, lng: 4.9041, date: "June 2024", transportMode: "train", link: "/Travelogues/amsterdam" },
+      { id: 5, name: "Antwerp, Belgium", lat: 51.2194, lng: 4.4025, date: "June 2024", transportMode: "bus", link: "/Travelogues/antwerp" },
+      { id: 6, name: "Brussels, Belgium", lat: 50.8503, lng: 4.3517, date: "June 2024", transportMode: "car", link: "/Travelogues/brussels" },
+      { id: 7, name: "Colmar, France", lat: 48.0794, lng: 7.3586, date: "June 2024", transportMode: "bus", link: "/Travelogues/colmar" },
+      { id: 8, name: "Nice, France", lat: 43.7102, lng: 7.2620, date: "June 2024", transportMode: "bus", link: "/Travelogues/nice" },
+      { id: 9, name: "Menton, France", lat: 43.7745, lng: 7.5049, date: "June 2024", transportMode: "train", link: "/Travelogues/menton" },
+      { id: 10, name: "Monaco", lat: 43.7384, lng: 7.4246, date: "June 2024", transportMode: "train", link: "/Travelogues/monaco" },
+      { id: 11, name: "Marseille, France", lat: 43.2965, lng: 5.3698, date: "June 2024", transportMode: "bus", link: "/Travelogues/marseille" },
+      { id: 12, name: "Provence, France", lat: 43.9500, lng: 5.0500, date: "June 2024", transportMode: "car", link: "/Travelogues/provence" },
+      { id: 13, name: "Lyon, France", lat: 45.7640, lng: 4.8357, date: "June 2024", transportMode: "bus", link: "/Travelogues/lyon" },
+      { id: 14, name: "Geneva, Switzerland", lat: 46.2044, lng: 6.1432, date: "June 2024", transportMode: "train", link: "/Travelogues/geneva" },
+      { id: 15, name: "Zermatt, Switzerland", lat: 46.0207, lng: 7.7491, date: "June 2024", transportMode: "bus", link: "/Travelogues/zermatt" },
+      { id: 16, name: "Grindelwald, Switzerland", lat: 46.6242, lng: 8.0340, date: "June 2024", transportMode: "bus", link: "/Travelogues/grindelwald" },
+      { id: 17, name: "Zurich, Switzerland", lat: 47.3769, lng: 8.5417, date: "June 2024", transportMode: "bus", link: "/Travelogues/zurich" },
+      { id: 18, name: "Prague, Czech Republic", lat: 50.0755, lng: 14.4378, date: "June 2024", transportMode: "bus", link: "/Travelogues/prague" },
+      { id: 19, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "June 2024", transportMode: "airplane" },
     ]
   },
   {
@@ -237,11 +230,11 @@ export const trips: Trip[] = [
     color: "#FFAD86",
     description: "From Taipei to Singapore, Malaysia, Phuket, and back to Taipei",
     locations: [
-      { id: 1, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "January 2024", transportMode: "airplane", link: "/cestopisy/taipei" },
-      { id: 2, name: "Singapore", lat: 1.3521, lng: 103.8198, date: "January 2024", transportMode: "airplane", link: "/cestopisy/singapore" },
-      { id: 3, name: "Malaysia", lat: 3.1390, lng: 101.6869, date: "January 2024", transportMode: "airplane", link: "/cestopisy/malaysia" },
-      { id: 4, name: "Phuket, Thailand", lat: 7.9519, lng: 98.3381, date: "January 2024", transportMode: "airplane", link: "/cestopisy/phuket" },
-      { id: 5, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "January 2024", transportMode: "airplane", link: "/cestopisy/taipei" },
+      { id: 1, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "January 2024", transportMode: "airplane" },
+      { id: 2, name: "Singapore", lat: 1.3521, lng: 103.8198, date: "January 2024", transportMode: "airplane", link: "/Travelogues/singapore" },
+      { id: 3, name: "Malaysia", lat: 3.1390, lng: 101.6869, date: "January 2024", transportMode: "airplane", link: "/Travelogues/malaysia" },
+      { id: 4, name: "Phuket, Thailand", lat: 7.9519, lng: 98.3381, date: "January 2024", transportMode: "airplane", link: "/Travelogues/phuket" },
+      { id: 5, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "January 2024", transportMode: "airplane" },
     ]
   },
   {
@@ -251,14 +244,14 @@ export const trips: Trip[] = [
     color: "#84C1FF", // 淡藍色
     description: "From Taiwan to Osaka, Kyoto, Takayama, Shirakawa-go, Kanazawa, and Fukui",
     locations: [
-      { id: 1, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "January 2023", transportMode: "airplane", link: "/cestopisy/taipei" },
-      { id: 2, name: "Osaka, Japan", lat: 34.6937, lng: 135.5023, date: "January 2023", transportMode: "airplane", link: "/cestopisy/osaka" },
-      { id: 3, name: "Kyoto, Japan", lat: 35.0116, lng: 135.7681, date: "January 2023", transportMode: "car", link: "/cestopisy/kyoto" },
-      { id: 4, name: "Takayama, Japan", lat: 36.1461, lng: 137.2522, date: "January 2023", transportMode: "car", link: "/cestopisy/takayama" },
-      { id: 5, name: "Shirakawa-go, Japan", lat: 36.2556, lng: 136.9064, date: "January 2023", transportMode: "car", link: "/cestopisy/shirakawa-go" },
-      { id: 6, name: "Kanazawa, Japan", lat: 36.5613, lng: 136.6562, date: "January 2023", transportMode: "car", link: "/cestopisy/kanazawa" },
-      { id: 7, name: "Fukui, Japan", lat: 36.0652, lng: 136.2216, date: "January 2023", transportMode: "car", link: "/cestopisy/fukui" },
-      { id: 8, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "January 2023", transportMode: "airplane", link: "/cestopisy/taipei" },
+      { id: 1, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "January 2023", transportMode: "airplane" },
+      { id: 2, name: "Osaka, Japan", lat: 34.6937, lng: 135.5023, date: "January 2023", transportMode: "airplane", link: "/Travelogues/osaka" },
+      { id: 3, name: "Kyoto, Japan", lat: 35.0116, lng: 135.7681, date: "January 2023", transportMode: "car", link: "/Travelogues/kyoto" },
+      { id: 4, name: "Takayama, Japan", lat: 36.1461, lng: 137.2522, date: "January 2023", transportMode: "car", link: "/Travelogues/takayama" },
+      { id: 5, name: "Shirakawa-go, Japan", lat: 36.2556, lng: 136.9064, date: "January 2023", transportMode: "car", link: "/Travelogues/shirakawa-go" },
+      { id: 6, name: "Kanazawa, Japan", lat: 36.5613, lng: 136.6562, date: "January 2023", transportMode: "car", link: "/Travelogues/kanazawa" },
+      { id: 7, name: "Fukui, Japan", lat: 36.0652, lng: 136.2216, date: "January 2023", transportMode: "car", link: "/Travelogues/fukui" },
+      { id: 8, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "January 2023", transportMode: "airplane" },
     ]
   },
   {
@@ -268,14 +261,14 @@ export const trips: Trip[] = [
     color: "#FFE66F", // 淡黃色
     description: "From Greece, Vienna, Prague, Poznań, Berlin, to Singapore",
     locations: [
-      { id: 1, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "13 May", transportMode: "airplane", link: "/cestopisy/taipei" },
-      { id: 2, name: "Athens, Greece", lat: 37.9838, lng: 23.7275, date: "July 2022", transportMode: "airplane", link: "/cestopisy/athens" },
-      { id: 3, name: "Vienna, Austria", lat: 48.2082, lng: 16.3738, date: "15 Apr", transportMode: "airplane", link: "/cestopisy/vienna" },
-      { id: 4, name: "Prague, Czech Republic", lat: 50.0755, lng: 14.4378, transportMode: "bus", link: "/cestopisy/prague" },
-      { id: 5, name: "Poznań, Poland", lat: 52.4064, lng: 16.9252, transportMode: "bus", link: "/cestopisy/poznan" },
-      { id: 6, name: "Berlin, Germany", lat: 52.5200, lng: 13.4050, transportMode: "bus", link: "/cestopisy/berlin" },
-      { id: 7, name: "Singapore", lat: 1.3521, lng: 103.8198, transportMode: "airplane", link: "/cestopisy/singapore" },
-      { id: 8, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, transportMode: "airplane", link: "/cestopisy/taipei" },
+      { id: 1, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "13 May", transportMode: "airplane" },
+      { id: 2, name: "Athens, Greece", lat: 37.9838, lng: 23.7275, date: "July 2022", transportMode: "airplane", link: "/Travelogues/athens" },
+      { id: 3, name: "Vienna, Austria", lat: 48.2082, lng: 16.3738, date: "15 Apr", transportMode: "airplane", link: "/Travelogues/vienna" },
+      { id: 4, name: "Prague, Czech Republic", lat: 50.0755, lng: 14.4378, transportMode: "bus", link: "/Travelogues/prague" },
+      { id: 5, name: "Poznań, Poland", lat: 52.4064, lng: 16.9252, transportMode: "bus", link: "/Travelogues/poznan" },
+      { id: 6, name: "Berlin, Germany", lat: 52.5200, lng: 13.4050, transportMode: "bus", link: "/Travelogues/berlin" },
+      { id: 7, name: "Singapore", lat: 1.3521, lng: 103.8198, transportMode: "airplane", link: "/Travelogues/singapore" },
+      { id: 8, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, transportMode: "airplane" },
     ]
   },
 ];
