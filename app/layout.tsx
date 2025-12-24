@@ -4,7 +4,7 @@ import Navigation from "@/components/Navigation";
 
 export const metadata: Metadata = {
   title: "Chinghua Ivy Lu website",
-  description: "I travel and hike a lot in the mountains. My stories, presentations, and travelogues.",
+  description: "Hello! I'm currently a student at National Taiwan University. I have a deep love for traveling and observing the world around me.",
 };
 
 export default function RootLayout({

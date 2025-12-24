@@ -7,15 +7,33 @@ interface TravelogueCardProps {
 }
 
 export default function TravelogueCard({ travelogue }: TravelogueCardProps) {
+  // Check if coverImage is a Cloudinary URL or local path
+  const isCloudinaryUrl = travelogue.coverImage?.startsWith('http') || travelogue.coverImage?.includes('cloudinary');
+  const imageUrl = isCloudinaryUrl 
+    ? travelogue.coverImage 
+    : travelogue.coverImage?.startsWith('/') 
+      ? travelogue.coverImage 
+      : `/images/${travelogue.coverImage}`;
+
   return (
     <Link href={travelogue.route}>
       <div className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
         <div className="relative h-64 w-full bg-gray-200">
-          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-400 to-indigo-600">
-            <span className="text-white text-4xl font-bold opacity-50">
-              {travelogue.title.charAt(0)}
-            </span>
-          </div>
+          {travelogue.coverImage ? (
+            <Image
+              src={imageUrl}
+              alt={travelogue.title}
+              fill
+              className="object-cover"
+              unoptimized={isCloudinaryUrl}
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-400 to-indigo-600">
+              <span className="text-white text-4xl font-bold opacity-50">
+                {travelogue.title.charAt(0)}
+              </span>
+            </div>
+          )}
         </div>
         <div className="p-6">
           <div className="flex justify-between items-start mb-2">

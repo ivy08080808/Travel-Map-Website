@@ -8,8 +8,26 @@ import 'leaflet/dist/leaflet.css';
 import { trips, Trip } from '@/lib/data';
 import TransportIcon from './TransportIcon';
 
-// Fix for default marker icons in Next.js
-const icon = L.icon({
+// Function to create a simple colored dot marker
+function createColoredMarkerIcon(color: string): L.DivIcon {
+  // 創建一個空心的彩色圓點
+  const svgIcon = `
+    <svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="6" cy="6" r="5" fill="none" stroke="${color}" stroke-width="2"/>
+    </svg>
+  `;
+
+  return L.divIcon({
+    html: svgIcon,
+    className: 'custom-marker-dot',
+    iconSize: [12, 12],
+    iconAnchor: [6, 6],
+    popupAnchor: [0, -6],
+  });
+}
+
+// Default icon for backward compatibility
+const defaultIcon = L.icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
@@ -110,14 +128,16 @@ export default function TravelMap() {
                         />
                       )}
                       
-                      {/* 圓圈，中間是白色圖標 - 每個地點都有自己的圖標 */}
+                      {/* 圓圈，中間是白色圖標 - 第一個地點不顯示圖標 */}
                       <div 
                         className="w-10 h-10 rounded-full flex items-center justify-center relative z-10"
                         style={{ backgroundColor: tripColor }}
                       >
-                        <div className="flex items-center justify-center w-full h-full">
-                          <TransportIcon mode={location.transportMode} className="w-5 h-5" />
-                        </div>
+                        {index > 0 && (
+                          <div className="flex items-center justify-center w-full h-full">
+                            <TransportIcon mode={location.transportMode} className="w-5 h-5" />
+                          </div>
+                        )}
                       </div>
                       
                       {/* 垂直連接線 - 從圖標底部繼續到下一個地點 */}
@@ -219,7 +239,7 @@ export default function TravelMap() {
                     positions={routeCoords}
                     pathOptions={{
                       color: trip.color,
-                      weight: selectedTrip?.id === trip.id ? 4 : 2,
+                      weight: selectedTrip?.id === trip.id ? 2 : 1,
                       opacity: selectedTrip?.id === trip.id ? 0.8 : 0.4,
                     }}
                   />
@@ -230,12 +250,14 @@ export default function TravelMap() {
           <Marker
                     key={`${trip.id}-${location.id}`}
                     position={[location.lat, location.lng]}
-            icon={icon}
+            icon={createColoredMarkerIcon(trip.color)}
           >
             <Popup>
               <div className="p-2">
                         <div className="flex items-center gap-2 mb-1">
-                          <TransportIcon mode={location.transportMode} className="w-5 h-5" />
+                          {trip.locations[0].id !== location.id && (
+                            <TransportIcon mode={location.transportMode} className="w-5 h-5" />
+                          )}
                           {location.link ? (
                             <Link href={location.link} className="font-bold text-lg text-blue-600 hover:text-blue-800">
                               {location.name}
