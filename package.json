@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "browser-image-compression": "^2.0.2",
     "cloudinary": "^2.8.0",
     "leaflet": "^1.9.4",
     "mongodb": "^7.0.0",

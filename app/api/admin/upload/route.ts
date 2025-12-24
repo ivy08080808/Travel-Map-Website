@@ -31,6 +31,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check file size (10MB - Cloudinary free plan limit)
+    const maxSize = 10485760; // 10MB in bytes
+    if (file.size > maxSize) {
+      return NextResponse.json(
+        { 
+          error: `File size too large. Got ${file.size}. Maximum is ${maxSize} (10MB). Please compress the image or upgrade your Cloudinary plan.` 
+        },
+        { status: 400 }
+      );
+    }
+
     // Convert File to buffer
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);

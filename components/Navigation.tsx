@@ -2,9 +2,14 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  
+  // 檢查是否在 travelogue detail 頁面
+  const isTravelogueDetail = pathname?.startsWith('/Travelogues/') && pathname !== '/Travelogues';
 
   const navItems = [
     { name: 'Travelogues', href: '/Travelogues' },
@@ -16,9 +21,19 @@ export default function Navigation() {
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link href="/" className="text-2xl font-bold text-gray-800 hover:text-gray-600 transition-colors">
-            Chinghua Ivy Lu
-          </Link>
+          <div className="flex items-center gap-4">
+            {isTravelogueDetail && (
+              <Link
+                href="/Travelogues"
+                className="text-blue-600 hover:text-blue-800 transition-colors"
+              >
+                ← Back to Travelogues
+              </Link>
+            )}
+            <Link href="/" className="text-2xl font-bold text-gray-800 hover:text-gray-600 transition-colors">
+              Chinghua Ivy Lu
+            </Link>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-8">

@@ -85,57 +85,52 @@ export default async function TravelogueDetailPage({
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* 封面圖片 - 放在最上面，無框框 */}
+      <div className="relative w-full h-[60vh] min-h-[500px] bg-gray-200">
+        {displayCoverImage ? (
+          <Image
+            src={imageUrl}
+            alt={travelogue.title}
+            fill
+            style={{ objectFit: 'cover' }}
+            className="opacity-50"
+            unoptimized={isCloudinaryUrl}
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-400 to-indigo-600">
+            <span className="text-white text-6xl font-bold opacity-50">
+              {travelogue.title.charAt(0)}
+            </span>
+          </div>
+        )}
+        {/* 標題疊加在圖片上，置中下方 */}
+        <div className="absolute inset-0 flex items-end justify-center pb-12 opacity-50">
+          <div className="text-center">
+            <h1 className="text-5xl font-bold text-white drop-shadow-lg mb-2">
+              {travelogue.title}
+            </h1>
+            <span className="text-xl text-white/90 drop-shadow-md">
+              {travelogue.date}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* 文章內容 */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <Link
-          href="/Travelogues"
-          className="text-blue-600 hover:text-blue-800 mb-6 inline-block"
-        >
-          ← Back to Travelogues
-        </Link>
-
-        <article className="bg-white rounded-lg shadow-lg overflow-hidden">
-          {/* 封面圖片 */}
-          <div className="relative h-96 w-full bg-gray-200">
-            {displayCoverImage ? (
-              <Image
-                src={imageUrl}
-                alt={travelogue.title}
-                fill
-                style={{ objectFit: 'cover' }}
-                className="rounded-t-lg"
-                unoptimized={isCloudinaryUrl}
-              />
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-400 to-indigo-600">
-                <span className="text-white text-6xl font-bold opacity-50">
-                  {travelogue.title.charAt(0)}
-                </span>
-              </div>
-            )}
-          </div>
-
-          <div className="p-8">
-            <div className="flex justify-between items-start mb-6">
-              <h1 className="text-4xl font-bold text-gray-900">
-                {travelogue.title}
-              </h1>
-              <span className="text-lg text-gray-500">{travelogue.date}</span>
+        <article className="bg-white rounded-lg shadow-lg p-8">
+          {content ? (
+            <div
+              className="prose prose-lg max-w-none"
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+          ) : (
+            <div className="prose max-w-none">
+              <p className="text-xl text-gray-700 leading-relaxed">
+                {travelogue.description}
+              </p>
             </div>
-
-            {/* 文章內容 */}
-            {content ? (
-              <div
-                className="prose prose-lg max-w-none"
-                dangerouslySetInnerHTML={{ __html: content }}
-              />
-            ) : (
-              <div className="prose max-w-none">
-                <p className="text-xl text-gray-700 leading-relaxed">
-                  {travelogue.description}
-                </p>
-              </div>
-            )}
-          </div>
+          )}
         </article>
       </div>
     </div>

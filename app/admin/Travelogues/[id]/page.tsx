@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { travelogues } from '@/lib/data';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
+import imageCompression from 'browser-image-compression';
 
 // 動態導入 ReactQuill，避免 SSR 問題
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
@@ -25,6 +26,7 @@ export default function TravelogueCoverPage() {
   const [content, setContent] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
+  const [isCompressing, setIsCompressing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isSavingContent, setIsSavingContent] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -131,16 +133,48 @@ export default function TravelogueCoverPage() {
     console.error('Cloudinary upload error:', error);
   };
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // 檢查文件大小 (20MB)
-      if (file.size > 20000000) {
-        setError('文件大小超過 20MB，請選擇較小的圖片');
-        return;
-      }
-      setUploadFile(file);
       setError(null);
+      
+      // 如果文件超過 10MB，自動壓縮
+      if (file.size > 10485760) {
+        setIsCompressing(true);
+        try {
+          const options = {
+            maxSizeMB: 10, // 目標大小 10MB
+            maxWidthOrHeight: 3840, // 最大寬高（保持高解析度）
+            useWebWorker: true, // 使用 Web Worker 加速
+            fileType: file.type, // 保持原始格式
+            initialQuality: 0.92, // 初始品質（高品質）
+          };
+
+          const compressedFile = await imageCompression(file, options);
+          
+          // 如果壓縮後還是超過 10MB，進一步壓縮
+          if (compressedFile.size > 10485760) {
+            const furtherCompressed = await imageCompression(file, {
+              ...options,
+              initialQuality: 0.85,
+              maxWidthOrHeight: 2560,
+            });
+            setUploadFile(furtherCompressed);
+            setSuccess(`圖片已自動壓縮：${(file.size / 1024 / 1024).toFixed(2)} MB → ${(furtherCompressed.size / 1024 / 1024).toFixed(2)} MB`);
+          } else {
+            setUploadFile(compressedFile);
+            setSuccess(`圖片已自動壓縮：${(file.size / 1024 / 1024).toFixed(2)} MB → ${(compressedFile.size / 1024 / 1024).toFixed(2)} MB`);
+          }
+          setTimeout(() => setSuccess(null), 5000);
+        } catch (error) {
+          console.error('壓縮錯誤:', error);
+          setError('圖片壓縮失敗，請手動壓縮後再試');
+        } finally {
+          setIsCompressing(false);
+        }
+      } else {
+        setUploadFile(file);
+      }
     }
   };
 
@@ -150,12 +184,38 @@ export default function TravelogueCoverPage() {
       return;
     }
 
+    // 如果文件還是超過 10MB，再次壓縮
+    let fileToUpload = uploadFile;
+    if (uploadFile.size > 10485760) {
+      setIsCompressing(true);
+      try {
+        const options = {
+          maxSizeMB: 10,
+          maxWidthOrHeight: 2560,
+          useWebWorker: true,
+          fileType: uploadFile.type,
+          initialQuality: 0.85,
+        };
+        fileToUpload = await imageCompression(uploadFile, options);
+        setUploadFile(fileToUpload); // 更新狀態
+        setSuccess(`圖片已進一步壓縮至 ${(fileToUpload.size / 1024 / 1024).toFixed(2)} MB`);
+        setTimeout(() => setSuccess(null), 3000);
+      } catch (error) {
+        console.error('壓縮錯誤:', error);
+        setError('圖片壓縮失敗');
+        setIsCompressing(false);
+        return;
+      } finally {
+        setIsCompressing(false);
+      }
+    }
+
     setIsUploading(true);
     setError(null);
 
     try {
       const formData = new FormData();
-      formData.append('file', uploadFile);
+      formData.append('file', fileToUpload);
       formData.append('folder', `travelogues/${travelogueId}`);
 
       const response = await fetch('/api/admin/upload', {
@@ -192,7 +252,13 @@ export default function TravelogueCoverPage() {
         }
       } else {
         const errorData = await response.json();
-        setError(errorData.error || '上傳失敗');
+        // 顯示詳細的錯誤訊息
+        let errorMessage = errorData.error || '上傳失敗';
+        // 如果是文件大小錯誤，提供更友好的訊息
+        if (errorMessage.includes('File size too large')) {
+          errorMessage = '文件大小超過 10MB（Cloudinary 免費計劃限制）。請壓縮圖片後再試，或升級 Cloudinary 計劃。';
+        }
+        setError(errorMessage);
       }
     } catch (error) {
       console.error('Error uploading:', error);
@@ -348,7 +414,7 @@ export default function TravelogueCoverPage() {
 
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
               <p className="text-gray-600 mb-4">
-                選擇圖片文件上傳（最大 20MB）
+                選擇圖片文件上傳（超過 10MB 將自動壓縮，盡量保持畫質）
               </p>
               <div className="space-y-4">
                 <div>
@@ -370,10 +436,10 @@ export default function TravelogueCoverPage() {
                 </div>
                 <button
                   onClick={handleUpload}
-                  disabled={isUploading || !uploadFile}
+                  disabled={isUploading || isCompressing || !uploadFile}
                   className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isUploading ? '上傳中...' : '上傳封面圖片'}
+                  {isCompressing ? '壓縮中...' : isUploading ? '上傳中...' : '上傳封面圖片'}
                 </button>
                 {coverImage && (
                   <div className="mt-4">
