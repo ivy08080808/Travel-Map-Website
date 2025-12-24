@@ -4,6 +4,11 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { travelogues } from '@/lib/data';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
+
+// 動態導入 ReactQuill，避免 SSR 問題
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+import 'react-quill/dist/quill.snow.css';
 
 export default function TravelogueCoverPage() {
   const params = useParams();
@@ -17,9 +22,11 @@ export default function TravelogueCoverPage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
+  const [content, setContent] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isSavingContent, setIsSavingContent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
@@ -67,6 +74,15 @@ export default function TravelogueCoverPage() {
         setTitle(travelogue?.title || '');
         setDescription(travelogue?.description || '');
         setDate(travelogue?.date || '');
+      }
+
+      // 獲取 HTML 內容
+      const contentResponse = await fetch(
+        `/api/admin/travelogues/${travelogueId}/content`
+      );
+      if (contentResponse.ok) {
+        const data = await contentResponse.json();
+        setContent(data.content || '');
       }
     } catch (error) {
       console.error('Error loading cover:', error);
@@ -220,6 +236,36 @@ export default function TravelogueCoverPage() {
     }
   };
 
+  const handleSaveContent = async () => {
+    setIsSavingContent(true);
+    setError(null);
+
+    try {
+      const response = await fetch(
+        `/api/admin/travelogues/${travelogueId}/content`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ content }),
+        }
+      );
+
+      if (response.ok) {
+        setSuccess('文章內容已成功保存！');
+        setTimeout(() => setSuccess(null), 3000);
+      } else {
+        setError('保存文章內容失敗');
+      }
+    } catch (error) {
+      console.error('Error saving content:', error);
+      setError('保存文章內容失敗');
+    } finally {
+      setIsSavingContent(false);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -275,54 +321,6 @@ export default function TravelogueCoverPage() {
               {success}
             </div>
           )}
-
-          {/* 文字內容編輯區域 */}
-          <div className="mb-6 border-b pb-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">文字內容</h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  標題
-                </label>
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  描述
-                </label>
-                <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  日期 (格式: YYYY-MM)
-                </label>
-                <input
-                  type="text"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="2024-12"
-                />
-              </div>
-              <button
-                onClick={handleSaveText}
-                disabled={isSaving}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
-              >
-                {isSaving ? '保存中...' : '保存文字內容'}
-              </button>
-            </div>
-          </div>
 
           {/* 封面圖片區域 */}
           <div className="mb-6">
@@ -401,6 +399,92 @@ export default function TravelogueCoverPage() {
                   </div>
                 )}
               </div>
+            </div>
+          </div>
+
+          {/* 文字內容編輯區域 */}
+          <div className="mb-6 border-b pb-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">文字內容</h2>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  標題
+                </label>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  描述
+                </label>
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  rows={4}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  日期 (格式: YYYY-MM)
+                </label>
+                <input
+                  type="text"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="2024-12"
+                />
+              </div>
+              <button
+                onClick={handleSaveText}
+                disabled={isSaving}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+              >
+                {isSaving ? '保存中...' : '保存文字內容'}
+              </button>
+            </div>
+          </div>
+
+          {/* 文章內容編輯區域 */}
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">文章內容</h2>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  編輯文章內容（HTML）
+                </label>
+                {typeof window !== 'undefined' && (
+                  <ReactQuill
+                    theme="snow"
+                    value={content}
+                    onChange={setContent}
+                    style={{ minHeight: '400px' }}
+                    modules={{
+                      toolbar: [
+                        [{ header: [1, 2, 3, false] }],
+                        ['bold', 'italic', 'underline', 'strike'],
+                        [{ list: 'ordered' }, { list: 'bullet' }],
+                        [{ indent: '-1' }, { indent: '+1' }],
+                        ['link', 'image'],
+                        [{ align: [] }],
+                        ['clean'],
+                      ],
+                    }}
+                  />
+                )}
+              </div>
+              <button
+                onClick={handleSaveContent}
+                disabled={isSavingContent}
+                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50"
+              >
+                {isSavingContent ? '保存中...' : '保存文章內容'}
+              </button>
             </div>
           </div>
         </div>
