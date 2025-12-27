@@ -3,8 +3,12 @@
 import { useState, useEffect } from 'react';
 import CommentForm from './CommentForm';
 import CommentList, { Comment } from './CommentList';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { translations } from '@/lib/i18n';
 
 export default function CommentBoard() {
+  const { language } = useLanguage();
+  const t = translations[language];
   const [comments, setComments] = useState<Comment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
@@ -90,7 +94,7 @@ export default function CommentBoard() {
   const handleDelete = async (id: string) => {
     const sessionId = localStorage.getItem('commentSessionId');
     if (!sessionId) {
-      alert('Unable to identify your session');
+      alert(t.comments.unableToIdentify);
       return;
     }
 
@@ -104,7 +108,7 @@ export default function CommentBoard() {
 
     if (!response.ok) {
       const error = await response.json();
-      alert(error.error || 'Failed to delete');
+      alert(error.error || t.comments.failedToDelete);
       return;
     }
 
@@ -148,7 +152,7 @@ export default function CommentBoard() {
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.error || 'Failed to update comment');
+      throw new Error(error.error || t.comments.failedToUpdate);
     }
 
     // 重新獲取留言列表
@@ -168,14 +172,14 @@ export default function CommentBoard() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
-      <h2 className="text-3xl font-bold text-gray-900 mb-8">Comments</h2>
+      <h2 className="text-3xl font-bold text-gray-900 mb-8">{t.comments.title}</h2>
 
       {!showForm && !replyingTo && !editingComment && (
         <button
           onClick={() => setShowForm(true)}
           className="mb-6 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
         >
-          Write a Comment
+          {t.comments.writeComment}
         </button>
       )}
 
@@ -200,7 +204,7 @@ export default function CommentBoard() {
       )}
 
       {isLoading ? (
-        <div className="text-center py-8 text-gray-500">Loading...</div>
+        <div className="text-center py-8 text-gray-500">{t.comments.loading}</div>
       ) : (
         <CommentList
           comments={comments}

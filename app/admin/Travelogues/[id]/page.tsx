@@ -6,6 +6,7 @@ import { travelogues } from '@/lib/data';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import imageCompression from 'browser-image-compression';
+import { convertCloudinaryUrlToWebFormat } from '@/lib/cloudinary';
 
 // 動態導入 ReactQuill，避免 SSR 問題
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
@@ -59,7 +60,10 @@ export default function TravelogueCoverPage() {
       );
       if (coverResponse.ok) {
         const data = await coverResponse.json();
+        console.log('Loaded cover image from MongoDB:', data);
         setCoverImage(data.coverImage || travelogue?.coverImage || null);
+      } else {
+        console.log('No cover image in MongoDB, using default');
       }
 
       // 獲取文字內容
@@ -225,7 +229,19 @@ export default function TravelogueCoverPage() {
 
       if (response.ok) {
         const data = await response.json();
-        const imageUrl = data.url;
+        console.log('Upload API response:', data);
+        
+        // 檢查返回的數據結構
+        const imageUrl = data.url || data.secure_url;
+        if (!imageUrl) {
+          console.error('No image URL in response:', data);
+          setError('上傳成功但未返回圖片 URL');
+          setIsUploading(false);
+          return;
+        }
+        
+        console.log('Upload successful, image URL:', imageUrl);
+        console.log('Public ID:', data.public_id);
 
         // 更新到 MongoDB
         const updateResponse = await fetch(
@@ -240,6 +256,8 @@ export default function TravelogueCoverPage() {
         );
 
         if (updateResponse.ok) {
+          const updateData = await updateResponse.json();
+          console.log('MongoDB update response:', updateData);
           setCoverImage(imageUrl);
           setSuccess('封面圖片已成功更新！');
           setUploadFile(null);
@@ -248,10 +266,13 @@ export default function TravelogueCoverPage() {
           if (fileInput) fileInput.value = '';
           setTimeout(() => setSuccess(null), 3000);
         } else {
-          setError('更新封面圖片失敗');
+          const errorData = await updateResponse.json();
+          console.error('Failed to update MongoDB:', errorData);
+          setError('更新封面圖片失敗: ' + (errorData.error || 'Unknown error'));
         }
       } else {
         const errorData = await response.json();
+        console.error('Upload failed:', errorData);
         // 顯示詳細的錯誤訊息
         let errorMessage = errorData.error || '上傳失敗';
         // 如果是文件大小錯誤，提供更友好的訊息
@@ -359,6 +380,16 @@ export default function TravelogueCoverPage() {
   }
 
   const displayImage = coverImage || travelogue.coverImage;
+  
+  // Check if image is from Cloudinary
+  const isCloudinaryUrl = displayImage?.startsWith('http') || displayImage?.includes('cloudinary');
+  let imageUrl = displayImage 
+    ? (isCloudinaryUrl 
+        ? convertCloudinaryUrlToWebFormat(displayImage) // Convert HEIC to JPG for web display
+        : displayImage.startsWith('/')
+        ? displayImage
+        : `/images/${displayImage}`)
+    : null;
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -395,14 +426,24 @@ export default function TravelogueCoverPage() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 當前封面圖片
               </label>
+              {displayImage && (
+                <div className="mb-2 text-xs text-gray-500">
+                  圖片 URL: {displayImage}
+                </div>
+              )}
               <div className="relative w-full h-64 bg-gray-200 rounded-lg overflow-hidden">
-                {displayImage ? (
+                {imageUrl ? (
                   <Image
-                    src={displayImage}
+                    src={imageUrl}
                     alt={travelogue.title}
                     fill
                     style={{ objectFit: 'cover' }}
                     className="rounded-lg"
+                    unoptimized={isCloudinaryUrl}
+                    onError={(e) => {
+                      console.error('Image load error:', e);
+                      console.error('Image URL:', imageUrl);
+                    }}
                   />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center text-gray-400">

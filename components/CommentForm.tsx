@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { translations } from '@/lib/i18n';
 
 interface CommentFormProps {
   onSubmit: (data: { name: string; email: string; message: string; parentId?: string }) => Promise<void>;
@@ -17,6 +19,8 @@ export default function CommentForm({
   parentAuthor,
   initialData,
 }: CommentFormProps) {
+  const { language } = useLanguage();
+  const t = translations[language];
   const [name, setName] = useState(initialData?.name || '');
   const [email, setEmail] = useState(initialData?.email || '');
   const [message, setMessage] = useState(initialData?.message || '');
@@ -37,7 +41,7 @@ export default function CommentForm({
     setError('');
 
     if (!message.trim()) {
-      setError('Please fill in the message');
+      setError(t.comments.fillMessage);
       return;
     }
 
@@ -57,7 +61,7 @@ export default function CommentForm({
         onCancel();
       }
     } catch (err: any) {
-      const errorMessage = err?.message || 'Submission failed, please try again';
+      const errorMessage = err?.message || t.comments.submissionFailed;
       setError(errorMessage);
       console.error('Form submission error:', err);
     } finally {
@@ -69,7 +73,7 @@ export default function CommentForm({
     <form onSubmit={handleSubmit} className="space-y-4">
       {parentAuthor && (
         <div className="text-sm text-gray-600 mb-2">
-          Replying to <span className="font-semibold">{parentAuthor}</span>
+          {t.comments.replyingTo} <span className="font-semibold">{parentAuthor}</span>
         </div>
       )}
       {error && (
@@ -80,7 +84,7 @@ export default function CommentForm({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-            Name (Optional)
+            {t.comments.nameOptional}
           </label>
           <input
             type="text"
@@ -92,7 +96,7 @@ export default function CommentForm({
         </div>
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-            Email (Optional)
+            {t.comments.emailOptional}
           </label>
           <input
             type="email"
@@ -105,7 +109,7 @@ export default function CommentForm({
       </div>
       <div>
         <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-          Message *
+          {t.comments.message}
         </label>
         <textarea
           id="message"
@@ -122,7 +126,7 @@ export default function CommentForm({
           disabled={isSubmitting}
           className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? (initialData ? 'Updating...' : 'Submitting...') : (initialData ? 'Update Comment' : 'Submit Comment')}
+          {isSubmitting ? (initialData ? t.comments.updating : t.comments.submitting) : (initialData ? t.comments.update : t.comments.submit)}
         </button>
         {onCancel && (
           <button
@@ -130,7 +134,7 @@ export default function CommentForm({
             onClick={onCancel}
             className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
           >
-            Cancel
+            {t.comments.cancel}
           </button>
         )}
       </div>

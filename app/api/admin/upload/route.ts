@@ -3,10 +3,22 @@ import { v2 as cloudinary } from 'cloudinary';
 import { isAdmin } from '@/lib/auth';
 
 // Configure Cloudinary
+const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+const apiKey = process.env.CLOUDINARY_API_KEY;
+const apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+if (!cloudName || !apiKey || !apiSecret) {
+  console.error('Missing Cloudinary environment variables:', {
+    hasCloudName: !!cloudName,
+    hasApiKey: !!apiKey,
+    hasApiSecret: !!apiSecret,
+  });
+}
+
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: cloudName,
+  api_key: apiKey,
+  api_secret: apiSecret,
 });
 
 export async function POST(request: NextRequest) {
@@ -47,6 +59,13 @@ export async function POST(request: NextRequest) {
     const buffer = Buffer.from(bytes);
 
     // Upload to Cloudinary
+    console.log('Starting Cloudinary upload...', {
+      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+      folder: folder,
+      file_size: file.size,
+      file_type: file.type,
+    });
+
     const uploadResult = await new Promise((resolve, reject) => {
       cloudinary.uploader.upload_stream(
         {
@@ -54,16 +73,32 @@ export async function POST(request: NextRequest) {
           resource_type: 'auto',
         },
         (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
+          if (error) {
+            console.error('Cloudinary upload error:', error);
+            reject(error);
+          } else {
+            console.log('Cloudinary upload success:', {
+              public_id: result?.public_id,
+              secure_url: result?.secure_url,
+              bytes: result?.bytes,
+            });
+            resolve(result);
+          }
         }
       ).end(buffer);
     });
 
+    const result = uploadResult as any;
+    console.log('Upload completed successfully:', {
+      url: result.secure_url,
+      public_id: result.public_id,
+      bytes: result.bytes,
+    });
+
     return NextResponse.json({
       success: true,
-      url: (uploadResult as any).secure_url,
-      public_id: (uploadResult as any).public_id,
+      url: result.secure_url,
+      public_id: result.public_id,
     });
   } catch (error: any) {
     console.error('Upload error:', error);

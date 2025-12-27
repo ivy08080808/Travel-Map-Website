@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Travelogue } from '@/lib/data';
+import { convertCloudinaryUrlToWebFormat } from '@/lib/cloudinary';
 
 interface TravelogueCardProps {
   travelogue: Travelogue;
@@ -45,7 +46,7 @@ export default function TravelogueCard({ travelogue }: TravelogueCardProps) {
     displayImage?.startsWith('http') ||
     displayImage?.includes('cloudinary');
   const imageUrl = isCloudinaryUrl
-    ? displayImage
+    ? convertCloudinaryUrlToWebFormat(displayImage) // Convert HEIC to JPG for web display
     : displayImage?.startsWith('/')
     ? displayImage
     : `/images/${displayImage}`;

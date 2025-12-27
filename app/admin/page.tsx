@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Comment } from '@/components/CommentItem';
-import { travelogues } from '@/lib/data';
+import { travelogues, dailyLife } from '@/lib/data';
 
-type ViewMode = 'comments' | 'travelogues';
+type ViewMode = 'comments' | 'travelogues' | 'daily-life';
 
 export default function AdminPage() {
   const router = useRouter();
@@ -206,6 +206,16 @@ export default function AdminPage() {
             >
               管理 Travelogues
             </button>
+            <button
+              onClick={() => setViewMode('daily-life')}
+              className={`px-4 py-2 rounded-md ${
+                viewMode === 'daily-life'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              管理 Daily Life
+            </button>
           </div>
 
           {viewMode === 'comments' && (
@@ -219,6 +229,13 @@ export default function AdminPage() {
             <div className="bg-purple-50 p-4 rounded">
               <div className="text-sm text-purple-600 font-medium">總 Travelogues 數</div>
               <div className="text-2xl font-bold text-purple-900">{travelogues.length}</div>
+            </div>
+          )}
+
+          {viewMode === 'daily-life' && (
+            <div className="bg-green-50 p-4 rounded">
+              <div className="text-sm text-green-600 font-medium">總 Daily Life 數</div>
+              <div className="text-2xl font-bold text-green-900">{dailyLife.length}</div>
             </div>
           )}
         </div>
@@ -272,7 +289,7 @@ export default function AdminPage() {
           <div className="bg-white rounded-lg shadow-md p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4">所有 Travelogues</h2>
             <p className="text-gray-600 mb-6">
-              點擊下方的 Travelogue 來管理其封面圖片
+              點擊下方的 Travelogue 來管理其封面圖片和內容
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {travelogues.map((travelogue) => (
@@ -289,7 +306,37 @@ export default function AdminPage() {
                     {travelogue.description}
                   </p>
                   <div className="mt-3 text-xs text-blue-600">
-                    點擊管理封面 →
+                    點擊管理封面與內容 →
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Daily Life View */}
+        {viewMode === 'daily-life' && (
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">所有 Daily Life</h2>
+            <p className="text-gray-600 mb-6">
+              點擊下方的 Daily Life 來管理其封面圖片和內容
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {dailyLife.map((item) => (
+                <Link
+                  key={item.id}
+                  href={`/admin/daily-life/${item.id}`}
+                  className="border border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:shadow-md transition-all cursor-pointer"
+                >
+                  <h3 className="font-semibold text-gray-900 mb-1">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-gray-500 mb-2">{item.date}</p>
+                  <p className="text-xs text-gray-600 line-clamp-2">
+                    {item.description}
+                  </p>
+                  <div className="mt-3 text-xs text-blue-600">
+                    點擊管理封面與內容 →
                   </div>
                 </Link>
               ))}

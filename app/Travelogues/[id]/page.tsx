@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { getDb } from '@/lib/mongodb';
+import { convertCloudinaryUrlToWebFormat } from '@/lib/cloudinary';
+import TravelogueContent from '@/components/TravelogueContent';
 
 export async function generateStaticParams() {
   return travelogues.map((travelogue) => ({
@@ -12,7 +14,7 @@ export async function generateStaticParams() {
   }));
 }
 
-async function getTravelogueData(id: string) {
+async function getTravelogueData(id: string, language: 'en' | 'zh' = 'zh') {
   try {
     // 獲取封面圖片（從 MongoDB）
     let coverImage = null;
@@ -26,16 +28,32 @@ async function getTravelogueData(id: string) {
       console.error('Error fetching cover image from MongoDB:', error);
     }
 
-    // 讀取 HTML 內容（從文件系統）
+    // 讀取 HTML 內容（從文件系統）- 優先讀取語言特定版本
     let content = null;
     try {
-      const filePath = path.join(
+      // 先嘗試讀取語言特定版本（例如 kyoto-2024-07.en.html）
+      const langSpecificPath = path.join(
         process.cwd(),
         'content',
         'travelogues',
-        `${id}.html`
+        `${id}.${language}.html`
       );
-      content = await fs.readFile(filePath, 'utf-8');
+      try {
+        content = await fs.readFile(langSpecificPath, 'utf-8');
+      } catch (error: any) {
+        // 如果語言特定版本不存在，嘗試讀取默認版本
+        if (error.code === 'ENOENT') {
+          const defaultPath = path.join(
+            process.cwd(),
+            'content',
+            'travelogues',
+            `${id}.html`
+          );
+          content = await fs.readFile(defaultPath, 'utf-8');
+        } else {
+          throw error;
+        }
+      }
     } catch (error: any) {
       // 文件不存在是正常的，返回 null
       if (error.code !== 'ENOENT') {
@@ -78,7 +96,7 @@ export default async function TravelogueDetailPage({
     displayCoverImage?.startsWith('http') ||
     displayCoverImage?.includes('cloudinary');
   const imageUrl = isCloudinaryUrl
-    ? displayCoverImage
+    ? convertCloudinaryUrlToWebFormat(displayCoverImage) // Convert HEIC to JPG for web display
     : displayCoverImage?.startsWith('/')
     ? displayCoverImage
     : `/images/${displayCoverImage}`;
@@ -119,12 +137,8 @@ export default async function TravelogueDetailPage({
       {/* 文章內容 */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <article className="bg-white rounded-lg shadow-lg p-8">
-          {content ? (
-            <div
-              className="prose prose-lg max-w-none"
-              dangerouslySetInnerHTML={{ __html: content }}
-            />
-          ) : (
+          <TravelogueContent id={params.id} defaultContent={content} />
+          {!content && (
             <div className="prose max-w-none">
               <p className="text-xl text-gray-700 leading-relaxed">
                 {travelogue.description}

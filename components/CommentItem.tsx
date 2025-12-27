@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { translations } from '@/lib/i18n';
 
 export interface Comment {
   _id: string;
@@ -30,6 +32,8 @@ export default function CommentItem({
   onReply,
   onEdit,
 }: CommentItemProps) {
+  const { language } = useLanguage();
+  const t = translations[language];
   const [showReplies, setShowReplies] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -38,7 +42,10 @@ export default function CommentItem({
   const hasReplies = replies.length > 0;
 
   const handleDelete = async () => {
-    if (!confirm('Are you sure you want to delete this comment?')) {
+    const confirmMessage = language === 'zh' 
+      ? '您確定要刪除這則留言嗎？' 
+      : 'Are you sure you want to delete this comment?';
+    if (!confirm(confirmMessage)) {
       return;
     }
 
@@ -52,7 +59,7 @@ export default function CommentItem({
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('zh-TW', {
+    return date.toLocaleDateString(language === 'zh' ? 'zh-TW' : 'en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -84,7 +91,7 @@ export default function CommentItem({
               onClick={() => onEdit(comment)}
               className="text-black hover:text-gray-700 text-sm"
             >
-              Edit
+              {t.comments.edit}
             </button>
           )}
           {canDelete && (
@@ -93,14 +100,14 @@ export default function CommentItem({
               disabled={isDeleting}
               className="text-black hover:text-gray-700 text-sm disabled:opacity-50"
             >
-              {isDeleting ? 'Deleting...' : 'Delete'}
+              {isDeleting ? (language === 'zh' ? '刪除中...' : 'Deleting...') : t.comments.delete}
             </button>
           )}
           <button
             onClick={() => onReply(comment._id)}
             className="text-black hover:text-gray-700 text-sm"
           >
-            Reply
+            {t.comments.reply}
           </button>
         </div>
       </div>
@@ -111,7 +118,11 @@ export default function CommentItem({
             onClick={() => setShowReplies(!showReplies)}
             className="text-sm text-gray-600 hover:text-gray-800 mb-2"
           >
-            {showReplies ? 'Hide' : 'Show'} {replies.length} {replies.length === 1 ? 'reply' : 'replies'}
+            {showReplies 
+              ? (language === 'zh' ? '隱藏' : 'Hide') 
+              : (language === 'zh' ? '顯示' : 'Show')} {replies.length} {language === 'zh' 
+                ? (replies.length === 1 ? '則回覆' : '則回覆') 
+                : (replies.length === 1 ? 'reply' : 'replies')}
           </button>
           {showReplies && (
             <div className="ml-4 space-y-2">
