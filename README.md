@@ -39,24 +39,13 @@
 
 ## 環境變數設置
 
-在項目根目錄創建 `.env.local` 文件，並設置以下環境變數：
+本項目使用以下第三方服務，需要在環境變數中配置：
 
-```env
-# MongoDB 連接
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/
+- **MongoDB** - 數據庫服務（用於存儲遊記、留言等數據）
+- **Cloudinary** - 圖片管理服務（用於圖片存儲和優化）
+- **管理員密碼** - 用於訪問管理後台
 
-# Cloudinary 配置
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
-
-# 管理員密碼
-ADMIN_PASSWORD=your_admin_password
-
-# Node 環境
-NODE_ENV=development
-```
+具體的環境變數配置請參考項目代碼中的使用情況，或聯繫項目維護者獲取配置說明。
 
 ## 開始使用
 
