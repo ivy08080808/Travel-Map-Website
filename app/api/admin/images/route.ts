@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     // List all images in the folder
     const result = await cloudinary.search
       .expression(`folder:${folder}`)
-      .sort_by([['created_at', 'desc']])
+      .sort_by('created_at', 'desc')
       .max_results(500)
       .execute();
 
