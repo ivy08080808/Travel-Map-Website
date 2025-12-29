@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import CommentForm from './CommentForm';
-import CommentList, { Comment } from './CommentList';
+import CommentList from './CommentList';
+import { Comment } from './CommentItem';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { translations } from '@/lib/i18n';
 
