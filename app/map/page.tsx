@@ -1,8 +1,12 @@
 'use client';
 
-import TravelMap from "@/components/TravelMap";
+import dynamic from 'next/dynamic';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { translations } from '@/lib/i18n';
+
+const TravelMap = dynamic(() => import('@/components/TravelMap'), {
+  ssr: false,
+});
 
 export default function MapPage() {
   const { language } = useLanguage();

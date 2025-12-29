@@ -3,6 +3,8 @@ import { getDb } from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
 import { isAdmin } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 export interface Comment {
   _id?: ObjectId;
   name: string;
