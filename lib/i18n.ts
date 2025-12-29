@@ -73,6 +73,10 @@ export interface Translations {
     delete: string;
     edit: string;
     reply: string;
+    deleting: string;
+    hide: string;
+    show: string;
+    replyCount: string;
   };
 }
 
