@@ -105,7 +105,7 @@ export default function DailyLifeCoverPage() {
       try {
         // 更新到 MongoDB
         const response = await fetch(
-          `/api/admin/travelogues/${travelogueId}/cover`,
+          `/api/admin/daily-life/${dailyLifeId}/cover`,
           {
             method: 'PUT',
             headers: {
@@ -329,7 +329,7 @@ export default function DailyLifeCoverPage() {
 
     try {
       const response = await fetch(
-        `/api/admin/travelogues/${travelogueId}/content`,
+        `/api/admin/daily-life/${dailyLifeId}/content`,
         {
           method: 'PUT',
           headers: {
