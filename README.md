@@ -49,26 +49,19 @@
 
 ## 開始使用
 
-### 安裝依賴
-
 ```bash
+# 安裝依賴
 yarn install
-```
 
-### 開發模式
-
-```bash
+# 開發模式
 yarn dev
-```
 
-在瀏覽器中打開 [http://localhost:3000](http://localhost:3000) 查看結果。
-
-### 構建生產版本
-
-```bash
+# 構建生產版本
 yarn build
 yarn start
 ```
+
+在瀏覽器中打開 [http://localhost:3000](http://localhost:3000) 查看結果。
 
 ## 專案結構
 
