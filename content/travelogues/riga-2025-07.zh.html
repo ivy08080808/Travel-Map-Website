@@ -1,0 +1,349 @@
+<div class="space-y-10">
+  <!-- 里加老城區 -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold text-gray-900 mb-3">里加老城區</h2>
+    <div class="prose prose-base max-w-none text-gray-700 leading-relaxed mb-4">
+      <p>里加老城區的魅力不在於單一的建築風格，而是時間層層堆疊的結果。中世紀的狹窄鵝卵石街道、裝飾精緻的立面和拱窗，以及大量優雅而不張揚的新藝術風格建築，共同營造出獨特的氛圍。建築顏色多為柔和的米色、淡藍、粉橘，在光線下顯得特別溫暖。在老城區漫步時，感覺是被城市「擁抱」，而非被地標壓迫。觀光客不多，氣溫和陽光恰到好處，整體體驗非常愜意。</p>
+    </div>
+    
+    <!-- 圖片輪播：可點擊切換的圖片展示 -->
+    <div style="display: flex; flex-direction: column; align-items: center; width: 100%;" id="riga-carousel-1-zh">
+      <div class="slider-container relative" style="width: 600px; max-width: 100%; height: 450px; overflow: hidden; border-radius: 0.5rem; position: relative;">
+        <div class="slides-container" style="display: flex; transition: transform 0.5s ease; height: 100%;">
+          <img 
+            src="/images/riga-2025-07/old-town-street-1.png" 
+            alt="里加老城的蜿蜒鵝卵石街道，兩旁是多層歷史建築和戶外咖啡座" 
+            class="riga-slide-img-zh"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/art-nouveau-building.png" 
+            alt="宏偉的新藝術風格建築立面，淺藍色和白色，帶有華麗裝飾和圓頂元素" 
+            class="riga-slide-img-zh"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/national-art-museum.png" 
+            alt="古典建築，弧形山牆上有雕塑浮雕，顯示「NACIONALAIS MĀKSLAS MUZEIS」（國家藝術博物館）" 
+            class="riga-slide-img-zh"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/old-town-corner.png" 
+            alt="街道場景，有獨特的圓形轉角塔樓建築，帶有華麗圓頂頂部，可見行人" 
+            class="riga-slide-img-zh"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/architectural-details.png" 
+            alt="建築立面細節，顯示多個拱形窗戶和裝飾元素，古典風格" 
+            class="riga-slide-img-zh"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/old-town-square.png" 
+            alt="寬闊的廣場或街景，前景是綠色公園區域，背景是帶有尖塔的宏偉建築" 
+            class="riga-slide-img-zh"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+        </div>
+        
+        <!-- 左箭頭按鈕 -->
+        <button 
+          onclick="rigaCarousel1ZhPrev()"
+          aria-label="上一張"
+          style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); background-color: #e5e7eb; color: #374151; border-radius: 9999px; padding: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); cursor: pointer; z-index: 9999; pointer-events: auto; display: block; border: none; transition: background-color 0.2s;"
+          onmouseover="this.style.backgroundColor='#d1d5db'"
+          onmouseout="this.style.backgroundColor='#e5e7eb'"
+        >
+          <svg style="width: 24px; height: 24px; display: block;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </button>
+        
+        <!-- 右箭頭按鈕 -->
+        <button 
+          onclick="rigaCarousel1ZhNext()"
+          aria-label="下一張"
+          style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background-color: #e5e7eb; color: #374151; border-radius: 9999px; padding: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); cursor: pointer; z-index: 9999; pointer-events: auto; display: block; border: none; transition: background-color 0.2s;"
+          onmouseover="this.style.backgroundColor='#d1d5db'"
+          onmouseout="this.style.backgroundColor='#e5e7eb'"
+        >
+          <svg style="width: 24px; height: 24px; display: block;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- 指示器小點 -->
+      <div style="display: flex; justify-content: center; gap: 6px; margin-top: 12px;">
+        <button 
+          class="riga-dot-1-zh w-2 h-2 rounded-full bg-gray-800 transition-all cursor-pointer"
+          onclick="rigaCarousel1ZhGoTo(0)"
+          aria-label="跳轉到圖片 1"
+        ></button>
+        <button 
+          class="riga-dot-1-zh w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel1ZhGoTo(1)"
+          aria-label="跳轉到圖片 2"
+        ></button>
+        <button 
+          class="riga-dot-1-zh w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel1ZhGoTo(2)"
+          aria-label="跳轉到圖片 3"
+        ></button>
+        <button 
+          class="riga-dot-1-zh w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel1ZhGoTo(3)"
+          aria-label="跳轉到圖片 4"
+        ></button>
+        <button 
+          class="riga-dot-1-zh w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel1ZhGoTo(4)"
+          aria-label="跳轉到圖片 5"
+        ></button>
+        <button 
+          class="riga-dot-1-zh w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel1ZhGoTo(5)"
+          aria-label="跳轉到圖片 6"
+        ></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 黑頭宮 -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold text-gray-900 mb-3">黑頭宮</h2>
+    <div class="prose prose-base max-w-none text-gray-700 leading-relaxed mb-4">
+      <p>黑頭宮原本是中世紀未婚商人兄弟會的聚會場所，外觀以紅磚與白色裝飾構成，非常華麗。二戰中曾被炸毀，現在看到的是依照原貌重建後的樣子。這棟建築常被視為里加老城的象徵，也很能代表城市的歷史與商業傳統。</p>
+    </div>
+    
+    <!-- 兩張圖片：左右排列 -->
+    <div class="flex flex-wrap gap-3 justify-start">
+      <div class="relative w-[48%] min-w-[250px] aspect-[4/3] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/blackheads-closeup.png" 
+          alt="黑頭宮近景仰拍，顯示華麗的紅磚牆和精緻的白色裝飾元素，以及階梯式山牆屋頂" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div class="relative w-[48%] min-w-[250px] aspect-[4/3] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/blackheads-square.png" 
+          alt="黑頭宮的廣角視圖，在廣場中，有行人走動，背景是其他歷史建築" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Laima 時鐘 -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold text-gray-900 mb-3">Laima 時鐘</h2>
+    <div class="prose prose-base max-w-none text-gray-700 leading-relaxed mb-4">
+      <p>Laima 時鐘是里加最知名的集合地點之一，也被稱為「里加的約會地標」。時鐘上印有Laima巧克力的標誌，象徵拉脫維亞重要的在地品牌與城市日常生活。它作為里加城市文化中備受喜愛的象徵，是當地人和遊客都喜愛的聚會地點。</p>
+    </div>
+    
+    <!-- 兩張圖片：左右排列 -->
+    <div class="flex flex-wrap gap-3 justify-start">
+      <div class="relative w-[48%] min-w-[250px] aspect-[4/3] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/laima-clock-closeup.png" 
+          alt="Laima時鐘的街道視角，高聳的深色鐘樓，方形鐘面，下方可見Laima巧克力標誌" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div class="relative w-[48%] min-w-[250px] aspect-[4/3] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/laima-clock-wide.png" 
+          alt="Laima時鐘的廣角視圖，背景是自由紀念碑，可見大型雕塑式RIGA標誌" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- 里加中央市場 -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold text-gray-900 mb-3">里加中央市場</h2>
+    <div class="prose prose-base max-w-none text-gray-700 leading-relaxed mb-4">
+      <p>里加中央市場是由舊的齊柏林飛船機庫改建而成，是歐洲最大的市場之一。市場裡展示著各種麵包、煙燻肉類、起司、魚類和新鮮水果。價格實惠，氛圍也很地道。逛市場不只是購物，更是體驗城市日常節奏的方式。草莓特別值得一提——非常甜且很大顆。我買了一袋在市場裡吃，發現它們非常香。</p>
+    </div>
+    
+    <!-- 圖片輪播：可點擊切換的圖片展示 -->
+    <div style="display: flex; flex-direction: column; align-items: center; width: 100%;" id="riga-carousel-2-zh">
+      <div class="slider-container relative" style="width: 600px; max-width: 100%; height: 450px; overflow: hidden; border-radius: 0.5rem; position: relative;">
+        <div class="slides-container" style="display: flex; transition: transform 0.5s ease; height: 100%;">
+          <img 
+            src="/images/riga-2025-07/central-market-bakery-display.png" 
+            alt="多層玻璃展示櫃，裡面有各種烘焙食品、糕點和麵包，整齊排列在架子上" 
+            class="riga-slide-img-2-zh"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/central-market-deli-counter.png" 
+            alt="充滿活力的熟食櫃台，展示各種熟食，包括煙燻魚、香腸、起司和其他熟食" 
+            class="riga-slide-img-2-zh"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/central-market-strawberries-stall.png" 
+            alt="戶外市場攤位，販售新鮮農產品，箱子裡裝滿深紅色水果，類似草莓或櫻桃" 
+            class="riga-slide-img-2-zh"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/central-market-bread.png" 
+            alt="烘焙食品特寫，主要是各種類型的麵包和糕點，許多是金黃色且剛出爐，可見價格標籤" 
+            class="riga-slide-img-2-zh"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/central-market-exterior.png" 
+            alt="里加中央市場建築外觀，大型拱形窗戶和高聳的圓柱形結構，具有前齊柏林飛船機庫的特色" 
+            class="riga-slide-img-2-zh"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/central-market-strawberry-closeup.png" 
+            alt="手拿大顆鮮紅色草莓的特寫照片，草莓形狀略不規則，表面有紋理" 
+            class="riga-slide-img-2-zh"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+        </div>
+        
+        <!-- 左箭頭按鈕 -->
+        <button 
+          onclick="rigaCarousel2ZhPrev()"
+          aria-label="上一張"
+          style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); background-color: #e5e7eb; color: #374151; border-radius: 9999px; padding: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); cursor: pointer; z-index: 9999; pointer-events: auto; display: block; border: none; transition: background-color 0.2s;"
+          onmouseover="this.style.backgroundColor='#d1d5db'"
+          onmouseout="this.style.backgroundColor='#e5e7eb'"
+        >
+          <svg style="width: 24px; height: 24px; display: block;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </button>
+        
+        <!-- 右箭頭按鈕 -->
+        <button 
+          onclick="rigaCarousel2ZhNext()"
+          aria-label="下一張"
+          style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background-color: #e5e7eb; color: #374151; border-radius: 9999px; padding: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); cursor: pointer; z-index: 9999; pointer-events: auto; display: block; border: none; transition: background-color 0.2s;"
+          onmouseover="this.style.backgroundColor='#d1d5db'"
+          onmouseout="this.style.backgroundColor='#e5e7eb'"
+        >
+          <svg style="width: 24px; height: 24px; display: block;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- 指示器小點 -->
+      <div style="display: flex; justify-content: center; gap: 6px; margin-top: 12px;">
+        <button 
+          class="riga-dot-2-zh w-2 h-2 rounded-full bg-gray-800 transition-all cursor-pointer"
+          onclick="rigaCarousel2ZhGoTo(0)"
+          aria-label="跳轉到圖片 1"
+        ></button>
+        <button 
+          class="riga-dot-2-zh w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel2ZhGoTo(1)"
+          aria-label="跳轉到圖片 2"
+        ></button>
+        <button 
+          class="riga-dot-2-zh w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel2ZhGoTo(2)"
+          aria-label="跳轉到圖片 3"
+        ></button>
+        <button 
+          class="riga-dot-2-zh w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel2ZhGoTo(3)"
+          aria-label="跳轉到圖片 4"
+        ></button>
+        <button 
+          class="riga-dot-2-zh w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel2ZhGoTo(4)"
+          aria-label="跳轉到圖片 5"
+        ></button>
+        <button 
+          class="riga-dot-2-zh w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel2ZhGoTo(5)"
+          aria-label="跳轉到圖片 6"
+        ></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 貓之屋 -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold text-gray-900 mb-3">貓之屋</h2>
+    <div class="prose prose-base max-w-none text-gray-700 leading-relaxed mb-4">
+      <p>貓之屋也是里加新藝術風格建築的代表之一。屋頂上的黑貓雕像是這棟建築最有名的特色。相傳這棟建築的屋主原本想加入對面的大行會，卻遭到拒絕。他一氣之下在屋頂裝上兩隻黑貓雕像，故意讓貓的屁股朝向行會建築，作為公開的挑釁。這個舉動在當時引起不小爭議，也成了城中話題。後來屋主成功加入行會後，才把貓雕像轉正，面向街道，至今仍保持這個樣子。</p>
+    </div>
+    
+    <!-- 兩張圖片：左右排列 -->
+    <div class="flex flex-wrap gap-3 justify-start">
+      <div class="relative w-[48%] min-w-[250px] aspect-[4/3] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/cat-house-corner.png" 
+          alt="貓之屋轉角的近景仰拍，顯示新藝術風格建築，屋頂轉角處有黑貓雕塑" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div class="relative w-[48%] min-w-[250px] aspect-[4/3] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/at-house-wide.png" 
+          alt="貓之屋上部的廣角仰拍，顯示淺色立面，轉角處的黑貓雕塑非常突出" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- 自由紀念碑 -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold text-gray-900 mb-3">自由紀念碑</h2>
+    <div class="prose prose-base max-w-none text-gray-700 leading-relaxed mb-4">
+      <p>拉脫維亞最重要的國家象徵之一，位於里加市中心。紀念碑於1935年落成，用來紀念在拉脫維亞獨立戰爭中犧牲的人們。頂端高舉三顆金色星星的女性雕像，象徵拉脫維亞的三個歷史地區與民族自由。在蘇聯時期仍被保留下來，使它成為堅持民族認同的重要象徵。直到今天，這裡仍是國家紀念活動與民眾表達敬意的重要場所。</p>
+    </div>
+    
+    <!-- 一張圖片：居中 -->
+    <div class="flex justify-center">
+      <div class="relative w-[70%] min-w-[350px] max-w-[600px] aspect-[3/4] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/freedom-monument.png" 
+          alt="高聳的自由紀念碑，頂部有女性雕像高舉三顆金色星星，矗立在城市廣場中" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- 里加中央車站鐘樓和國家圖書館 -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold text-gray-900 mb-3">里加中央車站鐘樓(Origo)、拉脫維亞國家圖書館</h2>
+    <div class="prose prose-base max-w-none text-gray-700 leading-relaxed mb-4">
+      <p>拉脫維亞國家圖書館又被稱為「光之城堡(Castle of Light)」，是里加最具代表性的現代建築，造型像一座斜坡山形，象徵知識與民族文化的累積。那天在晚上出去走了走，看了夕陽西下，整個城市被染上紫色還有橘色的樣子，真的很美。</p>
+    </div>
+    
+    <!-- 兩張圖片：左右排列 -->
+    <div class="flex flex-wrap gap-3 justify-start">
+      <div class="relative w-[48%] min-w-[250px] aspect-[4/3] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/central-station.png" 
+          alt="里加中央車站的傍晚景觀，帶有獨特鐘樓的現代深色建築，使用反光材料" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div class="relative w-[48%] min-w-[250px] aspect-[4/3] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/national-library-sunset.png" 
+          alt="拉脫維亞國家圖書館（光之城堡）的夕陽景觀，山形輪廓，被紫色和橘色光線籠罩，位於河邊" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+    </div>
+  </section>
+</div>
+

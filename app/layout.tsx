@@ -22,6 +22,366 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
         </LanguageProvider>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                // Riga Carousel 1 (English)
+                let rigaCarousel1Index = 0;
+                
+                function getRigaCarousel1Elements() {
+                  return {
+                    container: document.querySelector('#riga-carousel-1 .slider-container'),
+                    slides: document.querySelector('#riga-carousel-1 .slides-container'),
+                    total: document.querySelector('#riga-carousel-1 .slides-container') ? document.querySelector('#riga-carousel-1 .slides-container').children.length : 0
+                  };
+                }
+                
+                function getRigaCarousel1Width() {
+                  const container = document.querySelector('#riga-carousel-1 .slider-container');
+                  return container ? container.offsetWidth : 600;
+                }
+                
+                function rigaCarousel1ShowSlide() {
+                  const { slides } = getRigaCarousel1Elements();
+                  if (slides) {
+                    const width = getRigaCarousel1Width();
+                    slides.style.transform = 'translateX(' + (-rigaCarousel1Index * width) + 'px)';
+                    // Update dots
+                    const dots = document.querySelectorAll('#riga-carousel-1 .riga-dot-1');
+                    dots.forEach(function(dot, i) {
+                      if (i === rigaCarousel1Index) {
+                        dot.classList.remove('bg-gray-400');
+                        dot.classList.add('bg-gray-800');
+                      } else {
+                        dot.classList.remove('bg-gray-800');
+                        dot.classList.add('bg-gray-400');
+                      }
+                    });
+                  }
+                }
+                
+                window.rigaCarousel1Next = function() {
+                  const { total } = getRigaCarousel1Elements();
+                  rigaCarousel1Index = (rigaCarousel1Index + 1) % total;
+                  rigaCarousel1ShowSlide();
+                };
+                
+                window.rigaCarousel1Prev = function() {
+                  const { total } = getRigaCarousel1Elements();
+                  rigaCarousel1Index = (rigaCarousel1Index - 1 + total) % total;
+                  rigaCarousel1ShowSlide();
+                };
+                
+                window.rigaCarousel1GoTo = function(idx) {
+                  rigaCarousel1Index = idx;
+                  rigaCarousel1ShowSlide();
+                };
+                
+                // Riga Carousel 1 Zh (Chinese)
+                let rigaCarousel1ZhIndex = 0;
+                
+                function getRigaCarousel1ZhElements() {
+                  return {
+                    container: document.querySelector('#riga-carousel-1-zh .slider-container'),
+                    slides: document.querySelector('#riga-carousel-1-zh .slides-container'),
+                    total: document.querySelector('#riga-carousel-1-zh .slides-container') ? document.querySelector('#riga-carousel-1-zh .slides-container').children.length : 0
+                  };
+                }
+                
+                function getRigaCarousel1ZhWidth() {
+                  const container = document.querySelector('#riga-carousel-1-zh .slider-container');
+                  return container ? container.offsetWidth : 600;
+                }
+                
+                function rigaCarousel1ZhShowSlide() {
+                  const { slides } = getRigaCarousel1ZhElements();
+                  if (slides) {
+                    const width = getRigaCarousel1ZhWidth();
+                    slides.style.transform = 'translateX(' + (-rigaCarousel1ZhIndex * width) + 'px)';
+                    // Update dots
+                    const dots = document.querySelectorAll('#riga-carousel-1-zh .riga-dot-1-zh');
+                    dots.forEach(function(dot, i) {
+                      if (i === rigaCarousel1ZhIndex) {
+                        dot.classList.remove('bg-gray-400');
+                        dot.classList.add('bg-gray-800');
+                      } else {
+                        dot.classList.remove('bg-gray-800');
+                        dot.classList.add('bg-gray-400');
+                      }
+                    });
+                  }
+                }
+                
+                window.rigaCarousel1ZhNext = function() {
+                  const { total } = getRigaCarousel1ZhElements();
+                  rigaCarousel1ZhIndex = (rigaCarousel1ZhIndex + 1) % total;
+                  rigaCarousel1ZhShowSlide();
+                };
+                
+                window.rigaCarousel1ZhPrev = function() {
+                  const { total } = getRigaCarousel1ZhElements();
+                  rigaCarousel1ZhIndex = (rigaCarousel1ZhIndex - 1 + total) % total;
+                  rigaCarousel1ZhShowSlide();
+                };
+                
+                window.rigaCarousel1ZhGoTo = function(idx) {
+                  rigaCarousel1ZhIndex = idx;
+                  rigaCarousel1ZhShowSlide();
+                };
+                
+                // Initialize carousels when DOM is ready
+                function initRigaCarousels() {
+                  // Carousel 1 (English)
+                  const carousel1 = getRigaCarousel1Elements();
+                  if (carousel1.slides && carousel1.container) {
+                    const width = getRigaCarousel1Width();
+                    const images = carousel1.slides.querySelectorAll('.riga-slide-img');
+                    images.forEach(function(img) {
+                      img.style.width = width + 'px';
+                    });
+                    rigaCarousel1ShowSlide();
+                  }
+                  
+                  // Carousel 1 Zh (Chinese)
+                  const carousel1Zh = getRigaCarousel1ZhElements();
+                  if (carousel1Zh.slides && carousel1Zh.container) {
+                    const width = getRigaCarousel1ZhWidth();
+                    const images = carousel1Zh.slides.querySelectorAll('.riga-slide-img-zh');
+                    images.forEach(function(img) {
+                      img.style.width = width + 'px';
+                    });
+                    rigaCarousel1ZhShowSlide();
+                  }
+                }
+                
+                // Wait for DOM to be ready
+                function waitForCarousels() {
+                  if (document.querySelector('#riga-carousel-1 .slides-container') || document.querySelector('#riga-carousel-1-zh .slides-container')) {
+                    initRigaCarousels();
+                  } else {
+                    setTimeout(waitForCarousels, 100);
+                  }
+                }
+                
+                if (document.readyState === 'loading') {
+                  document.addEventListener('DOMContentLoaded', waitForCarousels);
+                } else {
+                  setTimeout(waitForCarousels, 100);
+                }
+                
+                // Riga Carousel 2 (English) - Central Market
+                let rigaCarousel2Index = 0;
+                
+                function getRigaCarousel2Elements() {
+                  return {
+                    container: document.querySelector('#riga-carousel-2 .slider-container'),
+                    slides: document.querySelector('#riga-carousel-2 .slides-container'),
+                    total: document.querySelector('#riga-carousel-2 .slides-container') ? document.querySelector('#riga-carousel-2 .slides-container').children.length : 0
+                  };
+                }
+                
+                function getRigaCarousel2Width() {
+                  const container = document.querySelector('#riga-carousel-2 .slider-container');
+                  return container ? container.offsetWidth : 600;
+                }
+                
+                function rigaCarousel2ShowSlide() {
+                  const { slides } = getRigaCarousel2Elements();
+                  if (slides) {
+                    const width = getRigaCarousel2Width();
+                    slides.style.transform = 'translateX(' + (-rigaCarousel2Index * width) + 'px)';
+                    // Update dots
+                    const dots = document.querySelectorAll('#riga-carousel-2 .riga-dot-2');
+                    dots.forEach(function(dot, i) {
+                      if (i === rigaCarousel2Index) {
+                        dot.classList.remove('bg-gray-400');
+                        dot.classList.add('bg-gray-800');
+                      } else {
+                        dot.classList.remove('bg-gray-800');
+                        dot.classList.add('bg-gray-400');
+                      }
+                    });
+                  }
+                }
+                
+                window.rigaCarousel2Next = function() {
+                  const { total } = getRigaCarousel2Elements();
+                  rigaCarousel2Index = (rigaCarousel2Index + 1) % total;
+                  rigaCarousel2ShowSlide();
+                };
+                
+                window.rigaCarousel2Prev = function() {
+                  const { total } = getRigaCarousel2Elements();
+                  rigaCarousel2Index = (rigaCarousel2Index - 1 + total) % total;
+                  rigaCarousel2ShowSlide();
+                };
+                
+                window.rigaCarousel2GoTo = function(idx) {
+                  rigaCarousel2Index = idx;
+                  rigaCarousel2ShowSlide();
+                };
+                
+                // Riga Carousel 2 Zh (Chinese) - Central Market
+                let rigaCarousel2ZhIndex = 0;
+                
+                function getRigaCarousel2ZhElements() {
+                  return {
+                    container: document.querySelector('#riga-carousel-2-zh .slider-container'),
+                    slides: document.querySelector('#riga-carousel-2-zh .slides-container'),
+                    total: document.querySelector('#riga-carousel-2-zh .slides-container') ? document.querySelector('#riga-carousel-2-zh .slides-container').children.length : 0
+                  };
+                }
+                
+                function getRigaCarousel2ZhWidth() {
+                  const container = document.querySelector('#riga-carousel-2-zh .slider-container');
+                  return container ? container.offsetWidth : 600;
+                }
+                
+                function rigaCarousel2ZhShowSlide() {
+                  const { slides } = getRigaCarousel2ZhElements();
+                  if (slides) {
+                    const width = getRigaCarousel2ZhWidth();
+                    slides.style.transform = 'translateX(' + (-rigaCarousel2ZhIndex * width) + 'px)';
+                    // Update dots
+                    const dots = document.querySelectorAll('#riga-carousel-2-zh .riga-dot-2-zh');
+                    dots.forEach(function(dot, i) {
+                      if (i === rigaCarousel2ZhIndex) {
+                        dot.classList.remove('bg-gray-400');
+                        dot.classList.add('bg-gray-800');
+                      } else {
+                        dot.classList.remove('bg-gray-800');
+                        dot.classList.add('bg-gray-400');
+                      }
+                    });
+                  }
+                }
+                
+                window.rigaCarousel2ZhNext = function() {
+                  const { total } = getRigaCarousel2ZhElements();
+                  rigaCarousel2ZhIndex = (rigaCarousel2ZhIndex + 1) % total;
+                  rigaCarousel2ZhShowSlide();
+                };
+                
+                window.rigaCarousel2ZhPrev = function() {
+                  const { total } = getRigaCarousel2ZhElements();
+                  rigaCarousel2ZhIndex = (rigaCarousel2ZhIndex - 1 + total) % total;
+                  rigaCarousel2ZhShowSlide();
+                };
+                
+                window.rigaCarousel2ZhGoTo = function(idx) {
+                  rigaCarousel2ZhIndex = idx;
+                  rigaCarousel2ZhShowSlide();
+                };
+                
+                // Initialize carousels when DOM is ready
+                function initRigaCarousels() {
+                  // Carousel 1 (English)
+                  const carousel1 = getRigaCarousel1Elements();
+                  if (carousel1.slides && carousel1.container) {
+                    const width = getRigaCarousel1Width();
+                    const images = carousel1.slides.querySelectorAll('.riga-slide-img');
+                    images.forEach(function(img) {
+                      img.style.width = width + 'px';
+                    });
+                    rigaCarousel1ShowSlide();
+                  }
+                  
+                  // Carousel 1 Zh (Chinese)
+                  const carousel1Zh = getRigaCarousel1ZhElements();
+                  if (carousel1Zh.slides && carousel1Zh.container) {
+                    const width = getRigaCarousel1ZhWidth();
+                    const images = carousel1Zh.slides.querySelectorAll('.riga-slide-img-zh');
+                    images.forEach(function(img) {
+                      img.style.width = width + 'px';
+                    });
+                    rigaCarousel1ZhShowSlide();
+                  }
+                  
+                  // Carousel 2 (English)
+                  const carousel2 = getRigaCarousel2Elements();
+                  if (carousel2.slides && carousel2.container) {
+                    const width = getRigaCarousel2Width();
+                    const images = carousel2.slides.querySelectorAll('.riga-slide-img-2');
+                    images.forEach(function(img) {
+                      img.style.width = width + 'px';
+                    });
+                    rigaCarousel2ShowSlide();
+                  }
+                  
+                  // Carousel 2 Zh (Chinese)
+                  const carousel2Zh = getRigaCarousel2ZhElements();
+                  if (carousel2Zh.slides && carousel2Zh.container) {
+                    const width = getRigaCarousel2ZhWidth();
+                    const images = carousel2Zh.slides.querySelectorAll('.riga-slide-img-2-zh');
+                    images.forEach(function(img) {
+                      img.style.width = width + 'px';
+                    });
+                    rigaCarousel2ZhShowSlide();
+                  }
+                }
+                
+                // Wait for DOM to be ready
+                function waitForCarousels() {
+                  if (document.querySelector('#riga-carousel-1 .slides-container') || document.querySelector('#riga-carousel-1-zh .slides-container') || document.querySelector('#riga-carousel-2 .slides-container') || document.querySelector('#riga-carousel-2-zh .slides-container')) {
+                    initRigaCarousels();
+                  } else {
+                    setTimeout(waitForCarousels, 100);
+                  }
+                }
+                
+                if (document.readyState === 'loading') {
+                  document.addEventListener('DOMContentLoaded', waitForCarousels);
+                } else {
+                  setTimeout(waitForCarousels, 100);
+                }
+                
+                // Handle window resize
+                window.addEventListener('resize', function() {
+                  const carousel1 = getRigaCarousel1Elements();
+                  if (carousel1.slides && carousel1.container) {
+                    const width = getRigaCarousel1Width();
+                    const images = carousel1.slides.querySelectorAll('.riga-slide-img');
+                    images.forEach(function(img) {
+                      img.style.width = width + 'px';
+                    });
+                    rigaCarousel1ShowSlide();
+                  }
+                  
+                  const carousel1Zh = getRigaCarousel1ZhElements();
+                  if (carousel1Zh.slides && carousel1Zh.container) {
+                    const width = getRigaCarousel1ZhWidth();
+                    const images = carousel1Zh.slides.querySelectorAll('.riga-slide-img-zh');
+                    images.forEach(function(img) {
+                      img.style.width = width + 'px';
+                    });
+                    rigaCarousel1ZhShowSlide();
+                  }
+                  
+                  const carousel2 = getRigaCarousel2Elements();
+                  if (carousel2.slides && carousel2.container) {
+                    const width = getRigaCarousel2Width();
+                    const images = carousel2.slides.querySelectorAll('.riga-slide-img-2');
+                    images.forEach(function(img) {
+                      img.style.width = width + 'px';
+                    });
+                    rigaCarousel2ShowSlide();
+                  }
+                  
+                  const carousel2Zh = getRigaCarousel2ZhElements();
+                  if (carousel2Zh.slides && carousel2Zh.container) {
+                    const width = getRigaCarousel2ZhWidth();
+                    const images = carousel2Zh.slides.querySelectorAll('.riga-slide-img-2-zh');
+                    images.forEach(function(img) {
+                      img.style.width = width + 'px';
+                    });
+                    rigaCarousel2ZhShowSlide();
+                  }
+                });
+              })();
+            `,
+          }}
+        />
       </body>
     </html>
   );

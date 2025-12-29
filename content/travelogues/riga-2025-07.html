@@ -1,0 +1,349 @@
+<div class="space-y-10">
+  <!-- Riga Old Town -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold text-gray-900 mb-3">Riga Old Town</h2>
+    <div class="prose prose-base max-w-none text-gray-700 leading-relaxed mb-4">
+      <p>Riga Old Town's charm lies not in a single architectural style, but in the layers of time that have accumulated over centuries. The narrow medieval cobblestone streets, exquisitely decorated facades with arched windows, and numerous elegant yet understated Art Nouveau buildings create a unique atmosphere. The buildings are painted in soft beige, light blue, and pink-orange hues that appear particularly warm in the sunlight. Walking through the old town feels like being embraced by the city rather than overwhelmed by landmarks. With few tourists, perfect temperature and sunshine, the overall experience is truly delightful.</p>
+    </div>
+    
+    <!-- Image carousel: clickable gallery with arrows -->
+    <div style="display: flex; flex-direction: column; align-items: center; width: 100%;" id="riga-carousel-1">
+      <div class="slider-container relative" style="width: 600px; max-width: 100%; height: 450px; overflow: hidden; border-radius: 0.5rem; position: relative;">
+        <div class="slides-container" style="display: flex; transition: transform 0.5s ease; height: 100%;">
+          <img 
+            src="/images/riga-2025-07/old-town-street-1.png" 
+            alt="Winding cobblestone street in Riga Old Town with multi-story historic buildings and outdoor cafes" 
+            class="riga-slide-img"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/art-nouveau-building.png" 
+            alt="Magnificent Art Nouveau building facade in light blue and white with ornate decorations and a domed element" 
+            class="riga-slide-img"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/national-art-museum.png" 
+            alt="Classical building with sculptural relief on curved gable showing 'NACIONALAIS MĀKSLAS MUZEIS' (National Art Museum)" 
+            class="riga-slide-img"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/old-town-corner.png" 
+            alt="Street scene with distinctive round corner tower building with ornate dome top and pedestrians" 
+            class="riga-slide-img"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/architectural-details.png" 
+            alt="Building facade detail showing multiple arched windows with decorative elements in classical style" 
+            class="riga-slide-img"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/old-town-square.png" 
+            alt="Wide square or street scene with green park area in foreground and grand buildings with spires in background" 
+            class="riga-slide-img"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+        </div>
+        
+        <!-- Left arrow button -->
+        <button 
+          onclick="rigaCarousel1Prev()"
+          aria-label="Previous image"
+          style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); background-color: #e5e7eb; color: #374151; border-radius: 9999px; padding: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); cursor: pointer; z-index: 9999; pointer-events: auto; display: block; border: none; transition: background-color 0.2s;"
+          onmouseover="this.style.backgroundColor='#d1d5db'"
+          onmouseout="this.style.backgroundColor='#e5e7eb'"
+        >
+          <svg style="width: 24px; height: 24px; display: block;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </button>
+        
+        <!-- Right arrow button -->
+        <button 
+          onclick="rigaCarousel1Next()"
+          aria-label="Next image"
+          style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background-color: #e5e7eb; color: #374151; border-radius: 9999px; padding: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); cursor: pointer; z-index: 9999; pointer-events: auto; display: block; border: none; transition: background-color 0.2s;"
+          onmouseover="this.style.backgroundColor='#d1d5db'"
+          onmouseout="this.style.backgroundColor='#e5e7eb'"
+        >
+          <svg style="width: 24px; height: 24px; display: block;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Dots indicator -->
+      <div style="display: flex; justify-content: center; gap: 6px; margin-top: 12px;">
+        <button 
+          class="riga-dot-1 w-2 h-2 rounded-full bg-gray-800 transition-all cursor-pointer"
+          onclick="rigaCarousel1GoTo(0)"
+          aria-label="Go to image 1"
+        ></button>
+        <button 
+          class="riga-dot-1 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel1GoTo(1)"
+          aria-label="Go to image 2"
+        ></button>
+        <button 
+          class="riga-dot-1 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel1GoTo(2)"
+          aria-label="Go to image 3"
+        ></button>
+        <button 
+          class="riga-dot-1 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel1GoTo(3)"
+          aria-label="Go to image 4"
+        ></button>
+        <button 
+          class="riga-dot-1 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel1GoTo(4)"
+          aria-label="Go to image 5"
+        ></button>
+        <button 
+          class="riga-dot-1 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel1GoTo(5)"
+          aria-label="Go to image 6"
+        ></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- House of the Blackheads -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold text-gray-900 mb-3">House of the Blackheads</h2>
+    <div class="prose prose-base max-w-none text-gray-700 leading-relaxed mb-4">
+      <p>The House of the Blackheads was originally a meeting place for the Brotherhood of Blackheads, a medieval guild of unmarried merchants. Its exterior, constructed with red brick and white decorations, is magnificent. Destroyed during World War II, what we see today is a faithful reconstruction that restored the building to its original appearance. This building is often regarded as a symbol of Riga's Old Town and strongly represents the city's historical and commercial traditions.</p>
+    </div>
+    
+    <!-- Two images: left and right arrangement -->
+    <div class="flex flex-wrap gap-3 justify-start">
+      <div class="relative w-[48%] min-w-[250px] aspect-[4/3] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/blackheads-closeup.png" 
+          alt="Close-up low-angle view of House of the Blackheads showing ornate red brick walls with intricate white decorative elements and stepped gable roof" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div class="relative w-[48%] min-w-[250px] aspect-[4/3] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/blackheads-square.png" 
+          alt="Wider view of House of the Blackheads in a square with people walking and other historical buildings in background" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Laima Clock -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold text-gray-900 mb-3">Laima Clock</h2>
+    <div class="prose prose-base max-w-none text-gray-700 leading-relaxed mb-4">
+      <p>The Laima Clock is one of Riga's most famous meeting points, also known as "Riga's dating landmark." The clock features the Laima chocolate logo, symbolizing an important Latvian local brand and daily life in the city. It stands as a beloved symbol of Riga's urban culture and serves as a popular gathering spot for locals and visitors alike.</p>
+    </div>
+    
+    <!-- Two images: left and right arrangement -->
+    <div class="flex flex-wrap gap-3 justify-start">
+      <div class="relative w-[48%] min-w-[250px] aspect-[4/3] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/laima-clock-closeup.png" 
+          alt="Street-level view of Laima Clock, a tall dark clock tower with square clock face and Laima chocolate logo visible below" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div class="relative w-[48%] min-w-[250px] aspect-[4/3] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/laima-clock-wide.png" 
+          alt="Wider view of Laima Clock with Freedom Monument in background and large sculptural RIGA sign visible" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Riga Central Market -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold text-gray-900 mb-3">Riga Central Market</h2>
+    <div class="prose prose-base max-w-none text-gray-700 leading-relaxed mb-4">
+      <p>The Riga Central Market was converted from old Zeppelin hangars and is one of the largest markets in Europe. The market displays various breads, smoked meats, cheeses, fish, and fresh fruits. Prices are affordable and the atmosphere is authentic. Visiting the market is not just about shopping but also about experiencing the city's daily rhythm. The strawberries are particularly noteworthy—very sweet and large. I bought a bag to eat at the market and found them very fragrant.</p>
+    </div>
+    
+    <!-- Image carousel: clickable gallery with arrows -->
+    <div style="display: flex; flex-direction: column; align-items: center; width: 100%;" id="riga-carousel-2">
+      <div class="slider-container relative" style="width: 600px; max-width: 100%; height: 450px; overflow: hidden; border-radius: 0.5rem; position: relative;">
+        <div class="slides-container" style="display: flex; transition: transform 0.5s ease; height: 100%;">
+          <img 
+            src="/images/riga-2025-07/central-market-bakery-display.png" 
+            alt="Multi-tiered glass display case filled with various baked goods, pastries and breads arranged on shelves" 
+            class="riga-slide-img-2"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/central-market-deli-counter.png" 
+            alt="Vibrant deli counter showcasing wide array of prepared foods including smoked fish, sausages, cheeses and other deli items" 
+            class="riga-slide-img-2"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/central-market-strawberries-stall.png" 
+            alt="Outdoor market stall selling fresh produce, crates filled with dark red fruits resembling strawberries or cherries" 
+            class="riga-slide-img-2"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/central-market-bread.png" 
+            alt="Close-up display of baked goods, primarily various types of bread and pastries, many golden-brown and freshly baked with price tags visible" 
+            class="riga-slide-img-2"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/central-market-exterior.png" 
+            alt="Exterior shot of Riga Central Market building with large arched windows and tall cylindrical structure, characteristic of former Zeppelin hangars" 
+            class="riga-slide-img-2"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+          <img 
+            src="/images/riga-2025-07/central-market-strawberry-closeup.png" 
+            alt="Close-up photo of hand holding single large bright red strawberry with slightly irregular shape and textured surface" 
+            class="riga-slide-img-2"
+            style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0;"
+          />
+        </div>
+        
+        <!-- Left arrow button -->
+        <button 
+          onclick="rigaCarousel2Prev()"
+          aria-label="Previous image"
+          style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); background-color: #e5e7eb; color: #374151; border-radius: 9999px; padding: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); cursor: pointer; z-index: 9999; pointer-events: auto; display: block; border: none; transition: background-color 0.2s;"
+          onmouseover="this.style.backgroundColor='#d1d5db'"
+          onmouseout="this.style.backgroundColor='#e5e7eb'"
+        >
+          <svg style="width: 24px; height: 24px; display: block;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </button>
+        
+        <!-- Right arrow button -->
+        <button 
+          onclick="rigaCarousel2Next()"
+          aria-label="Next image"
+          style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background-color: #e5e7eb; color: #374151; border-radius: 9999px; padding: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); cursor: pointer; z-index: 9999; pointer-events: auto; display: block; border: none; transition: background-color 0.2s;"
+          onmouseover="this.style.backgroundColor='#d1d5db'"
+          onmouseout="this.style.backgroundColor='#e5e7eb'"
+        >
+          <svg style="width: 24px; height: 24px; display: block;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Dots indicator -->
+      <div style="display: flex; justify-content: center; gap: 6px; margin-top: 12px;">
+        <button 
+          class="riga-dot-2 w-2 h-2 rounded-full bg-gray-800 transition-all cursor-pointer"
+          onclick="rigaCarousel2GoTo(0)"
+          aria-label="Go to image 1"
+        ></button>
+        <button 
+          class="riga-dot-2 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel2GoTo(1)"
+          aria-label="Go to image 2"
+        ></button>
+        <button 
+          class="riga-dot-2 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel2GoTo(2)"
+          aria-label="Go to image 3"
+        ></button>
+        <button 
+          class="riga-dot-2 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel2GoTo(3)"
+          aria-label="Go to image 4"
+        ></button>
+        <button 
+          class="riga-dot-2 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel2GoTo(4)"
+          aria-label="Go to image 5"
+        ></button>
+        <button 
+          class="riga-dot-2 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+          onclick="rigaCarousel2GoTo(5)"
+          aria-label="Go to image 6"
+        ></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cat House -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold text-gray-900 mb-3">Cat House</h2>
+    <div class="prose prose-base max-w-none text-gray-700 leading-relaxed mb-4">
+      <p>The Cat House is one of Riga's representative Art Nouveau style buildings. The black cat sculptures on the roof are the most famous feature of this building. Legend has it that the owner originally wanted to join the Great Guild across the street but was rejected. In a fit of anger, he placed two black cat sculptures on the roof, intentionally positioning their backsides towards the Guild building as a public provocation. This act caused considerable controversy at the time and became a topic of discussion in the city. Later, after the owner successfully joined the Guild, the cat sculptures were turned to face the street, where they remain today.</p>
+    </div>
+    
+    <!-- Two images: left and right arrangement -->
+    <div class="flex flex-wrap gap-3 justify-start">
+      <div class="relative w-[48%] min-w-[250px] aspect-[4/3] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/cat-house-corner.png" 
+          alt="Close-up low-angle view of Cat House corner showing Art Nouveau architecture with black cat sculpture on roof corner" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div class="relative w-[48%] min-w-[250px] aspect-[4/3] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/at-house-wide.png" 
+          alt="Wider low-angle view of Cat House upper section showing light-colored facade with black cat sculpture prominently on corner" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Freedom Monument -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold text-gray-900 mb-3">Freedom Monument</h2>
+    <div class="prose prose-base max-w-none text-gray-700 leading-relaxed mb-4">
+      <p>The Freedom Monument is one of Latvia's most important national symbols, located in the center of Riga. Completed in 1935, it commemorates those who sacrificed their lives in the Latvian War of Independence. At its top is a female statue holding three golden stars, symbolizing Latvia's three historical regions and national freedom. Remarkably, it was preserved even during the Soviet era, making it an important symbol of national identity. To this day, it remains a significant place for national commemorative events and public expressions of respect.</p>
+    </div>
+    
+    <!-- One image: centered -->
+    <div class="flex justify-center">
+      <div class="relative w-[70%] min-w-[350px] max-w-[600px] aspect-[3/4] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/freedom-monument.png" 
+          alt="Tall slender Freedom Monument with female statue holding three golden stars at top, standing in urban square" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Riga Central Station and National Library -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold text-gray-900 mb-3">Riga Central Station Clock Tower (Origo) & National Library of Latvia</h2>
+    <div class="prose prose-base max-w-none text-gray-700 leading-relaxed mb-4">
+      <p>The National Library of Latvia, also known as "Castle of Light," is one of Riga's most representative modern buildings. Its shape resembles a sloping mountain, symbolizing the accumulation of knowledge and national culture. That evening, I went out for a walk and watched the sunset. The entire city was bathed in purple and orange hues, truly beautiful.</p>
+    </div>
+    
+    <!-- Two images: left and right arrangement -->
+    <div class="flex flex-wrap gap-3 justify-start">
+      <div class="relative w-[48%] min-w-[250px] aspect-[4/3] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/central-station.png" 
+          alt="Evening view of Riga Central Station with distinctive clock tower, modern dark building with reflective materials" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div class="relative w-[48%] min-w-[250px] aspect-[4/3] rounded overflow-hidden">
+        <img 
+          src="/images/riga-2025-07/national-library-sunset.png" 
+          alt="National Library of Latvia (Castle of Light) at sunset with mountain-like silhouette, bathed in purple and orange hues by the river" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+    </div>
+  </section>
+</div>
+
