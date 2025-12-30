@@ -376,23 +376,3 @@ michalknitl-website/
 
 **此文件為內部配置文件，不建議外部修改。** 如需修改遊記內容，請使用管理後台進行編輯，或直接修改 `content/travelogues/` 目錄下的 HTML 文件。
 
-## 部署
-
-本項目已配置 Vercel 部署。推送到 `main` 分支後會自動觸發部署。
-
-### 部署要求
-
-1. 確保所有環境變數已在 Vercel 項目設置中配置
-2. MongoDB Atlas 需要將 Vercel 的 IP 地址加入白名單（或允許所有 IP）
-3. Cloudinary 帳號需要正確配置
-
-## 開發注意事項
-
-- 所有 API routes 使用 `force-dynamic` 導出，確保正確處理 cookies 和動態數據
-- 地圖組件使用動態導入並禁用 SSR，避免服務器端 `window` 對象錯誤
-- 圖片上傳前會在客戶端進行壓縮，減少上傳時間和帶寬
-- 留言系統使用 sessionId 來識別用戶，存儲在 localStorage 中
-
-## 許可證
-
-私有項目，版權所有。
