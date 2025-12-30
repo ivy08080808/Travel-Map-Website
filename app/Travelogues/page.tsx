@@ -1,9 +1,19 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import TravelogueCarousel from "@/components/TravelogueCarousel";
-import TravelMapPreview from "@/components/TravelMapPreview";
 import { useLanguage } from '@/contexts/LanguageContext';
 import { translations } from '@/lib/i18n';
+
+// Dynamically import TravelMapPreview with SSR disabled
+const TravelMapPreview = dynamic(() => import("@/components/TravelMapPreview"), {
+  ssr: false,
+  loading: () => (
+    <div className="bg-white rounded-lg shadow-lg h-[600px] flex items-center justify-center">
+      <div className="text-gray-500">載入地圖中...</div>
+    </div>
+  ),
+});
 
 export default function TraveloguesPage() {
   const { language } = useLanguage();
