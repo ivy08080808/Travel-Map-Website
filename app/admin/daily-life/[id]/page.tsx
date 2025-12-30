@@ -24,6 +24,7 @@ export default function DailyLifeCoverPage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
+  const [category, setCategory] = useState<'reading' | 'daily' | ''>('');
   const [content, setContent] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
@@ -75,11 +76,13 @@ export default function DailyLifeCoverPage() {
         setTitle(data.title || dailyLifeItem?.title || '');
         setDescription(data.description || dailyLifeItem?.description || '');
         setDate(data.date || dailyLifeItem?.date || '');
+        setCategory(data.category || dailyLifeItem?.category || '');
       } else {
         // 如果 MongoDB 中沒有，使用 data.ts 中的默認值
         setTitle(dailyLifeItem?.title || '');
         setDescription(dailyLifeItem?.description || '');
         setDate(dailyLifeItem?.date || '');
+        setCategory(dailyLifeItem?.category || '');
       }
 
       // 獲取 HTML 內容
@@ -305,6 +308,7 @@ export default function DailyLifeCoverPage() {
             title,
             description,
             date,
+            category: category || null,
           }),
         }
       );
@@ -546,6 +550,20 @@ export default function DailyLifeCoverPage() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="2025-12-24"
                 />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  分類
+                </label>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value as 'reading' | 'daily' | '')}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">無分類</option>
+                  <option value="reading">讀書心得</option>
+                  <option value="daily">日常分享</option>
+                </select>
               </div>
               <button
                 onClick={handleSaveText}

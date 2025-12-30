@@ -17,8 +17,8 @@ export default function Navigation() {
   const isTravelogueDetail = pathname?.startsWith('/Travelogues/') && pathname !== '/Travelogues';
 
   const navItems = [
+    { name: t.nav.experience, href: '/experience' },
     { name: t.nav.travelogues, href: '/Travelogues' },
-    { name: t.nav.map, href: '/map' },
     { name: t.nav.dailyLife, href: '/daily-life' },
   ];
 

@@ -14,6 +14,7 @@ export interface DailyLife {
   coverImage: string;
   date: string;
   route: string;
+  category?: 'reading' | 'daily'; // 'reading' for 讀書心得, 'daily' for 日常分享
 }
 
 export interface MapMarker {
@@ -313,5 +314,25 @@ export const trips: Trip[] = [
 ];
 
 export const dailyLife: DailyLife[] = [
-  { id: "lego-date", title: "Lego Date", description: "A special day with LEGO.", coverImage: "/images/lego-date.jpg", date: "2025-12-24", route: "/daily-life/lego-date" },
+  { id: "lego-date", title: "Lego Date", description: "A special day with LEGO.", coverImage: "/images/lego-date.jpg", date: "2025-12-24", route: "/daily-life/lego-date", category: "daily" },
 ];
+
+export type ExperienceType = 'internship' | 'volunteer' | 'selection' | 'other';
+
+export type ExperienceCategory = 'work' | 'exchange';
+
+export interface Experience {
+  id: string;
+  title?: string;
+  organization?: string;
+  role?: string;
+  startDate?: string;
+  endDate?: string; // Optional for ongoing experiences
+  location?: string;
+  description?: string;
+  skills?: string[]; // Array of skills
+  images?: string[]; // Array of image URLs
+  type?: ExperienceType;
+  category?: ExperienceCategory; // 'work' for work experience, 'exchange' for exchange experience
+  coverImage?: string; // Main cover image
+}

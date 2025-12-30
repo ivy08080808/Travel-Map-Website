@@ -23,10 +23,11 @@ export async function GET(
         title: item.title,
         description: item.description,
         date: item.date,
+        category: item.category || null,
       });
     }
 
-    return NextResponse.json({ title: null, description: null, date: null });
+    return NextResponse.json({ title: null, description: null, date: null, category: null });
   } catch (error: any) {
     console.error('Error fetching daily life:', error);
     return NextResponse.json(
@@ -47,7 +48,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
-    const { title, description, date } = await request.json();
+    const { title, description, date, category } = await request.json();
 
     if (!title || !description || !date) {
       return NextResponse.json(
@@ -57,15 +58,21 @@ export async function PUT(
     }
 
     const db = await getDb();
+    const updateData: any = {
+      title,
+      description,
+      date,
+      updatedAt: new Date(),
+    };
+    
+    if (category) {
+      updateData.category = category;
+    }
+
     const result = await db.collection('dailyLife').updateOne(
       { id: params.id },
       {
-        $set: {
-          title,
-          description,
-          date,
-          updatedAt: new Date(),
-        },
+        $set: updateData,
       },
       { upsert: true }
     );
@@ -75,6 +82,7 @@ export async function PUT(
       title,
       description,
       date,
+      category: category || null,
     });
   } catch (error: any) {
     console.error('Error updating daily life:', error);
@@ -84,6 +92,12 @@ export async function PUT(
     );
   }
 }
+
+
+
+
+
+
 
 
 

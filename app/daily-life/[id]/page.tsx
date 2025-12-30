@@ -154,3 +154,9 @@ export default async function DailyLifeDetailPage({
 
 
 
+
+
+
+
+
+

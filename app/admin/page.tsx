@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Comment } from '@/components/CommentItem';
 import { travelogues, dailyLife } from '@/lib/data';
 
-type ViewMode = 'comments' | 'travelogues' | 'daily-life';
+type ViewMode = 'comments' | 'travelogues' | 'daily-life' | 'experience';
 
 export default function AdminPage() {
   const router = useRouter();
@@ -216,6 +216,16 @@ export default function AdminPage() {
             >
               管理 Daily Life
             </button>
+            <button
+              onClick={() => setViewMode('experience')}
+              className={`px-4 py-2 rounded-md ${
+                viewMode === 'experience'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              管理 Experience
+            </button>
           </div>
 
           {viewMode === 'comments' && (
@@ -236,6 +246,13 @@ export default function AdminPage() {
             <div className="bg-green-50 p-4 rounded">
               <div className="text-sm text-green-600 font-medium">總 Daily Life 數</div>
               <div className="text-2xl font-bold text-green-900">{dailyLife.length}</div>
+            </div>
+          )}
+
+          {viewMode === 'experience' && (
+            <div className="bg-orange-50 p-4 rounded">
+              <div className="text-sm text-orange-600 font-medium">總 Experience 數</div>
+              <div className="text-2xl font-bold text-orange-900">-</div>
             </div>
           )}
         </div>
@@ -340,6 +357,43 @@ export default function AdminPage() {
                   </div>
                 </Link>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* Experience View */}
+        {viewMode === 'experience' && (
+          <div className="space-y-6">
+            {/* Work Experience Section */}
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-gray-900">工作經驗 (Work Experience)</h2>
+                <Link
+                  href="/admin/experience?category=work"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                >
+                  管理工作經驗
+                </Link>
+              </div>
+              <p className="text-gray-600 mb-4">
+                管理我的工作經驗、實習和志工活動
+              </p>
+            </div>
+
+            {/* Exchange Experience Section */}
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-gray-900">交換經驗 (Exchange Experience)</h2>
+                <Link
+                  href="/admin/experience?category=exchange"
+                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                >
+                  管理交換經驗
+                </Link>
+              </div>
+              <p className="text-gray-600 mb-4">
+                管理我的交換學生經驗
+              </p>
             </div>
           </div>
         )}

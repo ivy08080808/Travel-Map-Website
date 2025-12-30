@@ -3,8 +3,8 @@ export type Language = 'en' | 'zh';
 export interface Translations {
   // Navigation
   nav: {
+    experience: string;
     travelogues: string;
-    map: string;
     dailyLife: string;
     backToTravelogues: string;
   };
@@ -24,17 +24,15 @@ export interface Translations {
       title: string;
       description: string;
     };
-    map: {
+    dailyLife: {
       title: string;
       description: string;
-      countries: string;
-      countriesDesc: string;
-      km: string;
-      kmDesc: string;
-      peaks: string;
-      peaksDesc: string;
+      readingNotes: string;
+      readingNotesDesc: string;
+      dailyShare: string;
+      dailyShareDesc: string;
     };
-    dailyLife: {
+    experience: {
       title: string;
       description: string;
     };
@@ -83,8 +81,8 @@ export interface Translations {
 export const translations: Record<Language, Translations> = {
   en: {
     nav: {
+      experience: 'Experience',
       travelogues: 'Travelogues',
-      map: 'Map',
       dailyLife: 'Daily Life',
       backToTravelogues: '← Back to Travelogues',
     },
@@ -100,19 +98,17 @@ export const translations: Record<Language, Translations> = {
         title: 'Travelogues',
         description: "Read about my adventures and journeys around the world. Each travelogue is a story about people, places, and experiences I've had.",
       },
-      map: {
-        title: 'Travel Map',
-        description: "Explore the map of my journeys and places I've visited during my adventures.",
-        countries: '83+ Countries',
-        countriesDesc: 'Visited around the world',
-        km: '15,938+ km',
-        kmDesc: 'Hiked in the mountains',
-        peaks: '448+ Peaks',
-        peaksDesc: 'Mountain summits climbed',
-      },
       dailyLife: {
         title: 'Daily Life',
         description: 'Stories and reflections from my everyday life, university experiences, and insights from books and articles.',
+        readingNotes: 'Reading Notes',
+        readingNotesDesc: 'Insights and reflections from books I\'ve read.',
+        dailyShare: 'Daily Share',
+        dailyShareDesc: 'Stories and thoughts from my everyday life.',
+      },
+      experience: {
+        title: 'Experience',
+        description: 'My work experiences, internships, and volunteer activities.',
       },
     },
     footer: {
@@ -151,8 +147,8 @@ export const translations: Record<Language, Translations> = {
   },
   zh: {
     nav: {
+      experience: '經歷',
       travelogues: '遊記',
-      map: '地圖',
       dailyLife: '日常',
       backToTravelogues: '← 返回遊記',
     },
@@ -168,19 +164,17 @@ export const translations: Record<Language, Translations> = {
         title: '遊記',
         description: '閱讀我在世界各地的冒險和旅程。每篇遊記都是關於我遇到的人、地方和經歷的故事。',
       },
-      map: {
-        title: '旅行地圖',
-        description: '探索我的旅程地圖以及我在冒險中訪問過的地方。',
-        countries: '83+ 個國家',
-        countriesDesc: '世界各地訪問過',
-        km: '15,938+ 公里',
-        kmDesc: '在山中徒步',
-        peaks: '448+ 座山峰',
-        peaksDesc: '攀登的山峰',
-      },
       dailyLife: {
         title: '日常',
         description: '來自我的日常生活、大學經歷以及從書籍和文章中獲得的見解的故事和反思。',
+        readingNotes: '讀書心得',
+        readingNotesDesc: '從我讀過的書籍中獲得的見解和反思。',
+        dailyShare: '日常分享',
+        dailyShareDesc: '來自我日常生活的故事和想法。',
+      },
+      experience: {
+        title: '經歷',
+        description: '我的工作經驗、實習和志工活動。',
       },
     },
     footer: {

@@ -35,3 +35,9 @@ export default function DailyLifeList({ limit }: DailyLifeListProps = {}) {
 
 
 
+
+
+
+
+
+

@@ -1,6 +1,7 @@
 'use client';
 
-import TravelogueList from "@/components/TravelogueList";
+import TravelogueCarousel from "@/components/TravelogueCarousel";
+import TravelMapPreview from "@/components/TravelMapPreview";
 import { useLanguage } from '@/contexts/LanguageContext';
 import { translations } from '@/lib/i18n';
 
@@ -17,7 +18,16 @@ export default function TraveloguesPage() {
         <p className="text-lg text-gray-600 mb-12 text-center max-w-3xl mx-auto">
           {t.pages.travelogues.description}
         </p>
-        <TravelogueList />
+        
+        {/* Travelogue Carousel at the top */}
+        <div className="mb-6">
+          <TravelogueCarousel />
+        </div>
+
+        {/* Map Preview below */}
+        <div>
+          <TravelMapPreview />
+        </div>
       </div>
     </div>
   );
