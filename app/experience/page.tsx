@@ -12,6 +12,7 @@ export default function ExperiencePage() {
   const [experiences, setExperiences] = useState<Experience[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchExperiences();
@@ -76,8 +77,15 @@ export default function ExperiencePage() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="min-h-screen bg-gray-50 relative">
+      {/* Blurred background layer when card is hovered */}
+      {hoveredCardId && (
+        <div 
+          className="fixed inset-0 z-40 backdrop-blur-sm pointer-events-none"
+          style={{ WebkitBackdropFilter: 'blur(4px)', backdropFilter: 'blur(4px)' }}
+        />
+      )}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-30">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8 text-center">
           {t.pages.experience.title}
         </h1>
@@ -98,7 +106,12 @@ export default function ExperiencePage() {
           {workExperiences.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {workExperiences.map((experience) => (
-                <ExperienceCard key={experience.id} experience={experience} />
+                <ExperienceCard 
+                  key={experience.id} 
+                  experience={experience}
+                  isHovered={hoveredCardId === experience.id}
+                  onHoverChange={(isHovered) => setHoveredCardId(isHovered ? experience.id : null)}
+                />
               ))}
             </div>
           ) : (
@@ -121,7 +134,12 @@ export default function ExperiencePage() {
           {exchangeExperiences.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {exchangeExperiences.map((experience) => (
-                <ExperienceCard key={experience.id} experience={experience} />
+                <ExperienceCard 
+                  key={experience.id} 
+                  experience={experience}
+                  isHovered={hoveredCardId === experience.id}
+                  onHoverChange={(isHovered) => setHoveredCardId(isHovered ? experience.id : null)}
+                />
               ))}
             </div>
           ) : (
