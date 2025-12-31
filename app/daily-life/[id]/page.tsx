@@ -8,6 +8,13 @@ import { convertCloudinaryUrlToWebFormat } from '@/lib/cloudinary';
 import DailyLifeContent from '@/components/DailyLifeContent';
 
 export async function generateStaticParams() {
+  // 在構建時，如果沒有 MongoDB URI，只返回 data.ts 中的項目
+  if (!process.env.MONGODB_URI) {
+    return dailyLife.map((item) => ({
+      id: item.id,
+    }));
+  }
+
   try {
     const db = await getDb();
     const dbItems = await db.collection('dailyLife').find({}).toArray();
@@ -41,19 +48,23 @@ async function getDailyLifeData(id: string, language: 'en' | 'zh' = 'zh') {
     let date = null;
     let author = null;
     let category = null;
-    try {
-      const db = await getDb();
-      const item = await db.collection('dailyLife').findOne({ id });
-      if (item) {
-        if (item.coverImage) coverImage = item.coverImage;
-        if (item.title) title = item.title;
-        if (item.description) description = item.description;
-        if (item.date) date = item.date;
-        if (item.author) author = item.author;
-        if (item.category) category = item.category;
+    
+    // 只有在有 MongoDB URI 時才嘗試連接
+    if (process.env.MONGODB_URI) {
+      try {
+        const db = await getDb();
+        const item = await db.collection('dailyLife').findOne({ id });
+        if (item) {
+          if (item.coverImage) coverImage = item.coverImage;
+          if (item.title) title = item.title;
+          if (item.description) description = item.description;
+          if (item.date) date = item.date;
+          if (item.author) author = item.author;
+          if (item.category) category = item.category;
+        }
+      } catch (error) {
+        console.error('Error fetching daily life data from MongoDB:', error);
       }
-    } catch (error) {
-      console.error('Error fetching daily life data from MongoDB:', error);
     }
 
     // 讀取 HTML 內容（從文件系統）- 優先讀取語言特定版本

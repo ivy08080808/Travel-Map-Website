@@ -1,10 +1,12 @@
 import { MongoClient, Db } from 'mongodb';
 
-if (!process.env.MONGODB_URI) {
+// 在構建時不拋出錯誤，允許構建繼續進行
+const uri: string | undefined = process.env.MONGODB_URI;
+
+if (!uri && process.env.NODE_ENV !== 'production') {
+  // 只在開發環境且沒有 URI 時拋出錯誤
   throw new Error('Please add your Mongo URI to .env.local');
 }
-
-const uri: string = process.env.MONGODB_URI;
 const options: any = {
   // MongoDB connection options
   serverSelectionTimeoutMS: 30000, // Timeout after 30s
@@ -16,25 +18,27 @@ const options: any = {
   w: 'majority', // Write concern
 };
 
-let client: MongoClient;
-let clientPromise: Promise<MongoClient>;
+let client: MongoClient | undefined;
+let clientPromise: Promise<MongoClient> | undefined;
 
-if (process.env.NODE_ENV === 'development') {
-  // In development mode, use a global variable so that the value
-  // is preserved across module reloads caused by HMR (Hot Module Replacement).
-  let globalWithMongo = global as typeof globalThis & {
-    _mongoClientPromise?: Promise<MongoClient>;
-  };
+if (uri) {
+  if (process.env.NODE_ENV === 'development') {
+    // In development mode, use a global variable so that the value
+    // is preserved across module reloads caused by HMR (Hot Module Replacement).
+    let globalWithMongo = global as typeof globalThis & {
+      _mongoClientPromise?: Promise<MongoClient>;
+    };
 
-  if (!globalWithMongo._mongoClientPromise) {
+    if (!globalWithMongo._mongoClientPromise) {
+      client = new MongoClient(uri, options);
+      globalWithMongo._mongoClientPromise = client.connect();
+    }
+    clientPromise = globalWithMongo._mongoClientPromise;
+  } else {
+    // In production mode, it's best to not use a global variable.
     client = new MongoClient(uri, options);
-    globalWithMongo._mongoClientPromise = client.connect();
+    clientPromise = client.connect();
   }
-  clientPromise = globalWithMongo._mongoClientPromise;
-} else {
-  // In production mode, it's best to not use a global variable.
-  client = new MongoClient(uri, options);
-  clientPromise = client.connect();
 }
 
 // Export a module-scoped MongoClient promise. By doing this in a
@@ -42,6 +46,9 @@ if (process.env.NODE_ENV === 'development') {
 export default clientPromise;
 
 export async function getDb(): Promise<Db> {
+  if (!clientPromise) {
+    throw new Error('MongoDB URI is not configured. Please add MONGODB_URI to your environment variables.');
+  }
   try {
     const client = await clientPromise;
     return client.db('travel_map');
