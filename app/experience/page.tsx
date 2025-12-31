@@ -78,13 +78,6 @@ export default function ExperiencePage() {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      {/* Blurred background layer when card is hovered */}
-      {hoveredCardId && (
-        <div 
-          className="fixed inset-0 z-40 backdrop-blur-sm pointer-events-none"
-          style={{ WebkitBackdropFilter: 'blur(4px)', backdropFilter: 'blur(4px)' }}
-        />
-      )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-30">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8 text-center">
           {t.pages.experience.title}
@@ -152,4 +145,3 @@ export default function ExperiencePage() {
     </div>
   );
 }
-

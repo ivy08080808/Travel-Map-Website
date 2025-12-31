@@ -105,62 +105,70 @@ export default function ExperienceCard({ experience, isHovered = false, onHoverC
 
       {/* Floating card in center when hovered */}
       {isHovered && (
-        <div
-          className="fixed inset-0 z-[60] flex items-center justify-center p-4 pointer-events-none"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          <div 
-            className="bg-white rounded-lg shadow-2xl max-w-4xl w-full max-h-[85vh] overflow-y-auto pointer-events-auto"
-          >
-            {experience.coverImage && (
-              <div className="relative h-64 w-full">
-                <Image
-                  src={experience.coverImage}
-                  alt={experience.title || experience.role || 'Experience'}
-                  fill
-                  className="object-cover rounded-t-lg"
-                />
+        <div className="fixed inset-0 z-[60] overflow-y-auto">
+          {/* 背景遮罩層：只負責變暗 + blur 背後 */}
+          <div
+            className="fixed inset-0 bg-black/30 backdrop-blur-md"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          />
+
+          {/* 這層用來做「可捲時仍置中」 */}
+          <div className="relative z-[61] flex min-h-full items-center justify-center p-4">
+            <div
+              className="bg-white rounded-lg shadow-2xl max-w-4xl w-full max-h-[calc(100vh-2rem)] overflow-y-auto"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              {experience.coverImage && (
+                <div className="relative h-64 w-full">
+                  <Image
+                    src={experience.coverImage}
+                    alt={experience.title || experience.role || 'Experience'}
+                    fill
+                    className="object-cover rounded-t-lg"
+                  />
+                </div>
+              )}
+              <div className="p-8">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex-1">
+                    {experience.role && (
+                      <h3 className="text-3xl font-bold text-gray-900 mb-2">
+                        {experience.role}
+                      </h3>
+                    )}
+                    {experience.organization && (
+                      <p className="text-xl text-gray-700 mb-2">{experience.organization}</p>
+                    )}
+                    {experience.location && (
+                      <p className="text-base text-gray-500 mb-2">{experience.location}</p>
+                    )}
+                  </div>
+                </div>
+                {experience.startDate && (
+                  <p className="text-base text-gray-500 mb-4">{dateRange}</p>
+                )}
+                {experience.description && (
+                  <div className="mb-6">
+                    <p className="text-gray-700 whitespace-pre-wrap leading-relaxed text-lg">
+                      {experience.description}
+                    </p>
+                  </div>
+                )}
+                {experience.skills && experience.skills.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {experience.skills.map((skill, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded-full"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
-            <div className="p-8">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex-1">
-                  {experience.role && (
-                    <h3 className="text-3xl font-bold text-gray-900 mb-2">
-                      {experience.role}
-                    </h3>
-                  )}
-                  {experience.organization && (
-                    <p className="text-xl text-gray-700 mb-2">{experience.organization}</p>
-                  )}
-                  {experience.location && (
-                    <p className="text-base text-gray-500 mb-2">{experience.location}</p>
-                  )}
-                </div>
-              </div>
-              {experience.startDate && (
-                <p className="text-base text-gray-500 mb-4">{dateRange}</p>
-              )}
-              {experience.description && (
-                <div className="mb-6">
-                  <p className="text-gray-700 whitespace-pre-wrap leading-relaxed text-lg">
-                    {experience.description}
-                  </p>
-                </div>
-              )}
-              {experience.skills && experience.skills.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {experience.skills.map((skill, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded-full"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              )}
             </div>
           </div>
         </div>
