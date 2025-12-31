@@ -1,6 +1,7 @@
 'use client';
 
-import { dailyLife } from '@/lib/data';
+import { useState, useEffect } from 'react';
+import { DailyLife } from '@/lib/data';
 import DailyLifeCard from '@/components/DailyLifeCard';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { translations } from '@/lib/i18n';
@@ -8,15 +9,46 @@ import { translations } from '@/lib/i18n';
 export default function DailyLifePage() {
   const { language } = useLanguage();
   const t = translations[language];
+  const [dailyLifeItems, setDailyLifeItems] = useState<DailyLife[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Sort daily life by date (newest first)
-  const sortedDailyLife = [...dailyLife].sort((a, b) => {
+  useEffect(() => {
+    fetchDailyLife();
+  }, []);
+
+  const fetchDailyLife = async () => {
+    try {
+      const response = await fetch('/api/daily-life');
+      if (response.ok) {
+        const data = await response.json();
+        setDailyLifeItems(data);
+      }
+    } catch (error) {
+      console.error('Error fetching daily life:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Filter by category first
+  const readingNotes = dailyLifeItems.filter(item => item.category === 'reading');
+  const dailyShare = dailyLifeItems.filter(item => item.category === 'daily' || !item.category);
+  
+  // Sort daily share by date (newest first)
+  const sortedDailyShare = dailyShare.sort((a, b) => {
+    if (!a.date && !b.date) return 0;
+    if (!a.date) return 1;
+    if (!b.date) return -1;
     return b.date.localeCompare(a.date);
   });
 
-  // Filter by category
-  const readingNotes = sortedDailyLife.filter(item => item.category === 'reading');
-  const dailyShare = sortedDailyLife.filter(item => item.category === 'daily' || !item.category);
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-500">載入中...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -30,40 +62,60 @@ export default function DailyLifePage() {
 
         {/* Reading Notes Section */}
         <section className="mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            {t.pages.dailyLife.readingNotes}
-          </h2>
-          <p className="text-gray-600 mb-8">
-            {t.pages.dailyLife.readingNotesDesc}
-          </p>
-          {readingNotes.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {readingNotes.map((item) => (
-                <DailyLifeCard key={item.id} dailyLife={item} />
-              ))}
+          <div className="flex gap-6 items-start">
+            {/* 標題在左邊 */}
+            <div className="flex-shrink-0 w-48 md:w-64">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+                {t.pages.dailyLife.readingNotes}
+              </h2>
+              <p className="text-sm text-gray-600">
+                {t.pages.dailyLife.readingNotesDesc}
+              </p>
             </div>
-          ) : (
-            <p className="text-gray-500 italic">{language === 'zh' ? '還沒有讀書心得' : 'No reading notes yet'}</p>
-          )}
+            {/* 卡片在右邊，可以橫向滾動 */}
+            <div className="flex-1 overflow-x-auto scrollbar-hide">
+              {readingNotes.length > 0 ? (
+                <div className="flex gap-6 pb-4">
+                  {readingNotes.map((item) => (
+                    <div key={item.id} className="flex-shrink-0 w-80">
+                      <DailyLifeCard dailyLife={item} />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500 italic py-8">{language === 'zh' ? '還沒有讀書心得' : 'No reading notes yet'}</p>
+              )}
+            </div>
+          </div>
         </section>
 
         {/* Daily Share Section */}
         <section>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            {t.pages.dailyLife.dailyShare}
-          </h2>
-          <p className="text-gray-600 mb-8">
-            {t.pages.dailyLife.dailyShareDesc}
-          </p>
-          {dailyShare.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {dailyShare.map((item) => (
-                <DailyLifeCard key={item.id} dailyLife={item} />
-              ))}
+          <div className="flex gap-6 items-start">
+            {/* 標題在左邊 */}
+            <div className="flex-shrink-0 w-48 md:w-64">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+                {t.pages.dailyLife.dailyShare}
+              </h2>
+              <p className="text-sm text-gray-600">
+                {t.pages.dailyLife.dailyShareDesc}
+              </p>
             </div>
-          ) : (
-            <p className="text-gray-500 italic">{language === 'zh' ? '還沒有日常分享' : 'No daily shares yet'}</p>
-          )}
+            {/* 卡片在右邊，可以橫向滾動 */}
+            <div className="flex-1 overflow-x-auto scrollbar-hide">
+              {sortedDailyShare.length > 0 ? (
+                <div className="flex gap-6 pb-4">
+                  {sortedDailyShare.map((item) => (
+                    <div key={item.id} className="flex-shrink-0 w-80">
+                      <DailyLifeCard dailyLife={item} />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500 italic py-8">{language === 'zh' ? '還沒有日常分享' : 'No daily shares yet'}</p>
+              )}
+            </div>
+          </div>
         </section>
       </div>
     </div>

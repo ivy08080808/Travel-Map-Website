@@ -6,10 +6,16 @@ interface DailyLifeListProps {
 }
 
 export default function DailyLifeList({ limit }: DailyLifeListProps = {}) {
+  // Filter out reading notes (they don't have dates)
+  const dailyShareOnly = dailyLife.filter(item => item.category !== 'reading');
+  
   // Sort daily life by date (newest first)
-  const sortedDailyLife = [...dailyLife]
+  const sortedDailyLife = [...dailyShareOnly]
     .sort((a, b) => {
       // Compare dates (format: "YYYY-MM-DD")
+      if (!a.date && !b.date) return 0;
+      if (!a.date) return 1;
+      if (!b.date) return -1;
       return b.date.localeCompare(a.date);
     });
 

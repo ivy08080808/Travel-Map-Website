@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { dailyLife } from '@/lib/data';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
@@ -12,20 +12,25 @@ import { convertCloudinaryUrlToWebFormat } from '@/lib/cloudinary';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
 
-export default function DailyLifeCoverPage() {
+function DailyLifeEditContent() {
   const params = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const dailyLifeId = params.id as string;
+  const isNew = dailyLifeId === 'new';
+  const categoryParam = searchParams?.get('category') as 'daily' | 'reading' | null;
 
   const [dailyLifeItem, setDailyLifeItem] = useState(
-    dailyLife.find((d) => d.id === dailyLifeId)
+    isNew ? null : dailyLife.find((d) => d.id === dailyLifeId)
   );
   const [coverImage, setCoverImage] = useState<string | null>(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
-  const [category, setCategory] = useState<'reading' | 'daily' | ''>('');
+  const [author, setAuthor] = useState('');
+  const [category, setCategory] = useState<'reading' | 'daily' | ''>(categoryParam || '');
   const [content, setContent] = useState('');
+  const [newId, setNewId] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
   const [isCompressing, setIsCompressing] = useState(false);
@@ -36,15 +41,36 @@ export default function DailyLifeCoverPage() {
   const [uploadFile, setUploadFile] = useState<File | null>(null);
 
   useEffect(() => {
-    if (!dailyLifeItem) {
-      setError('Daily Life not found');
-      setIsLoading(false);
+    if (isNew && categoryParam) {
+      setCategory(categoryParam);
+      // 生成新的 ID
+      const generatedId = `daily-life-${Date.now()}`;
+      setNewId(generatedId);
+    }
+    if (isNew) {
+      // 檢查是否已登錄
+      checkAuth();
       return;
     }
 
+    // 即使不在 data.ts 中，也嘗試從 MongoDB 加載
     // 檢查是否已登錄
     checkAuthAndLoadCover();
-  }, [dailyLifeId]);
+  }, [dailyLifeId, categoryParam]);
+
+  const checkAuth = async () => {
+    try {
+      const authResponse = await fetch('/api/admin/comments');
+      if (!authResponse.ok) {
+        router.push('/admin');
+        return;
+      }
+    } catch (error) {
+      router.push('/admin');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const checkAuthAndLoadCover = async () => {
     try {
@@ -53,6 +79,43 @@ export default function DailyLifeCoverPage() {
       if (!authResponse.ok) {
         router.push('/admin');
         return;
+      }
+
+      // 先嘗試從 MongoDB 獲取數據
+      const textResponse = await fetch(
+        `/api/admin/daily-life/${dailyLifeId}`
+      );
+      
+      if (textResponse.ok) {
+        const data = await textResponse.json();
+        // 如果 MongoDB 中有數據，使用 MongoDB 的數據
+        if (data.title || data.description) {
+          setTitle(data.title || '');
+          setDescription(data.description || '');
+          setDate(data.date || '');
+          setAuthor(data.author || '');
+          setCategory(data.category || '');
+        } else {
+          // MongoDB 中沒有，使用 data.ts 中的默認值
+          setTitle(dailyLifeItem?.title || '');
+          setDescription(dailyLifeItem?.description || '');
+          setDate(dailyLifeItem?.date || '');
+          setAuthor((dailyLifeItem as any)?.author || '');
+          setCategory(dailyLifeItem?.category || '');
+        }
+      } else {
+        // 如果 MongoDB 中沒有，檢查 data.ts 中是否有
+        if (!dailyLifeItem) {
+          setError('Daily Life not found');
+          setIsLoading(false);
+          return;
+        }
+        // 使用 data.ts 中的默認值
+        setTitle(dailyLifeItem.title || '');
+        setDescription(dailyLifeItem.description || '');
+        setDate(dailyLifeItem.date || '');
+        setAuthor((dailyLifeItem as any)?.author || '');
+        setCategory(dailyLifeItem.category || '');
       }
 
       // 獲取封面圖片
@@ -65,24 +128,9 @@ export default function DailyLifeCoverPage() {
         setCoverImage(data.coverImage || dailyLifeItem?.coverImage || null);
       } else {
         console.log('No cover image in MongoDB, using default');
-      }
-
-      // 獲取文字內容
-      const textResponse = await fetch(
-        `/api/admin/daily-life/${dailyLifeId}`
-      );
-      if (textResponse.ok) {
-        const data = await textResponse.json();
-        setTitle(data.title || dailyLifeItem?.title || '');
-        setDescription(data.description || dailyLifeItem?.description || '');
-        setDate(data.date || dailyLifeItem?.date || '');
-        setCategory(data.category || dailyLifeItem?.category || '');
-      } else {
-        // 如果 MongoDB 中沒有，使用 data.ts 中的默認值
-        setTitle(dailyLifeItem?.title || '');
-        setDescription(dailyLifeItem?.description || '');
-        setDate(dailyLifeItem?.date || '');
-        setCategory(dailyLifeItem?.category || '');
+        if (dailyLifeItem?.coverImage) {
+          setCoverImage(dailyLifeItem.coverImage);
+        }
       }
 
       // 獲取 HTML 內容
@@ -95,6 +143,10 @@ export default function DailyLifeCoverPage() {
       }
     } catch (error) {
       console.error('Error loading cover:', error);
+      // 如果出錯且不在 data.ts 中，顯示錯誤
+      if (!dailyLifeItem) {
+        setError('Daily Life not found');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -223,7 +275,7 @@ export default function DailyLifeCoverPage() {
     try {
       const formData = new FormData();
       formData.append('file', fileToUpload);
-      formData.append('folder', `daily-life/${dailyLifeId}`);
+                    formData.append('folder', `daily-life/${isNew ? newId : dailyLifeId}`);
 
       const response = await fetch('/api/admin/upload', {
         method: 'POST',
@@ -247,8 +299,9 @@ export default function DailyLifeCoverPage() {
         console.log('Public ID:', data.public_id);
 
         // 更新到 MongoDB
+        const targetId = isNew ? newId : dailyLifeId;
         const updateResponse = await fetch(
-          `/api/admin/daily-life/${dailyLifeId}/cover`,
+          `/api/admin/daily-life/${targetId}/cover`,
           {
             method: 'PUT',
             headers: {
@@ -297,6 +350,70 @@ export default function DailyLifeCoverPage() {
     setError(null);
 
     try {
+      if (isNew) {
+        // 創建新的 Daily Life
+        if (category === 'reading') {
+          if (!title || !description || !author) {
+            setError('標題、描述和作者為必填項');
+            setIsSaving(false);
+            return;
+          }
+        } else {
+          if (!title || !description || !date) {
+            setError('標題、描述和日期為必填項');
+            setIsSaving(false);
+            return;
+          }
+        }
+
+        const finalId = newId || `daily-life-${Date.now()}`;
+        const body: any = {
+          id: finalId,
+          title,
+          description,
+          category: category || null,
+        };
+        if (category === 'reading') {
+          body.author = author;
+        } else {
+          body.date = date;
+        }
+        if (coverImage) body.coverImage = coverImage;
+
+        const response = await fetch('/api/admin/daily-life', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        });
+
+        if (response.ok) {
+          setSuccess('Daily Life 已成功創建！');
+          setTimeout(() => {
+            const finalCategory = category || categoryParam || 'daily';
+            router.push(`/admin/daily-life?category=${finalCategory}`);
+          }, 2000);
+        } else {
+          const errorData = await response.json();
+          setError(errorData.error || '創建失敗');
+        }
+        setIsSaving(false);
+        return;
+      }
+
+      // 更新現有的 Daily Life
+      const updateBody: any = {
+        title,
+        description,
+        category: category || null,
+      };
+      if (category === 'reading') {
+        updateBody.author = author;
+      } else {
+        updateBody.date = date;
+      }
+      
       const response = await fetch(
         `/api/admin/daily-life/${dailyLifeId}`,
         {
@@ -304,12 +421,7 @@ export default function DailyLifeCoverPage() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            title,
-            description,
-            date,
-            category: category || null,
-          }),
+          body: JSON.stringify(updateBody),
         }
       );
 
@@ -365,7 +477,8 @@ export default function DailyLifeCoverPage() {
     );
   }
 
-  if (!dailyLifeItem) {
+  // 只有在不是新增模式，且沒有標題（表示 MongoDB 和 data.ts 都沒有）時才顯示錯誤
+  if (!isNew && !title && !dailyLifeItem) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
@@ -373,7 +486,10 @@ export default function DailyLifeCoverPage() {
             找不到此 Daily Life
           </h1>
           <button
-            onClick={() => router.push('/admin')}
+            onClick={() => {
+              const finalCategory = category || categoryParam || 'daily';
+              router.push(`/admin/daily-life?category=${finalCategory}`);
+            }}
             className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
           >
             返回管理頁面
@@ -383,7 +499,7 @@ export default function DailyLifeCoverPage() {
     );
   }
 
-  const displayImage = coverImage || dailyLifeItem.coverImage;
+  const displayImage = coverImage || (dailyLifeItem?.coverImage || null);
   
   // Check if image is from Cloudinary
   const isCloudinaryUrl = displayImage?.startsWith('http') || displayImage?.includes('cloudinary');
@@ -401,13 +517,16 @@ export default function DailyLifeCoverPage() {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="mb-6">
             <button
-              onClick={() => router.push('/admin')}
+              onClick={() => {
+                const finalCategory = category || categoryParam || 'daily';
+                router.push(`/admin/daily-life?category=${finalCategory}`);
+              }}
               className="text-blue-600 hover:text-blue-800 mb-4"
             >
-              ← 返回管理頁面
+              ← 返回 Daily Life 管理
             </button>
             <h1 className="text-2xl font-bold text-gray-900 mb-2">
-              管理 Daily Life
+              {isNew ? '新增 Daily Life' : '編輯 Daily Life'}
             </h1>
           </div>
 
@@ -439,7 +558,7 @@ export default function DailyLifeCoverPage() {
                 {imageUrl ? (
                   <Image
                     src={imageUrl}
-                    alt={dailyLifeItem.title}
+                    alt={title || dailyLifeItem?.title || 'Daily Life'}
                     fill
                     style={{ objectFit: 'cover' }}
                     className="rounded-lg"
@@ -539,18 +658,33 @@ export default function DailyLifeCoverPage() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  日期 (格式: YYYY-MM)
-                </label>
-                <input
-                  type="text"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="2025-12-24"
-                />
-              </div>
+              {category === 'reading' ? (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    作者
+                  </label>
+                  <input
+                    type="text"
+                    value={author}
+                    onChange={(e) => setAuthor(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="輸入作者名稱"
+                  />
+                </div>
+              ) : (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    日期 (格式: YYYY-MM)
+                  </label>
+                  <input
+                    type="text"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="2025-12-24"
+                  />
+                </div>
+              )}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   分類
@@ -565,12 +699,26 @@ export default function DailyLifeCoverPage() {
                   <option value="daily">日常分享</option>
                 </select>
               </div>
+              {isNew && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    ID（自動生成，可修改）
+                  </label>
+                  <input
+                    type="text"
+                    value={newId}
+                    onChange={(e) => setNewId(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="daily-life-xxxxx"
+                  />
+                </div>
+              )}
               <button
                 onClick={handleSaveText}
                 disabled={isSaving}
                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
               >
-                {isSaving ? '保存中...' : '保存文字內容'}
+                {isSaving ? '保存中...' : isNew ? '創建 Daily Life' : '保存文字內容'}
               </button>
             </div>
           </div>
@@ -615,6 +763,18 @@ export default function DailyLifeCoverPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function DailyLifeCoverPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-gray-500">載入中...</div>
+      </div>
+    }>
+      <DailyLifeEditContent />
+    </Suspense>
   );
 }
 

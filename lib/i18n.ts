@@ -100,7 +100,7 @@ export const translations: Record<Language, Translations> = {
       },
       dailyLife: {
         title: 'Daily Life',
-        description: 'Stories and reflections from my everyday life, university experiences, and insights from books and articles.',
+        description: 'Stories and reflections from my everyday life and insights from books and articles.',
         readingNotes: 'Reading Notes',
         readingNotesDesc: 'Insights and reflections from books I\'ve read.',
         dailyShare: 'Daily Share',
@@ -166,7 +166,7 @@ export const translations: Record<Language, Translations> = {
       },
       dailyLife: {
         title: '日常',
-        description: '來自我的日常生活、大學經歷以及從書籍和文章中獲得的見解的故事和反思。',
+        description: '來自我的日常生活以及從書籍和文章中獲得的見解的故事和反思。',
         readingNotes: '讀書心得',
         readingNotesDesc: '從我讀過的書籍中獲得的見解和反思。',
         dailyShare: '日常分享',

@@ -15,6 +15,8 @@ export default function DailyLifeCard({ dailyLife }: DailyLifeCardProps) {
   const [title, setTitle] = useState<string | null>(null);
   const [description, setDescription] = useState<string | null>(null);
   const [date, setDate] = useState<string | null>(null);
+  const [author, setAuthor] = useState<string | null>(null);
+  const [category, setCategory] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -27,6 +29,8 @@ export default function DailyLifeCard({ dailyLife }: DailyLifeCardProps) {
           if (data.title) setTitle(data.title);
           if (data.description) setDescription(data.description);
           if (data.date) setDate(data.date);
+          if (data.author) setAuthor(data.author);
+          if (data.category) setCategory(data.category);
         }
         setIsLoading(false);
       })
@@ -40,6 +44,8 @@ export default function DailyLifeCard({ dailyLife }: DailyLifeCardProps) {
   const displayTitle = title || dailyLife.title;
   const displayDescription = description || dailyLife.description;
   const displayDate = date || dailyLife.date;
+  const displayAuthor = author || (dailyLife as any)?.author || null;
+  const displayCategory = category || dailyLife.category || null;
 
   // Check if coverImage is a Cloudinary URL or local path
   const isCloudinaryUrl =
@@ -51,16 +57,19 @@ export default function DailyLifeCard({ dailyLife }: DailyLifeCardProps) {
     ? displayImage
     : `/images/${displayImage}`;
 
+  // 確保路由正確
+  const route = dailyLife.route || `/daily-life/${dailyLife.id}`;
+
   return (
-    <Link href={dailyLife.route}>
+    <Link href={route}>
       <div className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
-        <div className="relative h-64 w-full bg-gray-200">
+        <div className={`relative w-full bg-gray-200 ${displayCategory === 'reading' ? 'aspect-[3/4]' : 'h-64'}`}>
           {displayImage ? (
             <Image
               src={imageUrl}
               alt={displayTitle}
               fill
-              className="object-cover"
+              className={displayCategory === 'reading' ? 'object-contain' : 'object-cover'}
               unoptimized={isCloudinaryUrl}
             />
           ) : (
@@ -76,7 +85,13 @@ export default function DailyLifeCard({ dailyLife }: DailyLifeCardProps) {
             <h3 className="text-xl font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">
               {displayTitle}
             </h3>
-            <span className="text-sm text-gray-500">{displayDate}</span>
+            {displayCategory === 'reading' ? (
+              displayAuthor ? (
+                <span className="text-sm text-gray-500">作者：{displayAuthor}</span>
+              ) : null
+            ) : (
+              <span className="text-sm text-gray-500">{displayDate}</span>
+            )}
           </div>
           <p className="text-gray-600 line-clamp-3">
             {displayDescription}

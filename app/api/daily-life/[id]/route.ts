@@ -16,12 +16,14 @@ export async function GET(
       return NextResponse.json({
         title: item.title,
         description: item.description,
-        date: item.date,
+        date: item.date || null,
+        author: item.author || null,
+        category: item.category || null,
         coverImage: item.coverImage,
       });
     }
 
-    return NextResponse.json({ title: null, description: null, date: null, coverImage: null });
+    return NextResponse.json({ title: null, description: null, date: null, author: null, category: null, coverImage: null });
   } catch (error: any) {
     console.error('Error fetching daily life:', error);
     return NextResponse.json(

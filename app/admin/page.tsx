@@ -333,30 +333,37 @@ export default function AdminPage() {
 
         {/* Daily Life View */}
         {viewMode === 'daily-life' && (
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">所有 Daily Life</h2>
-            <p className="text-gray-600 mb-6">
-              點擊下方的 Daily Life 來管理其封面圖片和內容
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {dailyLife.map((item) => (
+          <div className="space-y-6">
+            {/* Daily Share Section */}
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-gray-900">Daily Share (日常分享)</h2>
                 <Link
-                  key={item.id}
-                  href={`/admin/daily-life/${item.id}`}
-                  className="border border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:shadow-md transition-all cursor-pointer"
+                  href="/admin/daily-life?category=daily"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
-                  <h3 className="font-semibold text-gray-900 mb-1">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 mb-2">{item.date}</p>
-                  <p className="text-xs text-gray-600 line-clamp-2">
-                    {item.description}
-                  </p>
-                  <div className="mt-3 text-xs text-blue-600">
-                    點擊管理封面與內容 →
-                  </div>
+                  管理 Daily Share
                 </Link>
-              ))}
+              </div>
+              <p className="text-gray-600 mb-4">
+                管理我的日常分享和想法
+              </p>
+            </div>
+
+            {/* Reading Notes Section */}
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-gray-900">Reading Notes (讀書心得)</h2>
+                <Link
+                  href="/admin/daily-life?category=reading"
+                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                >
+                  管理 Reading Notes
+                </Link>
+              </div>
+              <p className="text-gray-600 mb-4">
+                管理我的讀書心得和閱讀筆記
+              </p>
             </div>
           </div>
         )}

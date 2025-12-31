@@ -15,6 +15,7 @@ export interface DailyLife {
   date: string;
   route: string;
   category?: 'reading' | 'daily'; // 'reading' for 讀書心得, 'daily' for 日常分享
+  author?: string; // 作者（用於 Reading Notes）
 }
 
 export interface MapMarker {
