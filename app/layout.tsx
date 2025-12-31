@@ -378,6 +378,130 @@ export default function RootLayout({
                     rigaCarousel2ZhShowSlide();
                   }
                 });
+                
+                // NTU Carousel 1
+                let ntuCarousel1Index = 0;
+                
+                function getNtuCarousel1Elements() {
+                  return {
+                    container: document.querySelector('#ntu-carousel-1 .slider-container'),
+                    slides: document.querySelector('#ntu-carousel-1 .slides-container'),
+                    total: document.querySelector('#ntu-carousel-1 .slides-container') ? document.querySelector('#ntu-carousel-1 .slides-container').children.length : 0
+                  };
+                }
+                
+                function getNtuCarousel1Width() {
+                  const container = document.querySelector('#ntu-carousel-1 .slider-container');
+                  return container ? container.offsetWidth : 600;
+                }
+                
+                function ntuCarousel1ShowSlide() {
+                  const { slides } = getNtuCarousel1Elements();
+                  if (slides) {
+                    const width = getNtuCarousel1Width();
+                    slides.style.transform = 'translateX(' + (-ntuCarousel1Index * width) + 'px)';
+                    // Update dots
+                    const dots = document.querySelectorAll('#ntu-carousel-1 .ntu-dot-1');
+                    dots.forEach(function(dot, i) {
+                      if (i === ntuCarousel1Index) {
+                        dot.classList.remove('bg-gray-400');
+                        dot.classList.add('bg-gray-800');
+                      } else {
+                        dot.classList.remove('bg-gray-800');
+                        dot.classList.add('bg-gray-400');
+                      }
+                    });
+                  }
+                }
+                
+                window.ntuCarousel1Next = function() {
+                  const { total } = getNtuCarousel1Elements();
+                  ntuCarousel1Index = (ntuCarousel1Index + 1) % total;
+                  ntuCarousel1ShowSlide();
+                };
+                
+                window.ntuCarousel1Prev = function() {
+                  const { total } = getNtuCarousel1Elements();
+                  ntuCarousel1Index = (ntuCarousel1Index - 1 + total) % total;
+                  ntuCarousel1ShowSlide();
+                };
+                
+                window.ntuCarousel1GoTo = function(idx) {
+                  ntuCarousel1Index = idx;
+                  ntuCarousel1ShowSlide();
+                };
+                
+                // Initialize NTU carousel when DOM is ready
+                function initNtuCarousel() {
+                  const carousel1 = getNtuCarousel1Elements();
+                  if (carousel1.slides && carousel1.container) {
+                    const width = getNtuCarousel1Width();
+                    const images = carousel1.slides.querySelectorAll('.ntu-slide-img');
+                    images.forEach(function(img) {
+                      img.style.width = width + 'px';
+                      img.style.height = '450px';
+                      img.style.flexShrink = '0';
+                      img.style.display = 'block';
+                    });
+                    ntuCarousel1ShowSlide();
+                  }
+                }
+                
+                // Wait for DOM to be ready
+                function waitForNtuCarousel() {
+                  if (document.querySelector('#ntu-carousel-1 .slides-container')) {
+                    initNtuCarousel();
+                  } else {
+                    setTimeout(waitForNtuCarousel, 100);
+                  }
+                }
+                
+                // Initialize immediately if DOM is ready
+                if (document.readyState === 'loading') {
+                  document.addEventListener('DOMContentLoaded', waitForNtuCarousel);
+                } else {
+                  setTimeout(waitForNtuCarousel, 100);
+                }
+                
+                // Also listen for content updates (for dynamically loaded content)
+                const observer = new MutationObserver(function(mutations) {
+                  mutations.forEach(function(mutation) {
+                    if (mutation.addedNodes.length > 0) {
+                      const carousel = document.querySelector('#ntu-carousel-1 .slides-container');
+                      if (carousel && !carousel.hasAttribute('data-initialized')) {
+                        carousel.setAttribute('data-initialized', 'true');
+                        setTimeout(initNtuCarousel, 50);
+                      }
+                    }
+                  });
+                });
+                
+                // Start observing after a short delay
+                setTimeout(function() {
+                  observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                  });
+                }, 500);
+                
+                // Handle window resize for NTU carousel
+                let ntuResizeTimeout;
+                window.addEventListener('resize', function() {
+                  clearTimeout(ntuResizeTimeout);
+                  ntuResizeTimeout = setTimeout(function() {
+                    const carousel1 = getNtuCarousel1Elements();
+                    if (carousel1.slides && carousel1.container) {
+                      const width = getNtuCarousel1Width();
+                      const images = carousel1.slides.querySelectorAll('.ntu-slide-img');
+                      images.forEach(function(img) {
+                        img.style.width = width + 'px';
+                        img.style.height = '450px';
+                        img.style.flexShrink = '0';
+                      });
+                      ntuCarousel1ShowSlide();
+                    }
+                  }, 100);
+                });
               })();
             `,
           }}

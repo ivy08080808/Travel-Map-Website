@@ -315,7 +315,25 @@ export const trips: Trip[] = [
 ];
 
 export const dailyLife: DailyLife[] = [
-  { id: "lego-date", title: "Lego Date", description: "A special day with LEGO.", coverImage: "/images/lego-date.jpg", date: "2025-12-24", route: "/daily-life/lego-date", category: "daily" },
+  {
+    id: 'daily-life-Norwegian-Wood',
+    title: 'Norwegian Wood',
+    description: 'A novel by Haruki Murakami. Toru, a serious young college student in Tokyo, is devoted to Naoko, a beautiful and introspective young woman.',
+    coverImage: '/images/daily-life-Norwegian-Wood/cover.jpg',
+    date: '',
+    route: '/daily-life/daily-life-Norwegian-Wood',
+    category: 'reading',
+    author: 'Haruki Murakami',
+  },
+  {
+    id: 'daily-life-114-1_ntu_dump',
+    title: 'NTU Dump',
+    description: 'Another semester has passed. I did my best to attend classes, to eat well, and to record the parts of NTU that I love.',
+    coverImage: '/images/daily-life-114-1_ntu_dump/IMG_2678.jpg',
+    date: '',
+    route: '/daily-life/daily-life-114-1_ntu_dump',
+    category: 'daily',
+  },
 ];
 
 export type ExperienceType = 'internship' | 'volunteer' | 'selection' | 'other';

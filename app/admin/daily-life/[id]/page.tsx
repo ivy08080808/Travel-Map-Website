@@ -16,7 +16,8 @@ function DailyLifeEditContent() {
   const params = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const dailyLifeId = params.id as string;
+  // Decode the ID from URL (handles URL encoding like %20 for spaces)
+  const dailyLifeId = params.id ? decodeURIComponent(params.id as string) : '';
   const isNew = dailyLifeId === 'new';
   const categoryParam = searchParams?.get('category') as 'daily' | 'reading' | null;
 
@@ -96,26 +97,42 @@ function DailyLifeEditContent() {
           setAuthor(data.author || '');
           setCategory(data.category || '');
         } else {
-          // MongoDB 中沒有，使用 data.ts 中的默認值
-          setTitle(dailyLifeItem?.title || '');
-          setDescription(dailyLifeItem?.description || '');
-          setDate(dailyLifeItem?.date || '');
-          setAuthor((dailyLifeItem as any)?.author || '');
-          setCategory(dailyLifeItem?.category || '');
+          // MongoDB 中沒有數據，嘗試使用 data.ts 中的默認值
+          if (dailyLifeItem) {
+            setTitle(dailyLifeItem.title || '');
+            setDescription(dailyLifeItem.description || '');
+            setDate(dailyLifeItem.date || '');
+            setAuthor((dailyLifeItem as any)?.author || '');
+            setCategory(dailyLifeItem.category || '');
+          } else {
+            // 既不在 MongoDB 也不在 data.ts，但可能只是沒有 title/description
+            // 繼續加載其他數據（封面圖片等）
+            setTitle('');
+            setDescription('');
+            setDate('');
+            setAuthor('');
+            setCategory('');
+          }
         }
       } else {
-        // 如果 MongoDB 中沒有，檢查 data.ts 中是否有
-        if (!dailyLifeItem) {
-          setError('Daily Life not found');
-          setIsLoading(false);
-          return;
+        // API 請求失敗，檢查 data.ts 中是否有
+        if (dailyLifeItem) {
+          // 使用 data.ts 中的默認值
+          setTitle(dailyLifeItem.title || '');
+          setDescription(dailyLifeItem.description || '');
+          setDate(dailyLifeItem.date || '');
+          setAuthor((dailyLifeItem as any)?.author || '');
+          setCategory(dailyLifeItem.category || '');
+        } else {
+          // 既不在 MongoDB 也不在 data.ts
+          // 但先不顯示錯誤，因為可能只是沒有 title/description
+          // 繼續嘗試加載封面圖片
+          setTitle('');
+          setDescription('');
+          setDate('');
+          setAuthor('');
+          setCategory('');
         }
-        // 使用 data.ts 中的默認值
-        setTitle(dailyLifeItem.title || '');
-        setDescription(dailyLifeItem.description || '');
-        setDate(dailyLifeItem.date || '');
-        setAuthor((dailyLifeItem as any)?.author || '');
-        setCategory(dailyLifeItem.category || '');
       }
 
       // 獲取封面圖片
@@ -143,10 +160,7 @@ function DailyLifeEditContent() {
       }
     } catch (error) {
       console.error('Error loading cover:', error);
-      // 如果出錯且不在 data.ts 中，顯示錯誤
-      if (!dailyLifeItem) {
-        setError('Daily Life not found');
-      }
+      // 不立即顯示錯誤，因為項目可能只存在於 MongoDB 中
     } finally {
       setIsLoading(false);
     }
@@ -352,20 +366,6 @@ function DailyLifeEditContent() {
     try {
       if (isNew) {
         // 創建新的 Daily Life
-        if (category === 'reading') {
-          if (!title || !description || !author) {
-            setError('標題、描述和作者為必填項');
-            setIsSaving(false);
-            return;
-          }
-        } else {
-          if (!title || !description || !date) {
-            setError('標題、描述和日期為必填項');
-            setIsSaving(false);
-            return;
-          }
-        }
-
         const finalId = newId || `daily-life-${Date.now()}`;
         const body: any = {
           id: finalId,
@@ -477,14 +477,19 @@ function DailyLifeEditContent() {
     );
   }
 
-  // 只有在不是新增模式，且沒有標題（表示 MongoDB 和 data.ts 都沒有）時才顯示錯誤
-  if (!isNew && !title && !dailyLifeItem) {
+  // 只有在不是新增模式，且完全沒有數據時才顯示錯誤
+  // 檢查是否至少有一些數據（title, description, coverImage 或 MongoDB 中有記錄）
+  if (!isNew && !title && !description && !coverImage && !dailyLifeItem) {
+    // 最後檢查一次 MongoDB 中是否有這個 ID 的記錄
+    // 如果還是沒有，才顯示錯誤
+    // 這裡我們已經在 checkAuthAndLoadCover 中嘗試加載了，如果還是沒有，就顯示錯誤
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">
             找不到此 Daily Life
           </h1>
+          <p className="text-gray-600 mb-4">ID: {dailyLifeId}</p>
           <button
             onClick={() => {
               const finalCategory = category || categoryParam || 'daily';
@@ -533,6 +538,13 @@ function DailyLifeEditContent() {
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
               {error}
+            </div>
+          )}
+
+          {/* Debug info */}
+          {!isNew && (
+            <div className="bg-gray-50 border border-gray-200 text-gray-600 px-4 py-2 rounded mb-4 text-sm">
+              <strong>Debug Info:</strong> ID = "{dailyLifeId}" (URL decoded)
             </div>
           )}
 

@@ -59,22 +59,45 @@ function DailyLifeAdminContent() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('確定要刪除這個 Daily Life 嗎？')) {
+    if (!confirm('確定要刪除這個 Daily Life 嗎？這將刪除所有相關數據（數據庫記錄、內容文件、圖片）。')) {
       return;
     }
 
     try {
-      const response = await fetch(`/api/admin/daily-life/${id}`, {
-        method: 'DELETE',
+      // 使用完整刪除 API，刪除所有相關數據
+      const response = await fetch('/api/admin/daily-life/delete-complete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id }),
       });
 
       if (response.ok) {
+        const result = await response.json();
+        console.log('Delete result:', result);
+        alert(`刪除成功！\n已刪除項目: ${result.deletedItems?.length || 0}\n已刪除文件: ${result.deletedFiles?.length || 0}`);
         await fetchDailyLife();
       } else {
-        alert('刪除失敗');
+        // 如果完整刪除失敗，嘗試普通刪除
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        console.error('Complete delete error, trying normal delete:', errorData);
+        
+        const normalResponse = await fetch(`/api/admin/daily-life/${encodeURIComponent(id)}`, {
+          method: 'DELETE',
+        });
+
+        if (normalResponse.ok) {
+          alert('已刪除數據庫記錄，但部分文件可能未刪除');
+          await fetchDailyLife();
+        } else {
+          const normalError = await normalResponse.json().catch(() => ({ error: 'Unknown error' }));
+          alert(`刪除失敗: ${normalError.error || errorData.error || 'Unknown error'}`);
+        }
       }
-    } catch (error) {
-      alert('刪除失敗');
+    } catch (error: any) {
+      console.error('Delete error:', error);
+      alert(`刪除失敗: ${error?.message || 'Network error'}`);
     }
   };
 
@@ -174,6 +197,7 @@ function DailyLifeAdminContent() {
                         <h3 className="font-semibold text-gray-900 mb-1">
                           {item.title}
                         </h3>
+                        <p className="text-xs text-gray-400 mb-1 font-mono">ID: {item.id}</p>
                         <p className="text-sm text-gray-600 mb-2">{item.description}</p>
                         {item.category === 'reading' ? (
                           (item as any).author ? (
@@ -191,7 +215,7 @@ function DailyLifeAdminContent() {
                     </div>
                     <div className="flex gap-2 mt-3">
                       <Link
-                        href={`/admin/daily-life/${item.id}`}
+                        href={`/admin/daily-life/${encodeURIComponent(item.id)}`}
                         className="flex-1 px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 text-center"
                       >
                         編輯

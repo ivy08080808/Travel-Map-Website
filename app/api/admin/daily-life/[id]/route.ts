@@ -5,7 +5,7 @@ import { isAdmin } from '@/lib/auth';
 // GET: 獲取 daily life 的文字內容
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> | { id: string } }
 ) {
   try {
     const admin = await isAdmin();
@@ -13,10 +13,31 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
+    // Handle params as Promise (Next.js 15+) or object (Next.js 14)
+    const resolvedParams = params instanceof Promise ? await params : params;
+    const id = resolvedParams.id;
+    
+    console.log(`[GET /api/admin/daily-life/[id]] Looking for daily life with id: "${id}"`);
+
     const db = await getDb();
     const item = await db.collection('dailyLife').findOne({
-      id: params.id,
+      id,
     });
+    
+    if (item) {
+      console.log(`[GET /api/admin/daily-life/[id]] Found item:`, { 
+        id: item.id, 
+        title: item.title,
+        category: item.category 
+      });
+    } else {
+      console.log(`[GET /api/admin/daily-life/[id]] Item not found in MongoDB with id: "${id}"`);
+      // 列出所有 dailyLife 的 ID 以便调试
+      const allItems = await db.collection('dailyLife').find({}).toArray();
+      console.log(`[GET /api/admin/daily-life/[id]] All dailyLife IDs in database:`, 
+        allItems.map(i => ({ id: i.id, title: i.title, deleted: i.deleted }))
+      );
+    }
 
     if (item) {
       return NextResponse.json({
@@ -41,7 +62,7 @@ export async function GET(
 // PUT: 更新 daily life 的文字內容
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> | { id: string } }
 ) {
   try {
     const admin = await isAdmin();
@@ -49,31 +70,11 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
+    // Handle params as Promise (Next.js 15+) or object (Next.js 14)
+    const resolvedParams = params instanceof Promise ? await params : params;
+    const id = resolvedParams.id;
+
     const { title, description, date, author, category } = await request.json();
-
-    if (!title || !description) {
-      return NextResponse.json(
-        { error: 'title and description are required' },
-        { status: 400 }
-      );
-    }
-
-    // 根據分類驗證必填項
-    if (category === 'reading') {
-      if (!author) {
-        return NextResponse.json(
-          { error: 'author is required for reading category' },
-          { status: 400 }
-        );
-      }
-    } else {
-      if (!date) {
-        return NextResponse.json(
-          { error: 'date is required for daily category' },
-          { status: 400 }
-        );
-      }
-    }
 
     const db = await getDb();
     const updateData: any = {
@@ -93,7 +94,7 @@ export async function PUT(
     }
 
     const result = await db.collection('dailyLife').updateOne(
-      { id: params.id },
+      { id },
       {
         $set: updateData,
       },
@@ -120,7 +121,7 @@ export async function PUT(
 // DELETE: 刪除 daily life
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> | { id: string } }
 ) {
   try {
     const admin = await isAdmin();
@@ -128,16 +129,57 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
-    const db = await getDb();
-    const result = await db.collection('dailyLife').deleteOne({
-      id: params.id,
-    });
+    // Handle params as Promise (Next.js 15+) or object (Next.js 14)
+    const resolvedParams = params instanceof Promise ? await params : params;
+    const id = resolvedParams.id;
 
-    if (result.deletedCount === 0) {
-      return NextResponse.json({ error: 'Daily Life not found' }, { status: 404 });
+    if (!id) {
+      return NextResponse.json({ error: 'ID is required' }, { status: 400 });
     }
 
-    return NextResponse.json({ success: true });
+    const db = await getDb();
+    
+    // First check if the item exists in MongoDB
+    const item = await db.collection('dailyLife').findOne({ id });
+    
+    if (!item) {
+      // Item not in MongoDB - it might be from data.ts
+      // Create a deletion marker in MongoDB to hide it from the list
+      console.log(`Daily Life with id "${id}" not found in MongoDB, creating deletion marker`);
+      
+      // Check if deletion marker already exists
+      const existingMarker = await db.collection('dailyLife').findOne({ id, deleted: true });
+      
+      if (!existingMarker) {
+        // Create a deletion marker
+        await db.collection('dailyLife').insertOne({
+          id,
+          deleted: true,
+          deletedAt: new Date(),
+        });
+        console.log(`Created deletion marker for Daily Life with id "${id}"`);
+      }
+      
+      return NextResponse.json({ 
+        success: true, 
+        id,
+        message: 'Item marked as deleted (was not in database, likely from data.ts)'
+      });
+    }
+
+    // Item exists in MongoDB, delete it
+    const result = await db.collection('dailyLife').deleteOne({ id });
+
+    if (result.deletedCount === 0) {
+      console.log(`Failed to delete Daily Life with id "${id}"`);
+      return NextResponse.json(
+        { error: 'Failed to delete Daily Life', id },
+        { status: 500 }
+      );
+    }
+
+    console.log(`Successfully deleted Daily Life with id "${id}"`);
+    return NextResponse.json({ success: true, id });
   } catch (error: any) {
     console.error('Error deleting daily life:', error);
     return NextResponse.json(

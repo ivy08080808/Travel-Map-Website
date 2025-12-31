@@ -1,0 +1,165 @@
+<div style="display: flex; flex-direction: column; gap: 2rem; align-items: center;">
+  <!-- 描述文字 -->
+  <div style="margin-bottom: 1rem; width: 100%; max-width: 800px;">
+    <p style="font-family: sans-serif; line-height: 1.8; color: #333; font-size: 1.1rem; margin-bottom: 0.5rem;">
+      Another semester has passed.
+    </p>
+    <p style="font-family: sans-serif; line-height: 1.8; color: #333; font-size: 1.1rem; margin-bottom: 0.5rem;">
+      I did my best to attend classes,
+    </p>
+    <p style="font-family: sans-serif; line-height: 1.8; color: #333; font-size: 1.1rem; margin-bottom: 0.5rem;">
+      to eat well,
+    </p>
+    <p style="font-family: sans-serif; line-height: 1.8; color: #333; font-size: 1.1rem;">
+      and to record the parts of NTU that I love.
+    </p>
+  </div>
+
+  <!-- 照片滑動組 -->
+  <div style="display: flex; flex-direction: column; align-items: center; width: 100%;" id="ntu-carousel-1">
+    <div class="slider-container relative" style="width: 600px; max-width: 100%; height: 450px; overflow: hidden; border-radius: 0.5rem; position: relative;">
+      <div class="slides-container" style="display: flex; transition: transform 0.5s ease; height: 100%;">
+        <img 
+          src="/images/daily-life-114-1_ntu_dump/IMG_2678.jpg" 
+          alt="NTU Photo 1" 
+          class="ntu-slide-img"
+          style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0; display: block;"
+        />
+        <img 
+          src="/images/daily-life-114-1_ntu_dump/IMG_2763.jpg" 
+          alt="NTU Photo 2" 
+          class="ntu-slide-img"
+          style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0; display: block;"
+        />
+        <img 
+          src="/images/daily-life-114-1_ntu_dump/IMG_2995.jpg" 
+          alt="NTU Photo 3" 
+          class="ntu-slide-img"
+          style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0; display: block;"
+        />
+        <img 
+          src="/images/daily-life-114-1_ntu_dump/IMG_2998.jpg" 
+          alt="NTU Photo 4" 
+          class="ntu-slide-img"
+          style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0; display: block;"
+        />
+        <img 
+          src="/images/daily-life-114-1_ntu_dump/IMG_3093.jpg" 
+          alt="NTU Photo 5" 
+          class="ntu-slide-img"
+          style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0; display: block;"
+        />
+        <img 
+          src="/images/daily-life-114-1_ntu_dump/IMG_3098.jpg" 
+          alt="NTU Photo 6" 
+          class="ntu-slide-img"
+          style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0; display: block;"
+        />
+        <img 
+          src="/images/daily-life-114-1_ntu_dump/IMG_3115.jpg" 
+          alt="NTU Photo 7" 
+          class="ntu-slide-img"
+          style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0; display: block;"
+        />
+        <img 
+          src="/images/daily-life-114-1_ntu_dump/IMG_3121.jpg" 
+          alt="NTU Photo 8" 
+          class="ntu-slide-img"
+          style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0; display: block;"
+        />
+        <img 
+          src="/images/daily-life-114-1_ntu_dump/IMG_3208.jpg" 
+          alt="NTU Photo 9" 
+          class="ntu-slide-img"
+          style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0; display: block;"
+        />
+        <img 
+          src="/images/daily-life-114-1_ntu_dump/IMG_3215.jpg" 
+          alt="NTU Photo 10" 
+          class="ntu-slide-img"
+          style="width: 600px; height: 450px; object-fit: cover; flex-shrink: 0; display: block;"
+        />
+      </div>
+      
+      <!-- Left arrow button -->
+      <button 
+        onclick="ntuCarousel1Prev()"
+        aria-label="上一張"
+        style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); background-color: #e5e7eb; color: #374151; border-radius: 9999px; padding: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); cursor: pointer; z-index: 9999; pointer-events: auto; display: block; border: none; transition: background-color 0.2s;"
+        onmouseover="this.style.backgroundColor='#d1d5db'"
+        onmouseout="this.style.backgroundColor='#e5e7eb'"
+      >
+        <svg style="width: 24px; height: 24px; display: block;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+      
+      <!-- Right arrow button -->
+      <button 
+        onclick="ntuCarousel1Next()"
+        aria-label="下一張"
+        style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background-color: #e5e7eb; color: #374151; border-radius: 9999px; padding: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); cursor: pointer; z-index: 9999; pointer-events: auto; display: block; border: none; transition: background-color 0.2s;"
+        onmouseover="this.style.backgroundColor='#d1d5db'"
+        onmouseout="this.style.backgroundColor='#e5e7eb'"
+      >
+        <svg style="width: 24px; height: 24px; display: block;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Dots indicator -->
+    <div style="display: flex; justify-content: center; gap: 6px; margin-top: 12px;">
+      <button 
+        class="ntu-dot-1 w-2 h-2 rounded-full bg-gray-800 transition-all cursor-pointer"
+        onclick="ntuCarousel1GoTo(0)"
+        aria-label="跳轉到圖片 1"
+      ></button>
+      <button 
+        class="ntu-dot-1 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+        onclick="ntuCarousel1GoTo(1)"
+        aria-label="跳轉到圖片 2"
+      ></button>
+      <button 
+        class="ntu-dot-1 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+        onclick="ntuCarousel1GoTo(2)"
+        aria-label="跳轉到圖片 3"
+      ></button>
+      <button 
+        class="ntu-dot-1 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+        onclick="ntuCarousel1GoTo(3)"
+        aria-label="跳轉到圖片 4"
+      ></button>
+      <button 
+        class="ntu-dot-1 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+        onclick="ntuCarousel1GoTo(4)"
+        aria-label="跳轉到圖片 5"
+      ></button>
+      <button 
+        class="ntu-dot-1 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+        onclick="ntuCarousel1GoTo(5)"
+        aria-label="跳轉到圖片 6"
+      ></button>
+      <button 
+        class="ntu-dot-1 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+        onclick="ntuCarousel1GoTo(6)"
+        aria-label="跳轉到圖片 7"
+      ></button>
+      <button 
+        class="ntu-dot-1 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+        onclick="ntuCarousel1GoTo(7)"
+        aria-label="跳轉到圖片 8"
+      ></button>
+      <button 
+        class="ntu-dot-1 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+        onclick="ntuCarousel1GoTo(8)"
+        aria-label="跳轉到圖片 9"
+      ></button>
+      <button 
+        class="ntu-dot-1 w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all cursor-pointer"
+        onclick="ntuCarousel1GoTo(9)"
+        aria-label="跳轉到圖片 10"
+      ></button>
+    </div>
+  </div>
+</div>

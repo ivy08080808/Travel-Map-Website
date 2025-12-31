@@ -166,13 +166,13 @@ export default async function DailyLifeDetailPage({
   return (
     <div className="min-h-screen bg-gray-50">
       {/* 封面圖片 - 放在最上面，無框框 */}
-      <div className={`relative w-full bg-gray-200 ${displayCategory === 'reading' ? 'h-[80vh] min-h-[600px]' : 'h-[60vh] min-h-[500px]'}`}>
+      <div className={`relative w-full bg-gray-200 ${displayCategory === 'reading' ? 'h-[60vh] min-h-[500px]' : 'h-[60vh] min-h-[500px]'}`}>
         {displayCoverImage ? (
           <Image
             src={imageUrl}
             alt={displayTitle}
             fill
-            style={{ objectFit: displayCategory === 'reading' ? 'contain' : 'cover' }}
+            style={{ objectFit: 'cover' }}
             className="opacity-50"
             unoptimized={isCloudinaryUrl}
           />
