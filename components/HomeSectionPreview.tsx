@@ -63,7 +63,8 @@ export default function HomeSectionPreview({
     
     if (isTravelogue(item)) {
       // Fetch Travelogue data
-      fetch(`/api/travelogues/${item.id}`)
+      const travelogueItem = item as Travelogue;
+      fetch(`/api/travelogues/${travelogueItem.id}`)
         .then((res) => res.json())
         .then((data) => {
           if (data) {
@@ -78,7 +79,8 @@ export default function HomeSectionPreview({
         });
     } else if (isDailyLife(item)) {
       // Fetch DailyLife data
-      fetch(`/api/daily-life/${item.id}`)
+      const dailyLifeItem = item as DailyLife;
+      fetch(`/api/daily-life/${dailyLifeItem.id}`)
         .then((res) => res.json())
         .then((data) => {
           if (data) {
