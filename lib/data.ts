@@ -315,7 +315,6 @@ export const trips: Trip[] = [
 ];
 
 export const dailyLife: DailyLife[] = [
-  { id: "lego-date", title: "Lego Date", description: "A special day with LEGO.", coverImage: "/images/lego-date.jpg", date: "2025-12-24", route: "/daily-life/lego-date", category: "daily" },
 ];
 
 export type ExperienceType = 'internship' | 'volunteer' | 'selection' | 'other';

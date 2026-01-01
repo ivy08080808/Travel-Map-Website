@@ -36,7 +36,7 @@ export default function Navigation() {
               </Link>
             )}
             <Link href="/" className="text-2xl font-bold text-gray-800 hover:text-gray-600 transition-colors">
-              {language === 'zh' ? '呂卿華' : 'Chinghua Ivy Lu'}
+              {language === 'zh' ? '首頁' : 'Home Page'}
             </Link>
           </div>
 

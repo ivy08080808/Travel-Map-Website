@@ -21,9 +21,9 @@ export default function Hero() {
       {/* 半透明遮罩層，確保文字可讀性 */}
       <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
       
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0">
         <div className="text-left">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 py-6 md:py-8">
+          <h1 className="sticky top-16 z-20 text-4xl md:text-6xl font-bold text-gray-900 pt-16 pb-6 md:pb-8 bg-transparent">
             {t.hero.title}
           </h1>
           <div className="py-8 md:py-12">
