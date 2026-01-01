@@ -23,11 +23,11 @@ export default function Hero() {
       
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0">
         <div className="text-left">
-          <h1 className="sticky top-16 z-20 text-4xl md:text-6xl font-bold text-gray-900 pt-16 pb-6 md:pb-8 bg-transparent">
+          <h1 className="sticky top-16 z-20 text-4xl md:text-6xl font-bold text-gray-900 pt-16 pb-6 md:pb-8 bg-transparent" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
             {t.hero.title}
           </h1>
           <div className="py-8 md:py-12">
-            <p className="text-lg md:text-xl text-gray-800 max-w-3xl leading-relaxed font-medium">
+            <p className="text-lg md:text-xl text-gray-800 max-w-3xl leading-relaxed font-medium" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
               {t.hero.description}
               <br /><br />
               {t.hero.description2}
