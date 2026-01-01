@@ -6,6 +6,8 @@ export interface Translations {
     experience: string;
     travelogues: string;
     dailyLife: string;
+    readingNotes: string;
+    dailyShare: string;
     backToTravelogues: string;
   };
   
@@ -85,6 +87,8 @@ export const translations: Record<Language, Translations> = {
       experience: 'Experience',
       travelogues: 'Travelogues',
       dailyLife: 'Daily Life',
+      readingNotes: 'Reading Notes',
+      dailyShare: 'Daily Share',
       backToTravelogues: '← Back to Travelogues',
     },
     hero: {
@@ -152,6 +156,8 @@ export const translations: Record<Language, Translations> = {
       experience: '經歷',
       travelogues: '遊記',
       dailyLife: '日常',
+      readingNotes: '讀書心得',
+      dailyShare: '日常分享',
       backToTravelogues: '← 返回遊記',
     },
     hero: {

@@ -339,7 +339,7 @@ export default function AdminPage() {
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-gray-900">Daily Share (日常分享)</h2>
                 <Link
-                  href="/admin/daily-life?category=daily"
+                  href="/admin/daily-share"
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
                   管理 Daily Share
@@ -355,7 +355,7 @@ export default function AdminPage() {
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-gray-900">Reading Notes (讀書心得)</h2>
                 <Link
-                  href="/admin/daily-life?category=reading"
+                  href="/admin/reading-notes"
                   className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
                 >
                   管理 Reading Notes

@@ -19,7 +19,8 @@ export default function Navigation() {
   const navItems = [
     { name: t.nav.experience, href: '/experience' },
     { name: t.nav.travelogues, href: '/Travelogues' },
-    { name: t.nav.dailyLife, href: '/daily-life' },
+    { name: t.nav.readingNotes, href: '/reading-notes' },
+    { name: t.nav.dailyShare, href: '/daily-share' },
   ];
 
   return (
@@ -47,9 +48,7 @@ export default function Navigation() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors ${
-                    item.name === t.nav.dailyLife ? 'ml-[-12px]' : ''
-                  }`}
+                  className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors"
                 >
                   {item.name}
                 </Link>
