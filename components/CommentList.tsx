@@ -33,7 +33,7 @@ export default function CommentList({
 
   if (mainComments.length === 0) {
     return (
-      <div className="text-center py-8 text-gray-500">
+      <div className="text-center py-8 text-gray-500 dark:text-gray-500">
         {t.comments.noComments}
       </div>
     );

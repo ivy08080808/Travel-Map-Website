@@ -15,6 +15,7 @@ export default function Hero() {
       className="relative bg-cover bg-center bg-no-repeat min-h-screen"
       style={{
         backgroundImage: `url(${backgroundImage})`,
+        backgroundAttachment: 'fixed',
       }}
     >
       {/* 半透明遮罩層，確保文字可讀性 */}
@@ -22,7 +23,7 @@ export default function Hero() {
       
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-left">
-          <h1 className="sticky top-0 z-20 text-4xl md:text-6xl font-bold text-gray-900 py-6 md:py-8 bg-transparent">
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 py-6 md:py-8">
             {t.hero.title}
           </h1>
           <div className="py-8 md:py-12">

@@ -1,13 +1,13 @@
 import Hero from "@/components/Hero";
-import TravelogueList from "@/components/TravelogueList";
 import CommentBoard from "@/components/CommentBoard";
 
 export default function Home() {
   return (
-    <div>
+    <div className="bg-[#F9FAFB] dark:bg-[#F9FAFB] min-h-screen">
       <Hero />
-      <TravelogueList limit={6} />
-      <CommentBoard />
+      <div className="bg-[#F9FAFB] dark:bg-[#F9FAFB]">
+        <CommentBoard />
+      </div>
     </div>
   );
 }

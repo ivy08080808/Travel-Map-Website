@@ -69,27 +69,27 @@ export default function CommentItem({
   };
 
   return (
-    <div className="border-l-2 border-gray-200 pl-4 py-3">
+    <div className="border-l-2 border-gray-200 dark:border-gray-200 pl-4 py-3">
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
-            <span className="font-semibold text-gray-900">
+            <span className="font-semibold text-gray-900 dark:text-gray-900">
               {comment.name || 'Anonymous'}
             </span>
             {comment.email && (
-              <span className="text-sm text-gray-500">{comment.email}</span>
+              <span className="text-sm text-gray-500 dark:text-gray-500">{comment.email}</span>
             )}
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-gray-500 dark:text-gray-500">
               {formatDate(comment.createdAt)}
             </span>
           </div>
-          <p className="text-gray-700 whitespace-pre-wrap">{comment.message}</p>
+          <p className="text-gray-700 dark:text-gray-700 whitespace-pre-wrap">{comment.message}</p>
         </div>
         <div className="flex gap-2 ml-4">
           {canEdit && (
             <button
               onClick={() => onEdit(comment)}
-              className="text-black hover:text-gray-700 text-sm"
+              className="text-black dark:text-black hover:text-gray-700 dark:hover:text-gray-700 text-sm"
             >
               {t.comments.edit}
             </button>
@@ -98,14 +98,14 @@ export default function CommentItem({
             <button
               onClick={handleDelete}
               disabled={isDeleting}
-              className="text-black hover:text-gray-700 text-sm disabled:opacity-50"
+              className="text-black dark:text-black hover:text-gray-700 dark:hover:text-gray-700 text-sm disabled:opacity-50"
             >
               {isDeleting ? (language === 'zh' ? '刪除中...' : 'Deleting...') : t.comments.delete}
             </button>
           )}
           <button
             onClick={() => onReply(comment._id)}
-            className="text-black hover:text-gray-700 text-sm"
+            className="text-black dark:text-black hover:text-gray-700 dark:hover:text-gray-700 text-sm"
           >
             {t.comments.reply}
           </button>
@@ -116,7 +116,7 @@ export default function CommentItem({
         <div className="mt-3">
           <button
             onClick={() => setShowReplies(!showReplies)}
-            className="text-sm text-gray-600 hover:text-gray-800 mb-2"
+            className="text-sm text-gray-600 dark:text-gray-600 hover:text-gray-800 dark:hover:text-gray-800 mb-2"
           >
             {showReplies 
               ? (language === 'zh' ? '隱藏' : 'Hide') 

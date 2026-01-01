@@ -153,7 +153,7 @@ export default async function DailyLifeDetailPage({
     : `/images/${displayCoverImage}`;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#F9FAFB]">
       {/* 封面圖片 - 放在最上面，無框框 */}
       <div className={`relative w-full bg-gray-200 ${displayCategory === 'reading' ? 'h-[80vh] min-h-[600px]' : 'h-[60vh] min-h-[500px]'}`}>
         {displayCoverImage ? (

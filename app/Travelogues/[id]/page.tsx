@@ -102,7 +102,7 @@ export default async function TravelogueDetailPage({
     : `/images/${displayCoverImage}`;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#F9FAFB]">
       {/* 封面圖片 - 放在最上面，無框框 */}
       <div className="relative w-full h-[60vh] min-h-[500px] bg-gray-200">
         {displayCoverImage ? (

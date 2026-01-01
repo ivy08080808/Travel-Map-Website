@@ -173,7 +173,7 @@ export default function CommentBoard() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
-      <h2 className="text-3xl font-bold text-gray-900 mb-8">{t.comments.title}</h2>
+      <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-900 mb-8">{t.comments.title}</h2>
 
       {!showForm && !replyingTo && !editingComment && (
         <button
@@ -185,7 +185,7 @@ export default function CommentBoard() {
       )}
 
       {(showForm || replyingTo || editingComment) && (
-        <div className="mb-8 p-6 bg-white rounded-lg border border-gray-200">
+        <div className="mb-8 p-6 bg-white dark:bg-white rounded-lg border border-gray-200 dark:border-gray-200">
           <CommentForm
             onSubmit={editingComment ? handleUpdate : handleSubmit}
             onCancel={() => {
@@ -205,7 +205,7 @@ export default function CommentBoard() {
       )}
 
       {isLoading ? (
-        <div className="text-center py-8 text-gray-500">{t.comments.loading}</div>
+        <div className="text-center py-8 text-gray-500 dark:text-gray-500">{t.comments.loading}</div>
       ) : (
         <CommentList
           comments={comments}

@@ -72,18 +72,18 @@ export default function CommentForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {parentAuthor && (
-        <div className="text-sm text-gray-600 mb-2">
+        <div className="text-sm text-gray-600 dark:text-gray-600 mb-2">
           {t.comments.replyingTo} <span className="font-semibold">{parentAuthor}</span>
         </div>
       )}
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+        <div className="bg-red-50 dark:bg-red-50 border border-red-200 dark:border-red-200 text-red-700 dark:text-red-700 px-4 py-3 rounded">
           {error}
         </div>
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-700 mb-1">
             {t.comments.nameOptional}
           </label>
           <input
@@ -91,11 +91,11 @@ export default function CommentForm({
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 bg-white dark:bg-white border border-gray-300 dark:border-gray-300 text-gray-900 dark:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-700 mb-1">
             {t.comments.emailOptional}
           </label>
           <input
@@ -103,12 +103,12 @@ export default function CommentForm({
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 bg-white dark:bg-white border border-gray-300 dark:border-gray-300 text-gray-900 dark:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
       </div>
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-700 mb-1">
           {t.comments.message}
         </label>
         <textarea
@@ -116,7 +116,7 @@ export default function CommentForm({
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           rows={4}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 bg-white dark:bg-white border border-gray-300 dark:border-gray-300 text-gray-900 dark:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         />
       </div>
@@ -124,7 +124,7 @@ export default function CommentForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 bg-blue-600 dark:bg-blue-600 text-white dark:text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? (initialData ? t.comments.updating : t.comments.submitting) : (initialData ? t.comments.update : t.comments.submit)}
         </button>
@@ -132,7 +132,7 @@ export default function CommentForm({
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+            className="px-4 py-2 bg-gray-200 dark:bg-gray-200 text-gray-700 dark:text-gray-700 rounded-md hover:bg-gray-300 dark:hover:bg-gray-300"
           >
             {t.comments.cancel}
           </button>
