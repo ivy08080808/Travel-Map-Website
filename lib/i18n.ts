@@ -16,6 +16,7 @@ export interface Translations {
     description: string;
     description2: string;
     description3: string;
+    description4: string;
   };
   
   // Pages
@@ -88,10 +89,11 @@ export const translations: Record<Language, Translations> = {
     },
     hero: {
       title: 'Chinghua Ivy Lu',
-      subtitle: "Chinghua Ivy Lu's Adventurous Journeys",
-      description: "Hello! I'm currently a student at National Taiwan University. I have a deep love for traveling and observing the world around me. Every journey brings new places, new perspectives, and, most importantly, wonderful people I'm grateful to meet along the way.",
-      description2: "This blog is my way of collecting and preserving the things I care about—travel moments, everyday thoughts, and reflections from my daily life. In the Daily Life section, I write about my university experiences as well as insights from books and articles I've read.",
-      description3: "Feel free to leave a comment and share your thoughts. I'd love for this space to be one where we can exchange ideas and experiences together.",
+      subtitle: 'About me',
+      description: "Hello, I'm Chinghua Ivy Lu, currently a student in the Department of Information Management at National Taiwan University.",
+      description2: "This website documents my learning, daily life, and explorations across different stages of my journey, including academic experiences, exchange programs and internships, as well as observations and reflections gathered through travel. I see it as a space to organize my thoughts and look back on my personal growth.",
+      description3: "Many of the entries here are simply snapshots of my thoughts and feelings at a particular moment. They may not always be polished or complete, but they are genuine reflections of how I felt at that time—kept here so those moments don't quietly fade away.",
+      description4: "If any of these stories resonate with you or spark your interest, feel free to leave a comment and share your thoughts.",
     },
     pages: {
       travelogues: {
@@ -154,10 +156,11 @@ export const translations: Record<Language, Translations> = {
     },
     hero: {
       title: '呂卿華',
-      subtitle: '呂卿華的冒險旅程',
-      description: '你好！我目前是國立台灣大學的學生。我熱愛旅行和觀察周圍的世界。每一次旅程都帶來新的地方、新的視角，最重要的是，我很感激能在路上遇到的精彩人們。',
-      description2: '這個部落格是我收集和保存我關心的事物的一種方式——旅行時刻、日常想法，以及我日常生活中的反思。在「日常」區塊中，我寫下我的大學經歷以及從我讀過的書籍和文章中獲得的見解。',
-      description3: '歡迎留言並分享你的想法。我希望這個空間能成為我們一起交流想法和經驗的地方。',
+      subtitle: '關於我',
+      description: '大家好～我是呂卿華，目前就讀於國立臺灣大學資訊管理學系',
+      description2: '這個網站記錄了我在不同階段的學習、生活與探索歷程，包含學校經驗、交換與實習，以及旅行途中所累積的觀察與反思。我將它視為一個整理思緒、回顧成長。',
+      description3: '這裡記錄的多是一些即時的心情與零散的想法，不一定成熟或完整，卻是真實存在於那個時間點的感受，只希望不要讓那些感受悄悄消失。',
+      description4: '如果這些分享對你有所啟發，或引起任何共鳴，歡迎在下方留言交流。',
     },
     pages: {
       travelogues: {
