@@ -29,16 +29,19 @@ export default function ExperienceCarousel({ experiences, title, description }: 
       // 🎯 Y：對齊標題文字頂端，往上調 100px
       setCardTop(titleRect.top - containerRect.top - 100);
 
-      // 🎯 X：距離右邊 1/10 viewport
+      // 🎯 X：左邊向右移動 30% viewport，右邊保持 10% viewport
       const viewportWidth = window.innerWidth;
-      const CARD_WIDTH = viewportWidth * (2 / 3); // 螢幕寬度 2/3
-      const RIGHT_MARGIN = viewportWidth * 0.1;
+      const LEFT_OFFSET = viewportWidth * 0.3; // 左邊向右移動 30%
+      const RIGHT_MARGIN = viewportWidth * 0.1; // 右邊保持 10%
+      
+      // 計算卡片寬度：視口寬度 - 左邊距 - 右邊距
+      const CARD_WIDTH = viewportWidth - LEFT_OFFSET - RIGHT_MARGIN;
 
       // 设置卡片宽度
       setCardWidth(CARD_WIDTH);
 
       // 计算相对于容器的 left 位置
-      const absoluteLeft = viewportWidth - RIGHT_MARGIN - CARD_WIDTH;
+      const absoluteLeft = LEFT_OFFSET;
       setCardLeft(absoluteLeft - containerRect.left);
     };
 
