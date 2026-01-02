@@ -8,16 +8,45 @@ export default function Hero() {
   const t = translations[language];
 
   return (
-    <section className="relative bg-gradient-to-br from-blue-50 to-indigo-100 py-20 md:py-32">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+    <section 
+      className="relative bg-cover bg-center bg-no-repeat min-h-screen hero-bg-fixed py-20 md:py-32"
+      style={{
+        backgroundImage: 'url(/images/hero-background.jpg)',
+      }}
+    >
+      {/* 半透明覆盖层 - 50% 透明度 */}
+      <div className="absolute inset-0 bg-white opacity-50"></div>
+      
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-left">
+          <h1 
+            className="text-4xl md:text-6xl font-bold mb-6"
+            style={{ 
+              fontFamily: 'Times New Roman, Times, serif',
+              color: '#000000',
+              opacity: 1,
+            }}
+          >
             {t.hero.title}
           </h1>
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-700 mb-8">
+          <h2 
+            className="text-2xl md:text-3xl font-semibold mb-8"
+            style={{ 
+              fontFamily: 'Times New Roman, Times, serif',
+              color: '#000000',
+              opacity: 1,
+            }}
+          >
             {t.hero.subtitle}
           </h2>
-          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p 
+            className="text-lg md:text-xl max-w-3xl leading-relaxed"
+            style={{ 
+              fontFamily: 'Times New Roman, Times, serif',
+              color: '#000000',
+              opacity: 1,
+            }}
+          >
             {t.hero.description}
             <br /><br />
             {t.hero.description2}
