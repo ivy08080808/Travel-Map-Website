@@ -7,35 +7,52 @@ export default function Hero() {
   const { language } = useLanguage();
   const t = translations[language];
 
-  // 背景圖片路徑 - 可以放在 public/images/ 或使用 Cloudinary URL
-  const backgroundImage = '/images/hero-background.jpg'; // 請替換為你的照片路徑
-
   return (
     <section 
-      className="relative bg-cover bg-center bg-no-repeat min-h-screen hero-bg-fixed"
+      className="relative bg-cover bg-center bg-no-repeat min-h-screen hero-bg-fixed py-20 md:py-32"
       style={{
-        backgroundImage: `url(${backgroundImage})`,
+        backgroundImage: 'url(/images/hero-background.jpg)',
       }}
     >
-      {/* 半透明遮罩層，確保文字可讀性 */}
-      <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
+      {/* 半透明覆盖层 - 50% 透明度 */}
+      <div className="absolute inset-0 bg-white opacity-50"></div>
       
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-left">
-          <h1 className="sticky top-16 z-20 text-3xl sm:text-4xl md:text-6xl font-bold text-gray-900 pt-12 sm:pt-16 pb-4 sm:pb-6 md:pb-8 bg-transparent" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
+          <h1 
+            className="text-4xl md:text-6xl font-bold mb-6"
+            style={{ 
+              fontFamily: 'Times New Roman, Times, serif',
+              color: '#111827',
+              opacity: 1,
+            }}
+          >
             {t.hero.title}
           </h1>
-          <div className="py-6 sm:py-8 md:py-12">
-            <p className="text-base sm:text-lg md:text-xl text-gray-800 max-w-3xl leading-relaxed font-medium px-0 sm:px-0" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
-              {t.hero.description}
-              <br /><br />
-              {t.hero.description2}
-              <br /><br />
-              {t.hero.description3}
-              <br /><br />
-              {t.hero.description4}
-            </p>
-          </div>
+          <h2 
+            className="text-2xl md:text-3xl font-semibold mb-8"
+            style={{ 
+              fontFamily: 'Times New Roman, Times, serif',
+              color: '#374151',
+              opacity: 1,
+            }}
+          >
+            {t.hero.subtitle}
+          </h2>
+          <p 
+            className="text-lg md:text-xl max-w-3xl leading-relaxed"
+            style={{ 
+              fontFamily: 'Times New Roman, Times, serif',
+              color: '#4B5563',
+              opacity: 1,
+            }}
+          >
+            {t.hero.description}
+            <br /><br />
+            {t.hero.description2}
+            <br /><br />
+            {t.hero.description3}
+          </p>
         </div>
       </div>
     </section>

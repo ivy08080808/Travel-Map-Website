@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Experience, DailyLife, Travelogue, travelogues } from '@/lib/data';
 import HomeSectionPreview from './HomeSectionPreview';
+import ExperienceCarousel from './ExperienceCarousel';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { translations } from '@/lib/i18n';
 
@@ -10,7 +11,7 @@ export default function HomeSections() {
   const { language } = useLanguage();
   const t = translations[language];
 
-  const [latestExperience, setLatestExperience] = useState<Experience | null>(null);
+  const [experiences, setExperiences] = useState<Experience[]>([]);
   const [latestTravelogue, setLatestTravelogue] = useState<Travelogue | null>(null);
   const [latestReadingNote, setLatestReadingNote] = useState<DailyLife | null>(null);
   const [latestDailyShare, setLatestDailyShare] = useState<DailyLife | null>(null);
@@ -22,12 +23,12 @@ export default function HomeSections() {
 
   const fetchAllData = async () => {
     try {
-      // Fetch Experience
+      // Fetch Experience - 获取所有 experiences
       const experienceResponse = await fetch('/api/experience');
       if (experienceResponse.ok) {
         const experienceData = await experienceResponse.json();
         if (experienceData && experienceData.length > 0) {
-          setLatestExperience(experienceData[0]); // 最新的一项
+          setExperiences(experienceData); // 所有 experiences
         }
       }
 
@@ -73,14 +74,12 @@ export default function HomeSections() {
 
   return (
     <>
-      {/* Experience Section */}
-      {latestExperience && (
-        <HomeSectionPreview
+      {/* Experience Section - 横向卡片布局 */}
+      {experiences.length > 0 && (
+        <ExperienceCarousel
+          experiences={experiences}
           title={t.pages.experience.title}
           description={t.pages.experience.description}
-          link="/experience"
-          item={latestExperience}
-          isLoading={isLoading}
         />
       )}
 
