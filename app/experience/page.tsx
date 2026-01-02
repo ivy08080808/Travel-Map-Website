@@ -97,7 +97,7 @@ export default function ExperiencePage() {
               : 'My work experience, internships, and volunteer activities'}
           </p>
           {workExperiences.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
               {workExperiences.map((experience) => (
                 <ExperienceCard 
                   key={experience.id} 
@@ -125,7 +125,7 @@ export default function ExperiencePage() {
               : 'My exchange student experiences'}
           </p>
           {exchangeExperiences.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
               {exchangeExperiences.map((experience) => (
                 <ExperienceCard 
                   key={experience.id} 
