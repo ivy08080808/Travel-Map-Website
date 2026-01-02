@@ -71,7 +71,7 @@ export default function ExperienceCarousel({ experiences, title, description }: 
   }
 
   return (
-    <section className="bg-[#F9FAFB] py-16 md:py-24 relative">
+    <section className="bg-[#F9FAFB] pt-16 md:pt-24 pb-2 md:pb-4 relative">
       <div ref={containerRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* 标题区域 - 在左侧，z-index 高，确保在卡片前方 */}
         <div className="relative z-30">
@@ -94,7 +94,7 @@ export default function ExperienceCarousel({ experiences, title, description }: 
         </div>
 
         {/* 横向滚动容器 - 绝对定位，在标题后方（z-index 低） */}
-        <div className="relative w-full" style={{ minHeight: '500px' }}>
+        <div className="relative w-full" style={{ minHeight: '170px' }}>
           {/* 卡片容器 - 最底层（z-0），宽度为屏幕宽度 2/3，y 轴与标题顶部对齐 */}
           {cardWidth > 0 && (
             <div 
