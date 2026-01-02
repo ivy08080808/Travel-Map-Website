@@ -53,3 +53,14 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Hero background attachment - fixed on desktop, scroll on mobile */
+.hero-bg-fixed {
+  background-attachment: scroll;
+}
+
+@media (min-width: 768px) {
+  .hero-bg-fixed {
+    background-attachment: fixed;
+  }
+}

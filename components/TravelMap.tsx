@@ -81,25 +81,25 @@ export default function TravelMap() {
   };
 
   return (
-    <div className="flex h-[800px] bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className="flex flex-col md:flex-row h-[600px] md:h-[800px] bg-white rounded-lg shadow-lg overflow-hidden">
       {/* Left Sidebar - Trip List */}
-      <div className="w-96 border-r border-gray-200 overflow-y-auto bg-gray-50">
-        <div className="p-4 border-b border-gray-200 bg-white sticky top-0 z-10">
-          <h2 className="text-xl font-bold text-gray-900">All Trips By Chinghua Ivy Lu</h2>
+      <div className="w-full md:w-96 border-b md:border-b-0 md:border-r border-gray-200 overflow-y-auto bg-gray-50 h-[300px] md:h-auto">
+        <div className="p-3 md:p-4 border-b border-gray-200 bg-white sticky top-0 z-10">
+          <h2 className="text-base md:text-xl font-bold text-gray-900">All Trips By Chinghua Ivy Lu</h2>
         </div>
         
         {selectedTrip ? (
           // Selected Trip Details View
-          <div className="p-4">
-            <button
-              onClick={() => setSelectedTrip(null)}
-              className="mb-4 text-sm text-gray-600 hover:text-gray-900 flex items-center gap-2"
-            >
-              ← Back to all trips
-            </button>
-            
-            <div className="mb-4">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">{selectedTrip.title}</h3>
+              <div className="p-3 md:p-4">
+                <button
+                  onClick={() => setSelectedTrip(null)}
+                  className="mb-3 md:mb-4 text-xs md:text-sm text-gray-600 hover:text-gray-900 flex items-center gap-2"
+                >
+                  ← Back to all trips
+                </button>
+                
+                <div className="mb-3 md:mb-4">
+                  <h3 className="text-lg md:text-2xl font-bold text-gray-900 mb-2">{selectedTrip.title}</h3>
               {selectedTrip.distance && (
                 <p className="text-sm text-gray-600 mb-2">{selectedTrip.distance}</p>
               )}
@@ -114,7 +114,7 @@ export default function TravelMap() {
                 const tripColor = selectedTrip.color || "#3b82f6"; // 使用路線的顏色
                 
                 const LocationContent = (
-                  <div className="flex items-start gap-3 py-3 px-2 border-b border-gray-200 last:border-b-0">
+                  <div className="flex items-start gap-2 md:gap-3 py-2 md:py-3 px-2 border-b border-gray-200 last:border-b-0">
                     {/* 圖標區域 - 圓圈 + 垂直線 */}
                     <div className="flex-shrink-0 flex flex-col items-center relative">
                       {/* 垂直連接線 - 從頂部開始（第一個地點從中間開始） */}
@@ -130,12 +130,12 @@ export default function TravelMap() {
                       
                       {/* 圓圈，中間是白色圖標 - 第一個地點不顯示圖標 */}
                       <div 
-                        className="w-10 h-10 rounded-full flex items-center justify-center relative z-10"
+                        className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center relative z-10"
                         style={{ backgroundColor: tripColor }}
                       >
                         {index > 0 && (
                           <div className="flex items-center justify-center w-full h-full">
-                            <TransportIcon mode={location.transportMode} className="w-5 h-5" />
+                            <TransportIcon mode={location.transportMode} className="w-4 h-4 md:w-5 md:h-5" />
                           </div>
                         )}
                       </div>
@@ -143,7 +143,7 @@ export default function TravelMap() {
                       {/* 垂直連接線 - 從圖標底部繼續到下一個地點 */}
                       {!isLast && (
                         <div 
-                          className="absolute top-10 left-1/2 transform -translate-x-1/2 w-0.5"
+                          className="absolute top-8 md:top-10 left-1/2 transform -translate-x-1/2 w-0.5"
                           style={{ 
                             backgroundColor: tripColor,
                             height: '50%'
@@ -195,7 +195,7 @@ export default function TravelMap() {
                 className="w-full p-4 text-left hover:bg-gray-100 transition-colors flex items-center gap-3 group"
               >
                 <div
-                  className="w-1 h-16 rounded-full flex-shrink-0"
+                  className="w-1 h-12 md:h-16 rounded-full flex-shrink-0"
                   style={{ backgroundColor: trip.color }}
                 />
                 <div className="flex-1 min-w-0">
@@ -213,7 +213,7 @@ export default function TravelMap() {
       </div>
 
       {/* Right Side - Map */}
-      <div className="flex-1 relative">
+      <div className="flex-1 relative h-[300px] md:h-auto min-h-[300px]">
       <MapContainer
         center={center}
         zoom={zoom}

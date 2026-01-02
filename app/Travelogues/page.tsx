@@ -21,16 +21,16 @@ export default function TraveloguesPage() {
 
   return (
     <div className="min-h-screen bg-[#F9FAFB]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8 text-center" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-12">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 md:mb-8 text-center" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
           {t.pages.travelogues.title}
         </h1>
-        <p className="text-lg text-gray-600 mb-12 text-center max-w-3xl mx-auto">
+        <p className="text-base sm:text-lg text-gray-600 mb-8 sm:mb-10 md:mb-12 text-center max-w-3xl mx-auto px-2">
           {t.pages.travelogues.description}
         </p>
         
         {/* Travelogue Carousel at the top */}
-        <div className="mb-6">
+        <div className="mb-4 sm:mb-6">
           <TravelogueCarousel />
         </div>
 
