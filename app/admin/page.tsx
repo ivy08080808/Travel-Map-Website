@@ -374,7 +374,7 @@ export default function AdminPage() {
             {/* Work Experience Section */}
             <div className="bg-white rounded-lg shadow-md p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-gray-900">工作經驗 (Work Experience)</h2>
+                <h2 className="text-xl font-bold text-gray-900">工作經驗 (Professional Experience)</h2>
                 <Link
                   href="/admin/experience?category=work"
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"

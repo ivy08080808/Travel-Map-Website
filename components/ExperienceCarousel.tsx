@@ -83,9 +83,13 @@ export default function ExperienceCarousel({ experiences, title, description }: 
             >
               {title}
             </h2>
-            <p className="text-lg text-gray-600 mt-4 max-w-3xl" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
-              {description}
-            </p>
+            <Link
+              href="/experience"
+              className="inline-block text-gray-900 hover:text-gray-700 font-medium border-b-2 border-gray-900 hover:border-gray-700 transition-colors mt-4"
+              style={{ fontFamily: 'Times New Roman, Times, serif' }}
+            >
+              Discover more →
+            </Link>
           </div>
         </div>
 

@@ -28,7 +28,25 @@ export default function HomeSections() {
       if (experienceResponse.ok) {
         const experienceData = await experienceResponse.json();
         if (experienceData && experienceData.length > 0) {
-          setExperiences(experienceData); // 所有 experiences
+          // 排序：先显示 Professional Experience (work)，再显示 Exchange Experience (exchange)
+          const sortedExperiences = experienceData.sort((a: Experience, b: Experience) => {
+            const aIsWork = a.category === 'work' || !a.category;
+            const bIsWork = b.category === 'work' || !b.category;
+            
+            // 如果一个是 work，一个是 exchange，work 排在前面
+            if (aIsWork && !bIsWork) return -1;
+            if (!aIsWork && bIsWork) return 1;
+            
+            // 如果都是同一类别，按开始日期排序（最新的在前）
+            const aDate = a.startDate || '';
+            const bDate = b.startDate || '';
+            if (!aDate && !bDate) return 0;
+            if (!aDate) return 1;
+            if (!bDate) return -1;
+            return bDate.localeCompare(aDate);
+          });
+          
+          setExperiences(sortedExperiences);
         }
       }
 

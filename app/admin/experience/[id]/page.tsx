@@ -484,7 +484,7 @@ function ExperienceEditContent() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 >
                   <option value="">-- 選擇分類 --</option>
-                  <option value="work">工作經驗 (Work Experience)</option>
+                  <option value="work">工作經驗 (Professional Experience)</option>
                   <option value="exchange">交換經驗 (Exchange Experience)</option>
                 </select>
               </div>

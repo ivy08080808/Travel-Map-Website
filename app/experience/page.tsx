@@ -86,15 +86,15 @@ export default function ExperiencePage() {
           {t.pages.experience.description}
         </p>
 
-        {/* Work Experience Section */}
+        {/* Professional Experience Section */}
         <section className="mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
-            {language === 'zh' ? '工作經驗' : 'Work Experience'}
+            {language === 'zh' ? '工作經驗' : 'Professional Experience'}
           </h2>
           <p className="text-gray-600 mb-8">
             {language === 'zh' 
               ? '我的工作經驗、實習和志工活動'
-              : 'My work experience, internships, and volunteer activities'}
+              : 'My professional experience, internships, and volunteer activities'}
           </p>
           {workExperiences.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
@@ -109,7 +109,7 @@ export default function ExperiencePage() {
             </div>
           ) : (
             <p className="text-gray-500 italic">
-              {language === 'zh' ? '還沒有工作經驗' : 'No work experience yet'}
+              {language === 'zh' ? '還沒有工作經驗' : 'No professional experience yet'}
             </p>
           )}
         </section>
