@@ -83,4 +83,3 @@ export function convertCloudinaryUrlToWebFormat(url: string): string {
 
   return url;
 }
-

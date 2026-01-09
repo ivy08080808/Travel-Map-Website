@@ -777,4 +777,3 @@ export default function DailyLifeCoverPage() {
     </Suspense>
   );
 }
-

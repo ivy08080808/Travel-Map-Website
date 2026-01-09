@@ -52,32 +52,32 @@ export default function DailyLifePage() {
 
   return (
     <div className="min-h-screen bg-[#F9FAFB]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8 text-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6 sm:mb-8 text-center">
           {t.pages.dailyLife.title}
         </h1>
-        <p className="text-lg text-gray-600 mb-12 text-center max-w-3xl mx-auto">
+        <p className="text-base sm:text-lg text-gray-600 mb-8 sm:mb-12 text-center max-w-3xl mx-auto">
           {t.pages.dailyLife.description}
         </p>
 
         {/* Reading Notes Section */}
-        <section className="mb-16">
-          <div className="flex gap-6 items-start">
-            {/* 標題在左邊 */}
-            <div className="flex-shrink-0 w-48 md:w-64">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+        <section className="mb-12 sm:mb-16">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
+            {/* 標題在左邊 (移動端在上方) */}
+            <div className="flex-shrink-0 w-full md:w-48 lg:w-64">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                 {t.pages.dailyLife.readingNotes}
               </h2>
               <p className="text-sm text-gray-600">
                 {t.pages.dailyLife.readingNotesDesc}
               </p>
             </div>
-            {/* 卡片在右邊，可以橫向滾動 */}
-            <div className="flex-1 overflow-x-auto scrollbar-hide">
+            {/* 卡片在右邊，可以橫向滾動 (移動端在下方) */}
+            <div className="flex-1 w-full md:w-auto overflow-x-auto scrollbar-hide">
               {readingNotes.length > 0 ? (
-                <div className="flex gap-6 pb-4">
+                <div className="flex gap-4 sm:gap-6 pb-4">
                   {readingNotes.map((item) => (
-                    <div key={item.id} className="flex-shrink-0 w-80">
+                    <div key={item.id} className="flex-shrink-0 w-72 sm:w-80">
                       <DailyLifeCard dailyLife={item} />
                     </div>
                   ))}
@@ -91,22 +91,22 @@ export default function DailyLifePage() {
 
         {/* Daily Share Section */}
         <section>
-          <div className="flex gap-6 items-start">
-            {/* 標題在左邊 */}
-            <div className="flex-shrink-0 w-48 md:w-64">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
+            {/* 標題在左邊 (移動端在上方) */}
+            <div className="flex-shrink-0 w-full md:w-48 lg:w-64">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                 {t.pages.dailyLife.dailyShare}
               </h2>
               <p className="text-sm text-gray-600">
                 {t.pages.dailyLife.dailyShareDesc}
               </p>
             </div>
-            {/* 卡片在右邊，可以橫向滾動 */}
-            <div className="flex-1 overflow-x-auto scrollbar-hide">
+            {/* 卡片在右邊，可以橫向滾動 (移動端在下方) */}
+            <div className="flex-1 w-full md:w-auto overflow-x-auto scrollbar-hide">
               {sortedDailyShare.length > 0 ? (
-                <div className="flex gap-6 pb-4">
+                <div className="flex gap-4 sm:gap-6 pb-4">
                   {sortedDailyShare.map((item) => (
-                    <div key={item.id} className="flex-shrink-0 w-80">
+                    <div key={item.id} className="flex-shrink-0 w-72 sm:w-80">
                       <DailyLifeCard dailyLife={item} />
                     </div>
                   ))}

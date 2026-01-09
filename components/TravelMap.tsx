@@ -91,13 +91,13 @@ export default function TravelMap() {
         {selectedTrip ? (
           // Selected Trip Details View
               <div className="p-3 md:p-4">
-                <button
-                  onClick={() => setSelectedTrip(null)}
+            <button
+              onClick={() => setSelectedTrip(null)}
                   className="mb-3 md:mb-4 text-xs md:text-sm text-gray-600 hover:text-gray-900 flex items-center gap-2"
-                >
-                  ← Back to all trips
-                </button>
-                
+            >
+              ← Back to all trips
+            </button>
+            
                 <div className="mb-3 md:mb-4">
                   <h3 className="text-lg md:text-2xl font-bold text-gray-900 mb-2">{selectedTrip.title}</h3>
               {selectedTrip.distance && (

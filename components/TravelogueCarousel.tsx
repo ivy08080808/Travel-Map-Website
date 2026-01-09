@@ -54,16 +54,16 @@ export default function TravelogueCarousel() {
         }}
       >
         {allTravelogues.map((travelogue) => (
-          <div key={travelogue.id} className="flex-shrink-0 w-80">
+          <div key={travelogue.id} className="flex-shrink-0 w-72 sm:w-80">
             <TravelogueCard travelogue={travelogue} />
           </div>
         ))}
       </div>
       
-      {/* Scroll buttons */}
+      {/* Scroll buttons - 移動端隱藏，桌面端顯示 */}
       <button
         onClick={() => scroll('left')}
-        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white rounded-full shadow-lg p-2 hover:bg-gray-100 transition-colors z-10"
+        className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white rounded-full shadow-lg p-2 hover:bg-gray-100 transition-colors z-10"
         aria-label="Scroll left"
       >
         <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -72,7 +72,7 @@ export default function TravelogueCarousel() {
       </button>
       <button
         onClick={() => scroll('right')}
-        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white rounded-full shadow-lg p-2 hover:bg-gray-100 transition-colors z-10"
+        className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white rounded-full shadow-lg p-2 hover:bg-gray-100 transition-colors z-10"
         aria-label="Scroll right"
       >
         <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

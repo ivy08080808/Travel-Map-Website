@@ -143,7 +143,7 @@ export default function HomeSectionPreview({
 
   if (isLoading || isFetching) {
     return (
-      <section className="bg-[#F9FAFB] py-16 md:py-24">
+      <section className="bg-[#F9FAFB] pt-8 md:pt-12 pb-16 md:pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-gray-500">{language === 'zh' ? '載入中...' : 'Loading...'}</div>
@@ -158,20 +158,20 @@ export default function HomeSectionPreview({
   }
 
   return (
-    <section className="bg-[#F9FAFB] py-16 md:py-24">
+    <section className="bg-[#F9FAFB] pt-8 md:pt-12 pb-16 md:pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 标题 - 与 Hero 对齐 */}
-        <div className="mb-8 md:mb-12">
-          <h2 className="text-4xl md:text-6xl font-bold text-gray-500" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
+        <div className="mb-6 sm:mb-8 md:mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-500" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
             {title}
           </h2>
-          <p className="text-lg text-gray-600 mt-4 max-w-3xl" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
+          <p className="text-base sm:text-lg text-gray-600 mt-3 sm:mt-4 max-w-3xl" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
             {description}
           </p>
         </div>
 
         {/* 移动端：垂直布局 */}
-        <div className="md:hidden space-y-6">
+        <div className="md:hidden space-y-4 sm:space-y-6">
           {/* 图片 */}
           {displayCoverImage && (
             <div className="relative w-full aspect-[4/3] bg-gray-200 rounded-lg overflow-hidden">
@@ -186,22 +186,22 @@ export default function HomeSectionPreview({
           )}
           
           {/* 文字内容 */}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             <div>
               {itemTitle && (
-                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">
                   {itemTitle}
                 </h3>
               )}
               {itemDescription && (
-                <p className="text-lg text-gray-600 leading-relaxed mb-6" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
+                <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-4 sm:mb-6" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
                   {itemDescription}
                 </p>
               )}
             </div>
             <Link
               href={link}
-              className="inline-block text-gray-900 hover:text-gray-700 font-medium border-b-2 border-gray-900 hover:border-gray-700 transition-colors"
+              className="inline-block text-gray-900 hover:text-gray-700 font-medium border-b-2 border-gray-900 hover:border-gray-700 transition-colors text-sm sm:text-base"
             >
               {displayLinkText} →
             </Link>
