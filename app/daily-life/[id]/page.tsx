@@ -22,13 +22,21 @@ export async function generateStaticParams() {
       }
     });
     
-    return allIds;
+    // 排除過大的文件，讓它們動態渲染而不是靜態生成
+    // daily-life-114-1_ntu_dump 文件太大（15MB），會超過 Vercel 的 19MB 限制
+    const excludedIds = ['daily-life-114-1_ntu_dump'];
+    const filteredIds = allIds.filter(id => !excludedIds.includes(id.id));
+    
+    return filteredIds;
   } catch (error) {
     console.error('Error generating static params:', error);
-    // 如果出錯，至少返回 data.ts 中的項目
-    return dailyLife.map((item) => ({
-      id: item.id,
-    }));
+    // 如果出錯，至少返回 data.ts 中的項目（排除大文件）
+    const excludedIds = ['daily-life-114-1_ntu_dump'];
+    return dailyLife
+      .filter(item => !excludedIds.includes(item.id))
+      .map((item) => ({
+        id: item.id,
+      }));
   }
 }
 
