@@ -64,3 +64,39 @@ body {
     background-attachment: fixed;
   }
 }
+
+/* Reading Notes 移动端响应式布局 */
+@media (max-width: 767px) {
+  /* 覆盖所有使用 flex 布局的 div */
+  .prose div[style*="display: flex"] {
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+  }
+  
+  /* 覆盖固定宽度的图片容器 */
+  .prose div[style*="flex: 0 0 300px"],
+  .prose div[style*="flex: 0 0"] {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* 覆盖文字容器，确保占满宽度 */
+  .prose div[style*="flex: 1"] {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+  }
+  
+  /* 确保所有图片在移动端占满容器宽度 */
+  .prose img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  
+  /* 确保图片容器内的文字居中 */
+  .prose div[style*="flex: 0 0 300px"] p,
+  .prose div[style*="flex: 0 0"] p {
+    text-align: center;
+  }
+}
