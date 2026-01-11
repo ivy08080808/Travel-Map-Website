@@ -46,11 +46,11 @@ export default function ExperienceCarousel({ experiences, title, description }: 
         // 桌面端：左邊向右移動 30% viewport，右邊保持 10% viewport
         const LEFT_OFFSET = viewportWidth * 0.3;
         const RIGHT_MARGIN = viewportWidth * 0.1;
-        const CARD_WIDTH = viewportWidth - LEFT_OFFSET - RIGHT_MARGIN;
-        setCardWidth(CARD_WIDTH);
-        // 计算相对于容器的 left 位置
-        const absoluteLeft = LEFT_OFFSET;
-        setCardLeft(absoluteLeft - containerRect.left);
+      const CARD_WIDTH = viewportWidth - LEFT_OFFSET - RIGHT_MARGIN;
+      setCardWidth(CARD_WIDTH);
+      // 计算相对于容器的 left 位置
+      const absoluteLeft = LEFT_OFFSET;
+      setCardLeft(absoluteLeft - containerRect.left);
       }
     };
 
