@@ -24,6 +24,7 @@ function DailyLifeEditContent() {
     isNew ? null : dailyLife.find((d) => d.id === dailyLifeId)
   );
   const [coverImage, setCoverImage] = useState<string | null>(null);
+  const [images, setImages] = useState<string[]>([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
@@ -33,12 +34,14 @@ function DailyLifeEditContent() {
   const [newId, setNewId] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [isCompressing, setIsCompressing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isSavingContent, setIsSavingContent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [uploadImageFile, setUploadImageFile] = useState<File | null>(null);
 
   useEffect(() => {
     if (isNew && categoryParam) {
@@ -95,6 +98,7 @@ function DailyLifeEditContent() {
           setDate(data.date || '');
           setAuthor(data.author || '');
           setCategory(data.category || '');
+          setImages(data.images || []);
         } else {
           // MongoDB 中沒有，使用 data.ts 中的默認值
           setTitle(dailyLifeItem?.title || '');
@@ -142,13 +146,219 @@ function DailyLifeEditContent() {
         setContent(data.content || '');
       }
     } catch (error) {
-      console.error('Error loading cover:', error);
-      // 如果出錯且不在 data.ts 中，顯示錯誤
+      console.error('Error loading data:', error);
       if (!dailyLifeItem) {
         setError('Daily Life not found');
       }
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleImageFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setError(null);
+      
+      // 如果文件超過 10MB，自動壓縮
+      if (file.size > 10485760) {
+        setIsCompressing(true);
+        try {
+          const options = {
+            maxSizeMB: 10,
+            maxWidthOrHeight: 3840,
+            useWebWorker: true,
+            fileType: file.type,
+            initialQuality: 0.92,
+          };
+
+          const compressedFile = await imageCompression(file, options);
+          
+          if (compressedFile.size > 10485760) {
+            const furtherCompressed = await imageCompression(file, {
+              ...options,
+              initialQuality: 0.85,
+              maxWidthOrHeight: 2560,
+            });
+            setUploadImageFile(furtherCompressed);
+            setSuccess(`圖片已自動壓縮：${(file.size / 1024 / 1024).toFixed(2)} MB → ${(furtherCompressed.size / 1024 / 1024).toFixed(2)} MB`);
+          } else {
+            setUploadImageFile(compressedFile);
+            setSuccess(`圖片已自動壓縮：${(file.size / 1024 / 1024).toFixed(2)} MB → ${(compressedFile.size / 1024 / 1024).toFixed(2)} MB`);
+          }
+          setTimeout(() => setSuccess(null), 5000);
+        } catch (error) {
+          console.error('壓縮錯誤:', error);
+          setError('圖片壓縮失敗，請手動壓縮後再試');
+        } finally {
+          setIsCompressing(false);
+        }
+      } else {
+        setUploadImageFile(file);
+      }
+    }
+  };
+
+  const handleUploadImage = async () => {
+    if (!uploadImageFile) {
+      setError('請先選擇圖片');
+      return;
+    }
+
+    let fileToUpload = uploadImageFile;
+    if (uploadImageFile.size > 10485760) {
+      setIsCompressing(true);
+      try {
+        const options = {
+          maxSizeMB: 10,
+          maxWidthOrHeight: 2560,
+          useWebWorker: true,
+          fileType: uploadImageFile.type,
+          initialQuality: 0.85,
+        };
+        fileToUpload = await imageCompression(uploadImageFile, options);
+        setUploadImageFile(fileToUpload);
+        setSuccess(`圖片已進一步壓縮至 ${(fileToUpload.size / 1024 / 1024).toFixed(2)} MB`);
+        setTimeout(() => setSuccess(null), 3000);
+      } catch (error) {
+        console.error('壓縮錯誤:', error);
+        setError('圖片壓縮失敗');
+        setIsCompressing(false);
+        return;
+      } finally {
+        setIsCompressing(false);
+      }
+    }
+
+    setIsUploadingImage(true);
+    setError(null);
+
+    try {
+      const formData = new FormData();
+      formData.append('file', fileToUpload);
+      formData.append('folder', `daily-life/${isNew ? newId : dailyLifeId}/images`);
+
+      const response = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const imageUrl = data.url || data.secure_url;
+        if (!imageUrl) {
+          setError('上傳成功但未返回圖片 URL');
+          setIsUploadingImage(false);
+          return;
+        }
+
+        // 添加到 images 数组
+        const newImages = [...images, imageUrl];
+        setImages(newImages);
+        
+        // 更新到 MongoDB
+        const targetId = isNew ? newId : dailyLifeId;
+        const updateResponse = await fetch(
+          `/api/admin/daily-life/${targetId}`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ images: newImages }),
+          }
+        );
+
+        if (updateResponse.ok) {
+          setSuccess('圖片已成功添加！');
+          setUploadImageFile(null);
+          const fileInput = document.getElementById('image-file-input') as HTMLInputElement;
+          if (fileInput) fileInput.value = '';
+          setTimeout(() => setSuccess(null), 3000);
+        } else {
+          const errorData = await updateResponse.json();
+          console.error('Failed to update images:', errorData);
+          setError('更新圖片列表失敗: ' + (errorData.error || 'Unknown error'));
+        }
+      } else {
+        const errorData = await response.json();
+        let errorMessage = errorData.error || '上傳失敗';
+        if (errorMessage.includes('File size too large')) {
+          errorMessage = '文件大小超過 10MB（Cloudinary 免費計劃限制）。請壓縮圖片後再試，或升級 Cloudinary 計劃。';
+        }
+        setError(errorMessage);
+      }
+    } catch (error) {
+      console.error('Error uploading:', error);
+      setError('上傳失敗，請稍後再試');
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
+  const handleDeleteImage = async (index: number) => {
+    if (!confirm('確定要刪除這張圖片嗎？')) return;
+
+    const newImages = images.filter((_, i) => i !== index);
+    setImages(newImages);
+
+    try {
+      const targetId = isNew ? newId : dailyLifeId;
+      const updateResponse = await fetch(
+        `/api/admin/daily-life/${targetId}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ images: newImages }),
+        }
+      );
+
+      if (updateResponse.ok) {
+        setSuccess('圖片已成功刪除！');
+        setTimeout(() => setSuccess(null), 3000);
+      } else {
+        setError('刪除圖片失敗');
+        setImages(images); // 恢復原狀態
+      }
+    } catch (error) {
+      console.error('Error deleting image:', error);
+      setError('刪除圖片失敗');
+      setImages(images); // 恢復原狀態
+    }
+  };
+
+  const handleMoveImage = async (index: number, direction: 'up' | 'down') => {
+    if (direction === 'up' && index === 0) return;
+    if (direction === 'down' && index === images.length - 1) return;
+
+    const newImages = [...images];
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    [newImages[index], newImages[targetIndex]] = [newImages[targetIndex], newImages[index]];
+    setImages(newImages);
+
+    try {
+      const targetId = isNew ? newId : dailyLifeId;
+      const updateResponse = await fetch(
+        `/api/admin/daily-life/${targetId}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ images: newImages }),
+        }
+      );
+
+      if (!updateResponse.ok) {
+        setError('調整順序失敗');
+        setImages(images); // 恢復原狀態
+      }
+    } catch (error) {
+      console.error('Error moving image:', error);
+      setError('調整順序失敗');
+      setImages(images); // 恢復原狀態
     }
   };
 
@@ -379,6 +589,7 @@ function DailyLifeEditContent() {
           body.date = date;
         }
         if (coverImage) body.coverImage = coverImage;
+        if (images && images.length > 0) body.images = images;
 
         const response = await fetch('/api/admin/daily-life', {
           method: 'POST',
@@ -407,6 +618,7 @@ function DailyLifeEditContent() {
         title,
         description,
         category: category || null,
+        images: images || null,
       };
       if (category === 'reading') {
         updateBody.author = author;
@@ -722,6 +934,113 @@ function DailyLifeEditContent() {
               </button>
             </div>
           </div>
+
+          {/* 圖片輪播管理區域 */}
+          {!isNew && (
+            <div className="mb-6 border-b pb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">圖片輪播</h2>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    當前圖片列表（用於輪播顯示）
+                  </label>
+                  {images.length === 0 ? (
+                    <p className="text-sm text-gray-500">尚未添加圖片</p>
+                  ) : (
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      {images.map((imageUrl, index) => {
+                        const isCloudinaryUrl = imageUrl?.startsWith('http') || imageUrl?.includes('cloudinary');
+                        const processedUrl = isCloudinaryUrl
+                          ? convertCloudinaryUrlToWebFormat(imageUrl)
+                          : imageUrl.startsWith('/')
+                          ? imageUrl
+                          : `/images/${imageUrl}`;
+                        
+                        return (
+                          <div key={index} className="relative group">
+                            <div className="relative w-full h-48 bg-gray-200 rounded-lg overflow-hidden">
+                              <Image
+                                src={processedUrl}
+                                alt={`Image ${index + 1}`}
+                                fill
+                                style={{ objectFit: 'cover' }}
+                                className="rounded-lg"
+                                unoptimized={isCloudinaryUrl}
+                              />
+                            </div>
+                            <div className="absolute top-2 right-2 flex gap-1">
+                              <button
+                                onClick={() => handleMoveImage(index, 'up')}
+                                disabled={index === 0}
+                                className="bg-white/80 hover:bg-white rounded p-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                                title="向上移動"
+                              >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                                </svg>
+                              </button>
+                              <button
+                                onClick={() => handleMoveImage(index, 'down')}
+                                disabled={index === images.length - 1}
+                                className="bg-white/80 hover:bg-white rounded p-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                                title="向下移動"
+                              >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                              </button>
+                              <button
+                                onClick={() => handleDeleteImage(index)}
+                                className="bg-red-500/80 hover:bg-red-600 text-white rounded p-1"
+                                title="刪除"
+                              >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                              </button>
+                            </div>
+                            <p className="text-xs text-gray-500 mt-1 truncate">圖片 {index + 1}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
+                  <p className="text-gray-600 mb-4">
+                    上傳新圖片到輪播（超過 10MB 將自動壓縮）
+                  </p>
+                  <div className="space-y-4">
+                    <div>
+                      <label htmlFor="image-file-input" className="block text-sm font-medium text-gray-700 mb-2">
+                        選擇圖片
+                      </label>
+                      <input
+                        id="image-file-input"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageFileSelect}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      {uploadImageFile && (
+                        <p className="text-sm text-gray-500 mt-2">
+                          已選擇: {uploadImageFile.name} ({(uploadImageFile.size / 1024 / 1024).toFixed(2)} MB)
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      onClick={handleUploadImage}
+                      disabled={isUploadingImage || isCompressing || !uploadImageFile}
+                      className="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isCompressing ? '壓縮中...' : isUploadingImage ? '上傳中...' : '上傳圖片'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* 文章內容編輯區域 */}
           <div className="mb-6">

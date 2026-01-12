@@ -31,6 +31,7 @@ export async function GET(request: NextRequest) {
             author: dbItem.author || null,
             category: dbItem.category || item.category || null,
             coverImage: dbItem.coverImage || item.coverImage,
+            images: dbItem.images || null,
           };
         }
         return item;
@@ -46,6 +47,7 @@ export async function GET(request: NextRequest) {
           author: item.author || null,
           category: item.category || null,
           coverImage: item.coverImage || null,
+          images: item.images || null,
           route: item.route || `/daily-life/${item.id}`,
         }))
     ];
@@ -87,6 +89,7 @@ export async function POST(request: NextRequest) {
       author,
       category,
       coverImage,
+      images,
     } = body;
 
     if (!id) {
@@ -120,6 +123,16 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Validate images if provided
+    if (images !== undefined) {
+      if (!Array.isArray(images) || !images.every(img => typeof img === 'string')) {
+        return NextResponse.json(
+          { error: 'images must be an array of strings' },
+          { status: 400 }
+        );
+      }
+    }
+
     const db = await getDb();
     const dailyLifeItem: any = {
       id,
@@ -127,6 +140,7 @@ export async function POST(request: NextRequest) {
       description,
       category: category || null,
       coverImage: coverImage || null,
+      images: images || null,
       route: `/daily-life/${id}`,
       createdAt: new Date(),
       updatedAt: new Date(),

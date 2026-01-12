@@ -6,6 +6,7 @@ import path from 'path';
 import { getDb } from '@/lib/mongodb';
 import { convertCloudinaryUrlToWebFormat } from '@/lib/cloudinary';
 import DailyLifeContent from '@/components/DailyLifeContent';
+import ImageCarousel from '@/components/ImageCarousel';
 
 export async function generateStaticParams() {
   try {
@@ -49,6 +50,7 @@ async function getDailyLifeData(id: string, language: 'en' | 'zh' = 'zh') {
     let date = null;
     let author = null;
     let category = null;
+    let images = null;
     try {
       const db = await getDb();
       const item = await db.collection('dailyLife').findOne({ id });
@@ -59,6 +61,7 @@ async function getDailyLifeData(id: string, language: 'en' | 'zh' = 'zh') {
         if (item.date) date = item.date;
         if (item.author) author = item.author;
         if (item.category) category = item.category;
+        if (item.images) images = item.images;
       }
     } catch (error) {
       console.error('Error fetching daily life data from MongoDB:', error);
@@ -110,6 +113,7 @@ async function getDailyLifeData(id: string, language: 'en' | 'zh' = 'zh') {
       date,
       author,
       category,
+      images,
       content,
     };
   } catch (error) {
@@ -121,6 +125,7 @@ async function getDailyLifeData(id: string, language: 'en' | 'zh' = 'zh') {
       date: null,
       author: null,
       category: null,
+      images: null,
       content: null,
     };
   }
@@ -132,7 +137,7 @@ export default async function DailyLifeDetailPage({
   params: { id: string };
 }) {
   // 先從 MongoDB 獲取數據（默認使用中文）
-  const { coverImage, title, description, date, author, category, content } = await getDailyLifeData(params.id, 'zh');
+  const { coverImage, title, description, date, author, category, images, content } = await getDailyLifeData(params.id, 'zh');
   
   // 如果 MongoDB 中沒有，嘗試從 data.ts 獲取
   const item = dailyLife.find((d) => d.id === params.id);
@@ -149,6 +154,7 @@ export default async function DailyLifeDetailPage({
   const displayDate = date || item?.date || null;
   const displayAuthor = author || (item as any)?.author || null;
   const displayCategory = category || item?.category || null;
+  const displayImages = images || item?.images || null;
 
   // Check if coverImage is a Cloudinary URL or local path
   const isCloudinaryUrl =
@@ -204,14 +210,24 @@ export default async function DailyLifeDetailPage({
       {/* 文章內容 */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <article className="bg-white rounded-lg shadow-lg p-8">
-          <DailyLifeContent id={params.id} defaultContent={content} />
+          {/* 描述 - 如果有內容則不顯示描述 */}
           {!content && (
-            <div className="prose max-w-none">
+            <div className="prose max-w-none mb-8">
               <p className="text-xl text-gray-700 leading-relaxed">
                 {displayDescription}
               </p>
             </div>
           )}
+
+          {/* 圖片輪播 - 如果有圖片則顯示，放在描述下方、內文上方 */}
+          {displayImages && Array.isArray(displayImages) && displayImages.length > 0 && (
+            <div className="my-8">
+              <ImageCarousel images={displayImages} alt={displayTitle} />
+            </div>
+          )}
+
+          {/* 文章內文 */}
+          <DailyLifeContent id={params.id} defaultContent={content} />
         </article>
       </div>
     </div>

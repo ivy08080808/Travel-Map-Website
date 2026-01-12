@@ -20,10 +20,11 @@ export async function GET(
         author: item.author || null,
         category: item.category || null,
         coverImage: item.coverImage,
+        images: item.images || null,
       });
     }
 
-    return NextResponse.json({ title: null, description: null, date: null, author: null, category: null, coverImage: null });
+    return NextResponse.json({ title: null, description: null, date: null, author: null, category: null, coverImage: null, images: null });
   } catch (error: any) {
     console.error('Error fetching daily life:', error);
     return NextResponse.json(

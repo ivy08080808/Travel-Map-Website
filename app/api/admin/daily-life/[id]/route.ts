@@ -25,10 +25,11 @@ export async function GET(
         date: item.date || null,
         author: item.author || null,
         category: item.category || null,
+        images: item.images || null,
       });
     }
 
-    return NextResponse.json({ title: null, description: null, date: null, author: null, category: null });
+    return NextResponse.json({ title: null, description: null, date: null, author: null, category: null, images: null });
   } catch (error: any) {
     console.error('Error fetching daily life:', error);
     return NextResponse.json(
@@ -49,47 +50,64 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
-    const { title, description, date, author, category } = await request.json();
-
-    if (!title || !description) {
-      return NextResponse.json(
-        { error: 'title and description are required' },
-        { status: 400 }
-      );
-    }
-
-    // 根據分類驗證必填項
-    if (category === 'reading') {
-      if (!author) {
-        return NextResponse.json(
-          { error: 'author is required for reading category' },
-          { status: 400 }
-        );
-      }
-    } else {
-      if (!date) {
-        return NextResponse.json(
-          { error: 'date is required for daily category' },
-          { status: 400 }
-        );
-      }
-    }
+    const { title, description, date, author, category, images } = await request.json();
 
     const db = await getDb();
     const updateData: any = {
-      title,
-      description,
       updatedAt: new Date(),
     };
-    
-    if (category === 'reading') {
-      updateData.author = author;
-    } else {
-      updateData.date = date;
+
+    // 如果只更新 images，不需要验证其他字段
+    const isOnlyImagesUpdate = images !== undefined && title === undefined && description === undefined;
+
+    if (!isOnlyImagesUpdate) {
+      // 如果不是只更新 images，则需要验证必填字段
+      if (!title || !description) {
+        return NextResponse.json(
+          { error: 'title and description are required' },
+          { status: 400 }
+        );
+      }
+
+      updateData.title = title;
+      updateData.description = description;
+
+      // 根據分類驗證必填項
+      if (category === 'reading') {
+        if (!author) {
+          return NextResponse.json(
+            { error: 'author is required for reading category' },
+            { status: 400 }
+          );
+        }
+        updateData.author = author;
+      } else if (category === 'daily') {
+        if (!date) {
+          return NextResponse.json(
+            { error: 'date is required for daily category' },
+            { status: 400 }
+          );
+        }
+        updateData.date = date;
+      }
+      
+      if (category) {
+        updateData.category = category;
+      }
     }
     
-    if (category) {
-      updateData.category = category;
+    // Validate and update images if provided
+    if (images !== undefined) {
+      if (Array.isArray(images) && images.every(img => typeof img === 'string')) {
+        updateData.images = images;
+      } else if (images === null) {
+        updateData.images = null;
+      } else {
+        return NextResponse.json(
+          { error: 'images must be an array of strings or null' },
+          { status: 400 }
+        );
+      }
     }
 
     const result = await db.collection('dailyLife').updateOne(
@@ -100,13 +118,17 @@ export async function PUT(
       { upsert: true }
     );
 
+    // 获取更新后的完整数据
+    const updatedItem = await db.collection('dailyLife').findOne({ id: params.id });
+
     return NextResponse.json({
       success: true,
-      title,
-      description,
-      date: date || null,
-      author: author || null,
-      category: category || null,
+      title: updatedItem?.title || title || null,
+      description: updatedItem?.description || description || null,
+      date: updatedItem?.date || date || null,
+      author: updatedItem?.author || author || null,
+      category: updatedItem?.category || category || null,
+      images: updatedItem?.images || images || null,
     });
   } catch (error: any) {
     console.error('Error updating daily life:', error);
