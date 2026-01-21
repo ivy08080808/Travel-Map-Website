@@ -7,6 +7,7 @@ import path from 'path';
 import { getDb } from '@/lib/mongodb';
 import { convertCloudinaryUrlToWebFormat } from '@/lib/cloudinary';
 import TravelogueContent from '@/components/TravelogueContent';
+import ImageCarousel from '@/components/ImageCarousel';
 
 export async function generateStaticParams() {
   return travelogues.map((travelogue) => ({
@@ -18,11 +19,15 @@ async function getTravelogueData(id: string, language: 'en' | 'zh' = 'zh') {
   try {
     // 獲取封面圖片（從 MongoDB）
     let coverImage = null;
+    let images: string[] | null = null;
     try {
       const db = await getDb();
       const travelogue = await db.collection('travelogues').findOne({ id });
       if (travelogue && travelogue.coverImage) {
         coverImage = travelogue.coverImage;
+      }
+      if (travelogue && Array.isArray(travelogue.images)) {
+        images = travelogue.images;
       }
     } catch (error) {
       console.error('Error fetching cover image from MongoDB:', error);
@@ -64,12 +69,14 @@ async function getTravelogueData(id: string, language: 'en' | 'zh' = 'zh') {
     return {
       coverImage,
       content,
+      images,
     };
   } catch (error) {
     console.error('Error fetching travelogue data:', error);
     return {
       coverImage: null,
       content: null,
+      images: null,
     };
   }
 }
@@ -86,10 +93,11 @@ export default async function TravelogueDetailPage({
   }
 
   // 獲取動態數據
-  const { coverImage, content } = await getTravelogueData(params.id);
+  const { coverImage, content, images } = await getTravelogueData(params.id);
 
   // 優先使用 MongoDB 中的封面圖片，否則使用 data.ts 中的默認值
   const displayCoverImage = coverImage || travelogue.coverImage;
+  const displayImages = images || null;
 
   // Check if coverImage is a Cloudinary URL or local path
   const isCloudinaryUrl =
@@ -137,6 +145,12 @@ export default async function TravelogueDetailPage({
       {/* 文章內容 */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <article className="bg-white rounded-lg shadow-lg p-8">
+          {/* Top carousel images from MongoDB (optional) */}
+          {displayImages && Array.isArray(displayImages) && displayImages.length > 0 && (
+            <div className="mb-8">
+              <ImageCarousel images={displayImages} alt={travelogue.title} />
+            </div>
+          )}
           <TravelogueContent id={params.id} defaultContent={content} />
           {!content && (
             <div className="prose max-w-none">

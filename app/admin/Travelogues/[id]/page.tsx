@@ -33,6 +33,9 @@ export default function TravelogueCoverPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
+  const [isUploadingGallery, setIsUploadingGallery] = useState(false);
 
   useEffect(() => {
     if (!travelogue) {
@@ -89,6 +92,15 @@ export default function TravelogueCoverPage() {
       if (contentResponse.ok) {
         const data = await contentResponse.json();
         setContent(data.content || '');
+      }
+
+      // 獲取 Gallery 圖片列表
+      const imagesResponse = await fetch(
+        `/api/admin/travelogues/${travelogueId}/images`
+      );
+      if (imagesResponse.ok) {
+        const data = await imagesResponse.json();
+        setGalleryImages(Array.isArray(data.images) ? data.images : []);
       }
     } catch (error) {
       console.error('Error loading cover:', error);
@@ -286,6 +298,132 @@ export default function TravelogueCoverPage() {
       setError('上傳失敗，請稍後再試');
     } finally {
       setIsUploading(false);
+    }
+  };
+
+  const handleGallerySelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+    setError(null);
+    setGalleryFiles(files);
+    setSuccess(`已選擇 ${files.length} 張圖片，準備上傳`);
+    setTimeout(() => setSuccess(null), 3000);
+  };
+
+  const saveGalleryImagesToMongo = async (images: string[]) => {
+    const response = await fetch(
+      `/api/admin/travelogues/${travelogueId}/images`,
+      {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ images }),
+      }
+    );
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      throw new Error(data?.error || '更新圖片列表失敗');
+    }
+    return response.json();
+  };
+
+  const handleUploadGallery = async () => {
+    if (galleryFiles.length === 0) {
+      setError('請先選擇多張圖片');
+      return;
+    }
+
+    setIsUploadingGallery(true);
+    setIsCompressing(true);
+    setError(null);
+    setSuccess(null);
+
+    try {
+      const uploadedUrls: string[] = [];
+
+      for (let i = 0; i < galleryFiles.length; i++) {
+        const file = galleryFiles[i];
+        setSuccess(`正在處理第 ${i + 1}/${galleryFiles.length} 張圖片...`);
+
+        // 壓縮圖片（如果超過 10MB）
+        let fileToUpload = file;
+        if (file.size > 10485760) {
+          try {
+            const options = {
+              maxSizeMB: 10,
+              maxWidthOrHeight: 3840,
+              useWebWorker: true,
+              fileType: file.type,
+              initialQuality: 0.92,
+            };
+
+            fileToUpload = await imageCompression(file, options);
+            
+            // 如果壓縮後還是超過 10MB，進一步壓縮
+            if (fileToUpload.size > 10485760) {
+              fileToUpload = await imageCompression(file, {
+                ...options,
+                initialQuality: 0.85,
+                maxWidthOrHeight: 2560,
+              });
+            }
+          } catch (compressionError) {
+            console.error('壓縮錯誤:', compressionError);
+            setError(`第 ${i + 1} 張圖片壓縮失敗，跳過`);
+            continue;
+          }
+        }
+
+        // 上傳到 Cloudinary
+        const formData = new FormData();
+        formData.append('file', fileToUpload);
+        formData.append('folder', `travelogues/${travelogueId}`);
+
+        const uploadResp = await fetch('/api/admin/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!uploadResp.ok) {
+          const data = await uploadResp.json().catch(() => ({}));
+          throw new Error(data?.error || `第 ${i + 1} 張圖片上傳失敗`);
+        }
+
+        const data = await uploadResp.json();
+        const imageUrl = data.url || data.secure_url;
+        if (!imageUrl) {
+          throw new Error(`第 ${i + 1} 張圖片上傳成功但未返回 URL`);
+        }
+        uploadedUrls.push(imageUrl);
+      }
+
+      setIsCompressing(false);
+
+      // 將 Cloudinary URL 陣列存到 MongoDB
+      const nextImages = [...galleryImages, ...uploadedUrls];
+      await saveGalleryImagesToMongo(nextImages);
+      setGalleryImages(nextImages);
+      setGalleryFiles([]);
+      setSuccess(`已上傳 ${uploadedUrls.length} 張圖片到 Cloudinary 並存到 MongoDB！`);
+      setTimeout(() => setSuccess(null), 4000);
+    } catch (e: any) {
+      console.error(e);
+      setError(e?.message || '上傳圖片失敗');
+    } finally {
+      setIsUploadingGallery(false);
+      setIsCompressing(false);
+    }
+  };
+
+  const handleRemoveGalleryImage = async (idx: number) => {
+    const next = galleryImages.filter((_, i) => i !== idx);
+    try {
+      setIsSaving(true);
+      await saveGalleryImagesToMongo(next);
+      setGalleryImages(next);
+    } catch (e: any) {
+      setError(e?.message || '刪除圖片失敗');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -554,6 +692,87 @@ export default function TravelogueCoverPage() {
               >
                 {isSaving ? '保存中...' : '保存文字內容'}
               </button>
+            </div>
+          </div>
+
+          {/* Gallery 圖片（存 MongoDB：travelogues.images） */}
+          <div className="mb-6 border-b pb-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">文章照片（Carousel）</h2>
+            <p className="text-sm text-gray-600 mb-4">
+              這裡上傳的多張照片會存到 MongoDB（以 URL 陣列方式），前台 Travelogue 內文上方會自動顯示輪播。
+            </p>
+
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="gallery-input" className="block text-sm font-medium text-gray-700 mb-2">
+                  選擇多張圖片（可一次選 9 張）
+                </label>
+                <input
+                  id="gallery-input"
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleGallerySelect}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {galleryFiles.length > 0 && (
+                  <p className="text-sm text-gray-500 mt-2">已選擇 {galleryFiles.length} 張圖片</p>
+                )}
+              </div>
+
+              <button
+                onClick={handleUploadGallery}
+                disabled={isUploadingGallery || galleryFiles.length === 0}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+              >
+                {isUploadingGallery ? '上傳中...' : '上傳並存到 MongoDB'}
+              </button>
+
+              {galleryImages.length > 0 && (
+                <div className="mt-4">
+                  <p className="text-sm font-medium text-gray-700 mb-2">
+                    目前已存圖片（{galleryImages.length}）
+                  </p>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {galleryImages.map((url, idx) => {
+                      const isCloudinary = url?.startsWith('http') || url?.includes('cloudinary');
+                      const processed = isCloudinary ? convertCloudinaryUrlToWebFormat(url) : url;
+                      return (
+                        <div key={`${url}-${idx}`} className="border rounded-md overflow-hidden">
+                          <div className="relative w-full aspect-[4/3] bg-gray-100">
+                            <Image
+                              src={processed}
+                              alt={`gallery-${idx + 1}`}
+                              fill
+                              style={{ objectFit: 'cover' }}
+                              unoptimized={isCloudinary}
+                            />
+                          </div>
+                          <div className="p-2 flex items-center justify-between gap-2">
+                            <button
+                              onClick={() => {
+                                navigator.clipboard.writeText(url);
+                                setSuccess('URL 已複製到剪貼板');
+                                setTimeout(() => setSuccess(null), 2000);
+                              }}
+                              className="text-xs px-2 py-1 bg-gray-600 text-white rounded hover:bg-gray-700"
+                            >
+                              複製 URL
+                            </button>
+                            <button
+                              onClick={() => handleRemoveGalleryImage(idx)}
+                              disabled={isSaving}
+                              className="text-xs px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50"
+                            >
+                              刪除
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
