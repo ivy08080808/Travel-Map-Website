@@ -87,7 +87,7 @@ export default function DailyLifeCard({ dailyLife }: DailyLifeCardProps) {
             </h3>
             {displayCategory === 'reading' ? (
               displayAuthor ? (
-                <span className="text-sm text-gray-500">作者：{displayAuthor}</span>
+                <span className="text-sm text-gray-500">{displayAuthor}</span>
               ) : null
             ) : (
               <span className="text-sm text-gray-500">{displayDate}</span>
