@@ -51,6 +51,10 @@ export interface Trip {
 }
 
 export const travelogues: Travelogue[] = [
+  // 2026 January - Thailand & Hong Kong
+  { id: "bangkok-2026-01", title: "Bangkok, Thailand", description: "A January escape—street food, temples, and warm evenings in Bangkok.", coverImage: "", date: "2026-01", route: "/Travelogues/bangkok-2026-01" },
+  { id: "hong-kong-2026-01", title: "Hong Kong", description: "A quick stop in Hong Kong—harbor views, city walks, and good food.", coverImage: "", date: "2026-01", route: "/Travelogues/hong-kong-2026-01" },
+
   // 2025 July - Europe
   { id: "milan-2025-07", title: "Milan, Italy", description: "Fashion capital and historic architecture in Milan.", coverImage: "/images/milan.jpg", date: "2025-07", route: "/Travelogues/milan-2025-07" },
   { id: "verona-2025-07", title: "Verona, Italy", description: "Romantic city of Romeo and Juliet in Verona.", coverImage: "/images/verona.jpg", date: "2025-07", route: "/Travelogues/verona-2025-07" },
@@ -162,6 +166,19 @@ export const mapMarkers: MapMarker[] = [
 
 // 旅行路線數據 - 按年份從新到舊排序
 export const trips: Trip[] = [
+  {
+    id: "trip-2026-january",
+    title: "2026 January - Thailand & Hong Kong",
+    year: "2026",
+    color: "#7AC7A5",
+    description: "From Taipei to Bangkok, then Hong Kong, and back to Taipei",
+    locations: [
+      { id: 1, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "January 2026", transportMode: "airplane" },
+      { id: 2, name: "Bangkok, Thailand", lat: 13.7563, lng: 100.5018, date: "January 2026", transportMode: "airplane", link: "/Travelogues/bangkok-2026-01" },
+      { id: 3, name: "Hong Kong", lat: 22.3193, lng: 114.1694, date: "January 2026", transportMode: "airplane", link: "/Travelogues/hong-kong-2026-01" },
+      { id: 4, name: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, date: "January 2026", transportMode: "airplane" },
+    ],
+  },
   {
     id: "trip-2025-july",
     title: "2025 July - Europe",

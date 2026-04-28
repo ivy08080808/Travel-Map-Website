@@ -63,7 +63,9 @@ function DailyLifeEditContent() {
 
   const checkAuth = async () => {
     try {
-      const authResponse = await fetch('/api/admin/comments');
+      const authResponse = await fetch('/api/admin/session', {
+        credentials: 'include',
+      });
       if (!authResponse.ok) {
         router.push('/admin');
         return;
@@ -78,7 +80,9 @@ function DailyLifeEditContent() {
   const checkAuthAndLoadCover = async () => {
     try {
       // 檢查是否已登錄
-      const authResponse = await fetch('/api/admin/comments');
+      const authResponse = await fetch('/api/admin/session', {
+        credentials: 'include',
+      });
       if (!authResponse.ok) {
         router.push('/admin');
         return;

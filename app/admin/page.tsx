@@ -24,12 +24,12 @@ export default function AdminPage() {
 
   const checkAuth = async () => {
     try {
-      // 嘗試獲取管理員留言列表來驗證身份
-      const response = await fetch('/api/admin/comments');
-      if (response.ok) {
-        const data = await response.json();
-        setComments(data);
+      const sessionResp = await fetch('/api/admin/session', {
+        credentials: 'include',
+      });
+      if (sessionResp.ok) {
         setIsAuthenticated(true);
+        await fetchComments();
       } else {
         setIsAuthenticated(false);
       }
@@ -83,13 +83,17 @@ export default function AdminPage() {
         headers: {
           'Cache-Control': 'no-cache',
         },
+        credentials: 'include',
       });
       if (response.ok) {
         const data = await response.json();
         setComments(data);
+      } else {
+        setError('留言載入失敗（資料庫可能未連線）');
       }
     } catch (error) {
       console.error('Error fetching comments:', error);
+      setError('留言載入失敗（資料庫可能未連線）');
     }
   };
 

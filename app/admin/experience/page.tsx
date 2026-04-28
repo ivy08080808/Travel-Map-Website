@@ -27,7 +27,9 @@ function ExperienceAdminContent() {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('/api/admin/comments');
+      const response = await fetch('/api/admin/session', {
+        credentials: 'include',
+      });
       if (response.ok) {
         setIsAuthenticated(true);
         fetchExperiences();

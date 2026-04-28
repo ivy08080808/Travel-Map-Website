@@ -48,7 +48,9 @@ function ExperienceEditContent() {
 
   const checkAuthAndLoad = async () => {
     try {
-      const authResponse = await fetch('/api/admin/comments');
+      const authResponse = await fetch('/api/admin/session', {
+        credentials: 'include',
+      });
       if (!authResponse.ok) {
         router.push('/admin');
         return;
